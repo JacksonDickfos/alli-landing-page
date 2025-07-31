@@ -49,16 +49,13 @@ body {
 }
 
 .logo {
-    width: 32px;
-    height: 32px;
-    background: #0C2240;
-    color: #F7F4ED;
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
+}
+
+.logo svg {
+    display: block;
 }
 
 .nav-links {
@@ -182,17 +179,14 @@ body {
 }
 
 .promo-logo {
-    width: 60px;
-    height: 60px;
-    background: #0C2240;
-    color: #F7F4ED;
-    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 2rem;
     margin: 0 auto 1rem;
+}
+
+.promo-logo svg {
+    display: block;
 }
 
 .promo-screen h3 {
@@ -279,16 +273,13 @@ body {
 }
 
 .screen-logo {
-    width: 24px;
-    height: 24px;
-    background: #F7F4ED;
-    color: #0C2240;
-    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
+}
+
+.screen-logo svg {
+    display: block;
 }
 
 .screen-header h4 {
