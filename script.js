@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             waitlistForm.reset();
             
             // In a real application, you would send this data to your backend
-            console.log('Waitlist signup:', {
+            console.log('Alli waitlist signup:', {
                 name: name,
                 email: email,
                 goal: goal,
@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            navbar.style.background = 'rgba(247, 244, 237, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(12, 34, 64, 0.1)';
         } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.background = 'rgba(247, 244, 237, 0.95)';
             navbar.style.boxShadow = 'none';
         }
     });
@@ -103,6 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+    
+    // Initialize chat demo
+    initializeChatDemo();
 });
 
 // Email validation
@@ -128,18 +131,22 @@ function showNotification(message, type = 'info') {
     `;
     
     // Add styles
+    const bgColor = type === 'success' ? '#78C6A3' : type === 'error' ? '#FF6B6B' : '#BDD7EF';
+    const textColor = type === 'success' || type === 'error' ? '#F7F4ED' : '#0C2240';
+    
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-        color: white;
+        background: ${bgColor};
+        color: ${textColor};
         padding: 1rem 1.5rem;
-        border-radius: 10px;
+        border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 10000;
         max-width: 400px;
         animation: slideIn 0.3s ease;
+        border: 1px solid ${type === 'success' ? '#6BB890' : type === 'error' ? '#E55A5A' : '#A8C5E0'};
     `;
     
     // Add animation keyframes
@@ -166,7 +173,7 @@ function showNotification(message, type = 'info') {
             .notification-close {
                 background: none;
                 border: none;
-                color: white;
+                color: inherit;
                 font-size: 1.5rem;
                 cursor: pointer;
                 padding: 0;
@@ -217,6 +224,68 @@ if (!document.querySelector('#slideout-styles')) {
     document.head.appendChild(style);
 }
 
+// Chat demo functionality
+function initializeChatDemo() {
+    const chatInput = document.querySelector('.input-container input');
+    const chatMessages = document.querySelector('.chat-messages');
+    
+    if (chatInput && chatMessages) {
+        // Add typing animation to existing messages
+        const messages = document.querySelectorAll('.message p');
+        let delay = 1000;
+        
+        messages.forEach((message, index) => {
+            const text = message.textContent;
+            setTimeout(() => {
+                typeMessage(message, text);
+            }, delay);
+            delay += 2000;
+        });
+        
+        // Handle new message input
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                addUserMessage(this.value.trim());
+                this.value = '';
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const responses = [
+                        "That's a great question! Let me help you with that.",
+                        "I'd be happy to provide guidance on that topic.",
+                        "Here's what I recommend based on your goals.",
+                        "That's an important consideration for your nutrition journey."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addAIMessage(randomResponse);
+                }, 1000);
+            }
+        });
+    }
+}
+
+function addUserMessage(text) {
+    const chatMessages = document.querySelector('.chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message user-message';
+    messageDiv.innerHTML = `<p>${text}</p>`;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addAIMessage(text) {
+    const chatMessages = document.querySelector('.chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message ai-message';
+    messageDiv.innerHTML = `<p>${text}</p>`;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Add typing animation
+    const messageP = messageDiv.querySelector('p');
+    typeMessage(messageP, text);
+}
+
 // Add typing animation to chat demo
 function typeMessage(element, text, speed = 50) {
     element.textContent = '';
@@ -232,30 +301,6 @@ function typeMessage(element, text, speed = 50) {
     
     type();
 }
-
-// Initialize chat demo typing animation
-document.addEventListener('DOMContentLoaded', function() {
-    const messages = document.querySelectorAll('.message p');
-    let delay = 1000;
-    
-    messages.forEach((message, index) => {
-        const text = message.textContent;
-        setTimeout(() => {
-            typeMessage(message, text);
-        }, delay);
-        delay += 2000;
-    });
-});
-
-// Add parallax effect to hero section
-window.addEventListener('scroll', function() {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const rate = scrolled * -0.5;
-        hero.style.transform = `translateY(${rate}px)`;
-    }
-});
 
 // Add hover effects to buttons
 document.addEventListener('DOMContentLoaded', function() {

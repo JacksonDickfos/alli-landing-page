@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriAI - World's First 24/7 AI Dietitian</title>
+    <title>Alli - Your 24/7 AI Dietitian</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-robot"></i>
-                <span>NutriAI</span>
+                <div class="logo">A</div>
+                <span>Alli</span>
             </div>
             <div class="nav-links">
                 <a href="#features">Features</a>
@@ -29,12 +29,14 @@
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    Meet Your Personal
-                    <span class="gradient-text">AI Dietitian</span>
+                    Meet Alli
                 </h1>
                 <p class="hero-subtitle">
-                    The world's first conversational AI that provides personalized nutrition guidance 24/7. 
-                    Get expert dietary advice, meal planning, and health coaching anytime, anywhere.
+                    Your nutrition guide. Available 24/7.
+                </p>
+                <p class="hero-description">
+                    The world's first conversational AI dietitian that provides personalized nutrition guidance anytime, anywhere. 
+                    Get expert dietary advice, meal planning, and health coaching with just a chat.
                 </p>
                 <div class="hero-buttons">
                     <button class="btn-primary" onclick="scrollToWaitlist()">
@@ -48,25 +50,30 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <div class="ai-chat-demo">
-                    <div class="chat-header">
-                        <div class="chat-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="chat-info">
-                            <h4>NutriAI Assistant</h4>
-                            <span class="status">Online</span>
-                        </div>
+                <div class="app-mockup">
+                    <div class="mockup-header">
+                        <div class="mockup-logo">A</div>
+                        <h4>Chat</h4>
                     </div>
                     <div class="chat-messages">
+                        <div class="message user-message">
+                            <p>How can I increase my protein intake?</p>
+                        </div>
                         <div class="message ai-message">
-                            <p>Hi! I'm your personal AI dietitian. How can I help you today?</p>
+                            <p>To increase your protein intake, I suggest incorporating more high-protein foods into your diet.</p>
                         </div>
                         <div class="message user-message">
-                            <p>I want to lose weight healthily</p>
+                            <p>What foods are high in protein?</p>
                         </div>
                         <div class="message ai-message">
-                            <p>Great! Let's create a personalized plan. What's your current activity level?</p>
+                            <p>Poultry, fish, lean meats, eggs, dairy products, legumes, and fortified grains are excellent sources.</p>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <div class="input-container">
+                            <i class="fas fa-plus"></i>
+                            <input type="text" placeholder="Ask Alli anything...">
+                            <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
                 </div>
@@ -77,49 +84,49 @@
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">Why Choose NutriAI?</h2>
+            <h2 class="section-title">Why Choose Alli?</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-clock"></i>
                     </div>
                     <h3>24/7 Availability</h3>
-                    <p>Get nutrition advice anytime, day or night. No waiting for appointments.</p>
+                    <p>Get nutrition advice anytime, day or night. No waiting for appointments or office hours.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-brain"></i>
                     </div>
                     <h3>AI-Powered Insights</h3>
-                    <p>Advanced AI analyzes your habits and provides personalized recommendations.</p>
+                    <p>Advanced AI analyzes your habits and provides personalized recommendations just for you.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>Progress Tracking</h3>
-                    <p>Monitor your nutrition journey with detailed analytics and insights.</p>
+                    <p>Monitor your nutrition journey with detailed analytics and visual progress indicators.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-utensils"></i>
                     </div>
                     <h3>Smart Meal Planning</h3>
-                    <p>Get customized meal plans based on your preferences and dietary needs.</p>
+                    <p>Get customized meal plans based on your preferences, dietary needs, and goals.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Mobile-First</h3>
-                    <p>Access your AI dietitian anywhere with our intuitive mobile app.</p>
+                    <h3>Mobile-First Design</h3>
+                    <p>Access your AI dietitian anywhere with our intuitive, beautiful mobile app.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3>Privacy-First</h3>
-                    <p>Your health data is secure and private with enterprise-grade encryption.</p>
+                    <p>Your health data is secure and private with enterprise-grade encryption and protection.</p>
                 </div>
             </div>
         </div>
@@ -133,22 +140,22 @@
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3>Tell Us About You</h3>
-                        <p>Share your goals, dietary preferences, and health information with our AI.</p>
+                        <h3>Tell Alli About You</h3>
+                        <p>Share your goals, dietary preferences, and health information with our AI assistant.</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
                         <h3>Get Personalized Plan</h3>
-                        <p>Our AI creates a customized nutrition and meal plan just for you.</p>
+                        <p>Alli creates a customized nutrition and meal plan tailored specifically for you.</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3>Chat & Get Support</h3>
-                        <p>Ask questions, get advice, and track your progress 24/7.</p>
+                        <p>Ask questions, get advice, and track your progress with Alli 24/7.</p>
                     </div>
                 </div>
             </div>
@@ -159,7 +166,7 @@
     <section id="waitlist" class="waitlist">
         <div class="container">
             <div class="waitlist-content">
-                <h2 class="section-title">Be First to Experience the Future of Nutrition</h2>
+                <h2 class="section-title">Be First to Experience Alli</h2>
                 <p class="waitlist-subtitle">
                     Join thousands of people already on our waitlist. Get early access and exclusive benefits when we launch.
                 </p>
@@ -211,10 +218,10 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <i class="fas fa-robot"></i>
-                        <span>NutriAI</span>
+                        <div class="logo">A</div>
+                        <span>Alli</span>
                     </div>
-                    <p>The world's first conversational AI dietitian, revolutionizing personalized nutrition.</p>
+                    <p>Your 24/7 AI dietitian, revolutionizing personalized nutrition with conversational AI technology.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Product</h4>
@@ -242,7 +249,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 NutriAI. All rights reserved.</p>
+                <p>&copy; 2024 Alli. All rights reserved.</p>
             </div>
         </div>
     </footer>
