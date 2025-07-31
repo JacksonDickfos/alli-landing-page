@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.style.background = 'rgba(247, 244, 237, 0.98)';
             navbar.style.boxShadow = '0 2px 20px rgba(12, 34, 64, 0.1)';
         } else {
-            navbar.style.background = 'rgba(247, 244, 237, 0.95)';
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
             navbar.style.boxShadow = 'none';
         }
     });
