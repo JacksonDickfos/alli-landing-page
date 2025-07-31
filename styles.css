@@ -265,6 +265,13 @@ body {
     flex-direction: column;
 }
 
+.app-screenshot {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .screen-header {
     background: #0C2240;
     color: #F7F4ED;
