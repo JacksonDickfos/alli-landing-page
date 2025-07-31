@@ -54,8 +54,9 @@ body {
     justify-content: center;
 }
 
-.logo svg {
+.logo img {
     display: block;
+    object-fit: contain;
 }
 
 .nav-links {
@@ -185,8 +186,9 @@ body {
     margin: 0 auto 1rem;
 }
 
-.promo-logo svg {
+.promo-logo img {
     display: block;
+    object-fit: contain;
 }
 
 .promo-screen h3 {
@@ -278,8 +280,9 @@ body {
     justify-content: center;
 }
 
-.screen-logo svg {
+.screen-logo img {
     display: block;
+    object-fit: contain;
 }
 
 .screen-header h4 {
