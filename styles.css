@@ -255,7 +255,6 @@ body {
 
 .app-screen {
     background: #F7F4ED;
-    border: 3px solid #0C2240;
     border-radius: 20px;
     overflow: hidden;
     max-width: 280px;
