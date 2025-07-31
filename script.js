@@ -5,6 +5,12 @@ function scrollToWaitlist() {
     });
 }
 
+function scrollToAppPreview() {
+    document.getElementById('app-preview').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
 function scrollToFeatures() {
     document.getElementById('features').scrollIntoView({
         behavior: 'smooth'
@@ -95,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
     
-    // Observe feature cards and steps
-    const animatedElements = document.querySelectorAll('.feature-card, .step');
+    // Observe feature cards, steps, and app screens
+    const animatedElements = document.querySelectorAll('.feature-card, .step, .screen-container');
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';

@@ -19,6 +19,7 @@
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#how-it-works">How It Works</a>
+                <a href="#app-preview">App Preview</a>
                 <a href="#waitlist">Join Waitlist</a>
             </div>
         </div>
@@ -43,39 +44,159 @@
                         <i class="fas fa-rocket"></i>
                         Join the Waitlist
                     </button>
-                    <button class="btn-secondary" onclick="scrollToFeatures()">
-                        <i class="fas fa-play"></i>
-                        See How It Works
+                    <button class="btn-secondary" onclick="scrollToAppPreview()">
+                        <i class="fas fa-mobile-alt"></i>
+                        See the App
                     </button>
                 </div>
             </div>
             <div class="hero-visual">
-                <div class="app-mockup">
-                    <div class="mockup-header">
-                        <div class="mockup-logo">A</div>
-                        <h4>Chat</h4>
+                <div class="app-promo">
+                    <div class="promo-screen">
+                        <div class="promo-logo">A</div>
+                        <h3>Alli</h3>
+                        <h2>Meet Alli</h2>
+                        <p>Your nutrition guide. Available 24/7.</p>
+                        <button class="btn-primary">Get Started</button>
                     </div>
-                    <div class="chat-messages">
-                        <div class="message user-message">
-                            <p>How can I increase my protein intake?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Preview Section -->
+    <section id="app-preview" class="app-preview">
+        <div class="container">
+            <h2 class="section-title">See Alli in Action</h2>
+            <p class="section-subtitle">Experience the future of personalized nutrition guidance</p>
+            
+            <div class="app-screens">
+                <div class="screen-container">
+                    <div class="app-screen dashboard-screen">
+                        <div class="screen-header">
+                            <div class="screen-logo">A</div>
+                            <h4>Dashboard</h4>
                         </div>
-                        <div class="message ai-message">
-                            <p>To increase your protein intake, I suggest incorporating more high-protein foods into your diet.</p>
-                        </div>
-                        <div class="message user-message">
-                            <p>What foods are high in protein?</p>
-                        </div>
-                        <div class="message ai-message">
-                            <p>Poultry, fish, lean meats, eggs, dairy products, legumes, and fortified grains are excellent sources.</p>
+                        <div class="screen-content">
+                            <div class="food-image">
+                                <div class="smoothie-bowl"></div>
+                            </div>
+                            <div class="intake-section">
+                                <h5>Today's Intake</h5>
+                                <p class="calories">1350 of 2100 Cal</p>
+                                <p class="protein">130 g/100</p>
+                            </div>
+                            <div class="progress-bars">
+                                <div class="progress-item">
+                                    <span>Protein</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill protein-fill"></div>
+                                    </div>
+                                    <span>65 of 100g</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span>Carbs</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill carbs-fill"></div>
+                                    </div>
+                                    <span>210 of 325g</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span>Fat</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill fat-fill"></div>
+                                    </div>
+                                    <span>45 of 70g</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary screen-btn">Log Food</button>
                         </div>
                     </div>
-                    <div class="chat-input">
-                        <div class="input-container">
-                            <i class="fas fa-plus"></i>
-                            <input type="text" placeholder="Ask Alli anything...">
-                            <i class="fas fa-arrow-right"></i>
+                    <h3>Dashboard</h3>
+                    <p>Track your daily nutrition with beautiful progress indicators</p>
+                </div>
+
+                <div class="screen-container">
+                    <div class="app-screen meal-plan-screen">
+                        <div class="screen-header">
+                            <div class="screen-logo">A</div>
+                            <h4>Meal Plan</h4>
+                        </div>
+                        <div class="screen-content">
+                            <div class="calendar">
+                                <div class="calendar-row">
+                                    <span>SU</span><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span>
+                                </div>
+                                <div class="calendar-row">
+                                    <span>$</span><span>6</span><span class="selected">5</span><span>MO</span><span>1</span><span>2</span><span>3</span>
+                                </div>
+                            </div>
+                            <div class="meal-chart">
+                                <h5>Monday</h5>
+                                <div class="chart-bars">
+                                    <div class="bar mint"></div>
+                                    <div class="bar mint"></div>
+                                    <div class="bar mint"></div>
+                                    <div class="bar mint"></div>
+                                    <div class="bar mint"></div>
+                                    <div class="bar coral"></div>
+                                </div>
+                            </div>
+                            <div class="meal-list">
+                                <div class="meal-item">
+                                    <div class="meal-image avocado"></div>
+                                    <div class="meal-info">
+                                        <h6>Avocado Toast</h6>
+                                        <span>850 Cal</span>
+                                    </div>
+                                </div>
+                                <div class="meal-item">
+                                    <div class="meal-image chicken"></div>
+                                    <div class="meal-info">
+                                        <h6>Chicken Salad</h6>
+                                        <span>620 Cal</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-secondary screen-btn">View All</button>
                         </div>
                     </div>
+                    <h3>Meal Planning</h3>
+                    <p>Get personalized meal plans and track your nutrition goals</p>
+                </div>
+
+                <div class="screen-container">
+                    <div class="app-screen chat-screen">
+                        <div class="screen-header">
+                            <div class="screen-logo">A</div>
+                            <h4>Chat</h4>
+                        </div>
+                        <div class="screen-content">
+                            <div class="chat-messages">
+                                <div class="message user-message">
+                                    <p>How can I increase my protein intake?</p>
+                                </div>
+                                <div class="message ai-message">
+                                    <p>To increase your protein intake, I suggest incorporating more high-protein foods into your diet.</p>
+                                </div>
+                                <div class="message user-message">
+                                    <p>What foods are high in protein?</p>
+                                </div>
+                                <div class="message ai-message">
+                                    <p>Poultry, fish, lean meats, eggs, dairy products, legumes, and fortified grains are excellent sources.</p>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <div class="input-container">
+                                    <i class="fas fa-plus"></i>
+                                    <input type="text" placeholder="Ask Alli anything...">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>AI Chat</h3>
+                    <p>Get instant nutrition advice and personalized guidance 24/7</p>
                 </div>
             </div>
         </div>
@@ -227,6 +348,7 @@
                     <h4>Product</h4>
                     <ul>
                         <li><a href="#features">Features</a></li>
+                        <li><a href="#app-preview">App Preview</a></li>
                         <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#waitlist">Join Waitlist</a></li>
                     </ul>
