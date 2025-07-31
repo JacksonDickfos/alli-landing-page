@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriAI - World's First 24/7 AI Dietitian</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-robot"></i>
+                <span>NutriAI</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#waitlist">Join Waitlist</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Meet Your Personal
+                    <span class="gradient-text">AI Dietitian</span>
+                </h1>
+                <p class="hero-subtitle">
+                    The world's first conversational AI that provides personalized nutrition guidance 24/7. 
+                    Get expert dietary advice, meal planning, and health coaching anytime, anywhere.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToWaitlist()">
+                        <i class="fas fa-rocket"></i>
+                        Join the Waitlist
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToFeatures()">
+                        <i class="fas fa-play"></i>
+                        See How It Works
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="ai-chat-demo">
+                    <div class="chat-header">
+                        <div class="chat-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="chat-info">
+                            <h4>NutriAI Assistant</h4>
+                            <span class="status">Online</span>
+                        </div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message ai-message">
+                            <p>Hi! I'm your personal AI dietitian. How can I help you today?</p>
+                        </div>
+                        <div class="message user-message">
+                            <p>I want to lose weight healthily</p>
+                        </div>
+                        <div class="message ai-message">
+                            <p>Great! Let's create a personalized plan. What's your current activity level?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose NutriAI?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Availability</h3>
+                    <p>Get nutrition advice anytime, day or night. No waiting for appointments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Insights</h3>
+                    <p>Advanced AI analyzes your habits and provides personalized recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your nutrition journey with detailed analytics and insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Smart Meal Planning</h3>
+                    <p>Get customized meal plans based on your preferences and dietary needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile-First</h3>
+                    <p>Access your AI dietitian anywhere with our intuitive mobile app.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Privacy-First</h3>
+                    <p>Your health data is secure and private with enterprise-grade encryption.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Tell Us About You</h3>
+                        <p>Share your goals, dietary preferences, and health information with our AI.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Get Personalized Plan</h3>
+                        <p>Our AI creates a customized nutrition and meal plan just for you.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Chat & Get Support</h3>
+                        <p>Ask questions, get advice, and track your progress 24/7.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist Section -->
+    <section id="waitlist" class="waitlist">
+        <div class="container">
+            <div class="waitlist-content">
+                <h2 class="section-title">Be First to Experience the Future of Nutrition</h2>
+                <p class="waitlist-subtitle">
+                    Join thousands of people already on our waitlist. Get early access and exclusive benefits when we launch.
+                </p>
+                
+                <form id="waitlist-form" class="waitlist-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="goal" name="goal" required>
+                            <option value="">What's your primary goal?</option>
+                            <option value="weight-loss">Weight Loss</option>
+                            <option value="muscle-gain">Muscle Gain</option>
+                            <option value="healthy-eating">Healthy Eating</option>
+                            <option value="medical-diet">Medical Diet</option>
+                            <option value="general-wellness">General Wellness</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary btn-large">
+                        <i class="fas fa-rocket"></i>
+                        Join the Waitlist
+                    </button>
+                </form>
+
+                <div class="waitlist-stats">
+                    <div class="stat">
+                        <span class="stat-number">5,000+</span>
+                        <span class="stat-label">People Waiting</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">Early 2024</span>
+                        <span class="stat-label">Launch Date</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">Free</span>
+                        <span class="stat-label">Early Access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-robot"></i>
+                        <span>NutriAI</span>
+                    </div>
+                    <p>The world's first conversational AI dietitian, revolutionizing personalized nutrition.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#waitlist">Join Waitlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 NutriAI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
