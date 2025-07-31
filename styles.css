@@ -754,8 +754,8 @@ body {
 
 .waitlist-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 3rem;
     margin-top: 3rem;
 }
 
@@ -765,17 +765,19 @@ body {
 
 .stat-number {
     display: block;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
-    line-height: 40px;
+    line-height: 36px;
     margin-bottom: 0.5rem;
     color: #78C6A3;
+    white-space: nowrap;
 }
 
 .stat-label {
     font-size: 14px;
     line-height: 20px;
     opacity: 0.8;
+    white-space: nowrap;
 }
 
 /* Footer */
