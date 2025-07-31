@@ -699,6 +699,10 @@ body {
     margin: 0 auto;
 }
 
+.waitlist-title {
+    color: #F7F4ED !important;
+}
+
 .waitlist-subtitle {
     font-size: 16px;
     line-height: 24px;
