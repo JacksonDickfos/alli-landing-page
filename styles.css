@@ -764,10 +764,10 @@ body {
 
 /* Waitlist Section */
 .waitlist {
-    padding: 40px 0;
+    padding: 20px 0;
     background: #0C2240;
     color: #F7F4ED;
-    min-height: 300px;
+    min-height: 200px;
     display: flex;
     align-items: center;
 }
@@ -780,7 +780,7 @@ body {
     flex-direction: column;
     justify-content: center;
     min-height: 100%;
-    margin-top: 50px;
+    margin-top: 0;
 }
 
 .waitlist-title {
