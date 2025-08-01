@@ -41,11 +41,16 @@
                     The world's first conversational AI dietitian that provides personalized nutrition guidance anytime, anywhere. 
                     Get expert dietary advice, meal planning, and health coaching with just a chat.
                 </p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="scrollToWaitlist()">
+                <div class="hero-waitlist">
+                    <div class="hero-form-group">
+                        <input type="email" id="hero-email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit" class="btn-primary hero-submit-btn">
                         <i class="fas fa-rocket"></i>
-                        Join the Waitlist
+                        Join Waitlist
                     </button>
+                </div>
+                <div class="hero-buttons">
                     <button class="btn-secondary" onclick="scrollToAppPreview()">
                         <i class="fas fa-mobile-alt"></i>
                         See the App
@@ -194,20 +199,7 @@
                 
                 <form id="waitlist-form" class="waitlist-form">
                     <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
                         <input type="email" id="email" name="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <select id="goal" name="goal" required>
-                            <option value="">What's your primary goal?</option>
-                            <option value="weight-loss">Weight Loss</option>
-                            <option value="muscle-gain">Muscle Gain</option>
-                            <option value="healthy-eating">Healthy Eating</option>
-                            <option value="medical-diet">Medical Diet</option>
-                            <option value="general-wellness">General Wellness</option>
-                        </select>
                     </div>
                     <button type="submit" class="btn-primary btn-large">
                         <i class="fas fa-rocket"></i>

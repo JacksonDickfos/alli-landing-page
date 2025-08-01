@@ -118,6 +118,45 @@ body {
     opacity: 0.8;
 }
 
+.hero-waitlist {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+}
+
+.hero-form-group {
+    flex: 1;
+}
+
+.hero-form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #BDD7EF;
+    border-radius: 12px;
+    font-size: 14px;
+    background: white;
+    color: #0C2240;
+    transition: border-color 0.3s ease;
+}
+
+.hero-form-group input::placeholder {
+    color: #0C2240;
+    opacity: 0.6;
+}
+
+.hero-form-group input:focus {
+    outline: none;
+    border-color: #78C6A3;
+}
+
+.hero-submit-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    height: 48px;
+    white-space: nowrap;
+}
+
 .hero-buttons {
     display: flex;
     gap: 1rem;
@@ -888,6 +927,16 @@ body {
     
     .hero-subtitle {
         font-size: 20px;
+    }
+    
+    .hero-waitlist {
+        flex-direction: column;
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-submit-btn {
+        width: 100%;
     }
     
     .hero-buttons {

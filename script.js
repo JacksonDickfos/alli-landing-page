@@ -20,20 +20,53 @@ function scrollToFeatures() {
 // Waitlist form handling
 document.addEventListener('DOMContentLoaded', function() {
     const waitlistForm = document.getElementById('waitlist-form');
+    const heroEmailInput = document.getElementById('hero-email');
+    const heroSubmitBtn = document.querySelector('.hero-submit-btn');
     
+    // Hero form submission
+    if (heroSubmitBtn && heroEmailInput) {
+        heroSubmitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const email = heroEmailInput.value.trim();
+            
+            // Validate email
+            if (!email) {
+                showNotification('Please enter your email address.', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Simulate form submission
+            showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
+            
+            // Reset form
+            heroEmailInput.value = '';
+            
+            // In a real application, you would send this data to your backend
+            console.log('Alli waitlist signup (hero):', {
+                email: email,
+                timestamp: new Date().toISOString()
+            });
+        });
+    }
+    
+    // Waitlist form submission
     if (waitlistForm) {
         waitlistForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Get form data
             const formData = new FormData(waitlistForm);
-            const name = formData.get('name');
             const email = formData.get('email');
-            const goal = formData.get('goal');
             
             // Validate form
-            if (!name || !email || !goal) {
-                showNotification('Please fill in all fields.', 'error');
+            if (!email) {
+                showNotification('Please enter your email address.', 'error');
                 return;
             }
             
@@ -50,9 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // In a real application, you would send this data to your backend
             console.log('Alli waitlist signup:', {
-                name: name,
                 email: email,
-                goal: goal,
                 timestamp: new Date().toISOString()
             });
         });
