@@ -871,20 +871,21 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.125rem;
 }
 
 .footer-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .social-links {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    margin-bottom: 15px;
 }
 
 .social-links a {
