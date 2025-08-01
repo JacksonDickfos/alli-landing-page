@@ -780,6 +780,7 @@ body {
     flex-direction: column;
     justify-content: center;
     min-height: 100%;
+    margin-top: 300px;
 }
 
 .waitlist-title {
