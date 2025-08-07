@@ -938,6 +938,102 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+/* Pre-Order Section */
+.pre-order-section {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.pre-order-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #F7F4ED;
+    margin-bottom: 2rem;
+}
+
+.pre-order-bubbles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pre-order-bubble {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.pre-order-bubble:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.bubble-header {
+    margin-bottom: 1.5rem;
+}
+
+.bubble-header h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #F7F4ED;
+    margin-bottom: 0.5rem;
+}
+
+.bubble-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(120, 198, 163, 0.2);
+    color: #78C6A3;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.bubble-badge.premium {
+    background: linear-gradient(45deg, #FF6B6B, #EC4899);
+    color: white;
+}
+
+.bubble-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.bubble-benefits li {
+    color: #F7F4ED;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.premium-benefits h5 {
+    color: #F7F4ED;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.premium-note {
+    color: #BDD7EF;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 1rem 0;
+    line-height: 1.4;
+}
+
+.pre-order-bubble .btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-container {
@@ -949,6 +1045,15 @@ body {
     .hero-title {
         font-size: 24px;
         line-height: 32px;
+    }
+    
+    .pre-order-bubbles {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .pre-order-bubble {
+        padding: 1.5rem;
     }
     
     .hero-subtitle {
