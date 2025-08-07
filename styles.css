@@ -940,23 +940,25 @@ body {
 
 /* Pre-Order Section */
 .pre-order-section {
-    margin-top: 3rem;
+    margin-top: 1rem;
     text-align: center;
 }
 
-.pre-order-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #F7F4ED;
-    margin-bottom: 2rem;
+.pre-order-bubble-wide {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.pre-order-bubbles {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
+.pre-order-bubble-wide:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .pre-order-bubble {
@@ -1047,13 +1049,9 @@ body {
         line-height: 32px;
     }
     
-    .pre-order-bubbles {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .pre-order-bubble {
+    .pre-order-bubble-wide {
         padding: 1.5rem;
+        max-width: 100%;
     }
     
     .hero-subtitle {
