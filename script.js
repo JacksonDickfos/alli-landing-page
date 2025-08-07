@@ -26,55 +26,7 @@ function scrollToFeatures() {
 // Waitlist form handling
 document.addEventListener('DOMContentLoaded', function() {
     const waitlistForm = document.getElementById('waitlist-form');
-    const heroEmailInput = document.getElementById('hero-email');
-    const heroSubmitBtn = document.querySelector('.hero-submit-btn');
-    
-    // Hero form submission
-    if (heroSubmitBtn && heroEmailInput) {
-        heroSubmitBtn.addEventListener('click', async function(e) {
-            e.preventDefault();
-            
-            const email = heroEmailInput.value.trim();
-            
-            // Validate email
-            if (!email) {
-                showNotification('Please enter your email address.', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showNotification('Please enter a valid email address.', 'error');
-                return;
-            }
-            
-            // Save to Supabase
-            try {
-                const { data, error } = await supabase
-                    .from('waitlist')
-                    .insert([
-                        { 
-                            email: email,
-                            source: 'hero_section'
-                        }
-                    ]);
 
-                if (error) {
-                    if (error.code === '23505') { // Unique constraint violation
-                        showNotification('This email is already on our waitlist!', 'info');
-                    } else {
-                        console.error('Supabase error:', error);
-                        showNotification('There was an error. Please try again.', 'error');
-                    }
-                } else {
-                    showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
-                    heroEmailInput.value = '';
-                }
-            } catch (err) {
-                console.error('Error saving to database:', err);
-                showNotification('There was an error. Please try again.', 'error');
-            }
-        });
-    }
     
     // Waitlist form submission
     if (waitlistForm) {
