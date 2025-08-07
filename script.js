@@ -1,3 +1,9 @@
+// Initialize Supabase client
+const supabase = window.supabase.createClient(
+    window.SUPABASE_CONFIG.url, 
+    window.SUPABASE_CONFIG.anonKey
+);
+
 // Smooth scrolling for navigation links
 function scrollToWaitlist() {
     document.getElementById('waitlist').scrollIntoView({
@@ -25,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Hero form submission
     if (heroSubmitBtn && heroEmailInput) {
-        heroSubmitBtn.addEventListener('click', function(e) {
+        heroSubmitBtn.addEventListener('click', async function(e) {
             e.preventDefault();
             
             const email = heroEmailInput.value.trim();
@@ -41,23 +47,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Simulate form submission
-            showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
-            
-            // Reset form
-            heroEmailInput.value = '';
-            
-            // In a real application, you would send this data to your backend
-            console.log('Alli waitlist signup (hero):', {
-                email: email,
-                timestamp: new Date().toISOString()
-            });
+            // Save to Supabase
+            try {
+                const { data, error } = await supabase
+                    .from('waitlist')
+                    .insert([
+                        { 
+                            email: email,
+                            source: 'hero_section'
+                        }
+                    ]);
+
+                if (error) {
+                    if (error.code === '23505') { // Unique constraint violation
+                        showNotification('This email is already on our waitlist!', 'info');
+                    } else {
+                        console.error('Supabase error:', error);
+                        showNotification('There was an error. Please try again.', 'error');
+                    }
+                } else {
+                    showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
+                    heroEmailInput.value = '';
+                }
+            } catch (err) {
+                console.error('Error saving to database:', err);
+                showNotification('There was an error. Please try again.', 'error');
+            }
         });
     }
     
     // Waitlist form submission
     if (waitlistForm) {
-        waitlistForm.addEventListener('submit', function(e) {
+        waitlistForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Get form data
@@ -75,17 +96,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Simulate form submission
-            showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
-            
-            // Reset form
-            waitlistForm.reset();
-            
-            // In a real application, you would send this data to your backend
-            console.log('Alli waitlist signup:', {
-                email: email,
-                timestamp: new Date().toISOString()
-            });
+            // Save to Supabase
+            try {
+                const { data, error } = await supabase
+                    .from('waitlist')
+                    .insert([
+                        { 
+                            email: email,
+                            source: 'waitlist_section'
+                        }
+                    ]);
+
+                if (error) {
+                    if (error.code === '23505') { // Unique constraint violation
+                        showNotification('This email is already on our waitlist!', 'info');
+                    } else {
+                        console.error('Supabase error:', error);
+                        showNotification('There was an error. Please try again.', 'error');
+                    }
+                } else {
+                    showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
+                    waitlistForm.reset();
+                }
+            } catch (err) {
+                console.error('Error saving to database:', err);
+                showNotification('There was an error. Please try again.', 'error');
+            }
         });
     }
     
