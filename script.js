@@ -414,7 +414,7 @@ function animateDateCounter(element, startDate, endDate, duration) {
                    'Oct 27', 'Oct 26', 'Oct 25', 'Oct 24', 'Oct 23', 'Oct 22', 'Oct 21',
                    'Oct 20', 'Oct 19', 'Oct 18', 'Oct 17', 'Oct 16', 'Oct 15', 'Oct 14',
                    'Oct 13', 'Oct 12', 'Oct 11', 'Oct 10', 'Oct 9', 'Oct 8', 'Oct 7',
-                   'Oct 6', 'Oct 5', 'Oct 4', 'Oct 3', 'Oct 2', 'Oct 1'];
+                   'Oct 6', 'Oct 5', 'Oct 4', 'Oct 3', 'Oct 2', 'Oct 1st'];
     
     function updateDate(currentTime) {
         const elapsed = currentTime - startTime;
