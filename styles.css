@@ -229,11 +229,12 @@ body {
 /* Hero Video */
 .hero-video {
     width: 100%;
-    max-width: 400px;
+    max-width: 640px;
     height: auto;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     object-fit: cover;
+    margin-left: auto;
 }
 
 /* App Preview Section */
@@ -1026,6 +1027,7 @@ body {
     .hero-video {
         max-width: 100%;
         border-radius: 15px;
+        margin-left: 0;
     }
     
     .hero-submit-btn {
