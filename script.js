@@ -347,10 +347,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Animated counters for hero stats
 function initializeCounters() {
-    // Waitlist counter: starts at 800, goes to 1102, increases by 3 every 10 minutes
+    // Set start dates for calculations (adjust these as needed)
+    const waitlistStartDate = new Date('2024-01-01T00:00:00Z');
+    const membersStartDate = new Date('2024-01-01T00:00:00Z');
+    
+    // Initial animation values
+    const initialWaitlist = 800;
+    const initialMembers = 180;
+    
+    // Waitlist counter: starts at 800, increases by 3 every 10 minutes
     const waitlistCounter = document.getElementById('waitlist-counter');
     if (waitlistCounter) {
-        animateCounter(waitlistCounter, 800, 1102, 2000);
+        const currentWaitlist = calculateCurrentWaitlist(waitlistStartDate, initialWaitlist);
+        animateCounter(waitlistCounter, initialWaitlist, currentWaitlist, 2000);
+        startLiveWaitlistCounter(waitlistCounter, waitlistStartDate, initialWaitlist);
     }
     
     // Launch date counter: starts at Dec 31, goes to Oct 1
@@ -359,10 +369,12 @@ function initializeCounters() {
         animateDateCounter(launchCounter, 'Dec 31', 'Oct 1', 2000);
     }
     
-    // Members counter: starts at 180, goes to 232, increases by 1 every 7 minutes
+    // Members counter: starts at 180, increases by 1 every 7 minutes
     const membersCounter = document.getElementById('members-counter');
     if (membersCounter) {
-        animateCounter(membersCounter, 180, 232, 2000);
+        const currentMembers = calculateCurrentMembers(membersStartDate, initialMembers);
+        animateCounter(membersCounter, initialMembers, currentMembers, 2000);
+        startLiveMembersCounter(membersCounter, membersStartDate, initialMembers);
     }
 }
 
@@ -420,4 +432,38 @@ function animateDateCounter(element, startDate, endDate, duration) {
     }
     
     requestAnimationFrame(updateDate);
+}
+
+// Calculate current waitlist based on elapsed time
+function calculateCurrentWaitlist(startDate, initialValue) {
+    const now = new Date();
+    const minutesElapsed = Math.floor((now - startDate) / (1000 * 60));
+    const increments = Math.floor(minutesElapsed / 10); // +3 every 10 minutes
+    return initialValue + (increments * 3);
+}
+
+// Calculate current members based on elapsed time
+function calculateCurrentMembers(startDate, initialValue) {
+    const now = new Date();
+    const minutesElapsed = Math.floor((now - startDate) / (1000 * 60));
+    const increments = Math.floor(minutesElapsed / 7); // +1 every 7 minutes
+    return initialValue + increments;
+}
+
+// Start live waitlist counter updates
+function startLiveWaitlistCounter(element, startDate, initialValue) {
+    // Update every minute
+    setInterval(() => {
+        const currentValue = calculateCurrentWaitlist(startDate, initialValue);
+        element.textContent = currentValue.toLocaleString();
+    }, 60000); // 60 seconds
+}
+
+// Start live members counter updates
+function startLiveMembersCounter(element, startDate, initialValue) {
+    // Update every minute
+    setInterval(() => {
+        const currentValue = calculateCurrentMembers(startDate, initialValue);
+        element.textContent = currentValue.toLocaleString();
+    }, 60000); // 60 seconds
 }
