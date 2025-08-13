@@ -348,8 +348,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // Animated counters for hero stats
 function initializeCounters() {
     // Set start dates for calculations (adjust these as needed)
-    const waitlistStartDate = new Date('2024-01-01T00:00:00Z');
-    const membersStartDate = new Date('2024-01-01T00:00:00Z');
+    const waitlistStartDate = new Date('2024-07-01T00:00:00Z');
+    const membersStartDate = new Date('2024-07-01T00:00:00Z');
     
     // Initial animation values
     const initialWaitlist = 800;
