@@ -157,7 +157,8 @@ body {
 .hero-stats-section {
     display: flex;
     justify-content: center;
-    margin-top: 150px;
+    padding: 60px 0;
+    background: white;
 }
 
 .hero-stats {
@@ -1040,7 +1041,7 @@ body {
     }
     
     .hero-stats-section {
-        margin-top: 100px;
+        padding: 40px 0;
     }
     
     .hero-stats {
