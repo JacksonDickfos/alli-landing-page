@@ -120,6 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
     
+    // Initialize animated counters
+    initializeCounters();
+    
     // Observe feature cards, steps, and app screens
     const animatedElements = document.querySelectorAll('.feature-card, .step, .screen-container');
     animatedElements.forEach(el => {
@@ -341,3 +344,80 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 }); 
+
+// Animated counters for hero stats
+function initializeCounters() {
+    // Waitlist counter: starts at 800, goes to 1102, increases by 3 every 10 minutes
+    const waitlistCounter = document.getElementById('waitlist-counter');
+    if (waitlistCounter) {
+        animateCounter(waitlistCounter, 800, 1102, 2000);
+    }
+    
+    // Launch date counter: starts at Dec 31, goes to Oct 1
+    const launchCounter = document.getElementById('launch-counter');
+    if (launchCounter) {
+        animateDateCounter(launchCounter, 'Dec 31', 'Oct 1', 2000);
+    }
+    
+    // Members counter: starts at 180, goes to 232, increases by 1 every 7 minutes
+    const membersCounter = document.getElementById('members-counter');
+    if (membersCounter) {
+        animateCounter(membersCounter, 180, 232, 2000);
+    }
+}
+
+function animateCounter(element, start, end, duration) {
+    const startTime = performance.now();
+    const difference = end - start;
+    
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = Math.floor(start + (difference * easeOutQuart));
+        
+        element.textContent = current.toLocaleString();
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+    
+    requestAnimationFrame(updateCounter);
+}
+
+function animateDateCounter(element, startDate, endDate, duration) {
+    const startTime = performance.now();
+    const dates = ['Dec 31', 'Dec 30', 'Dec 29', 'Dec 28', 'Dec 27', 'Dec 26', 'Dec 25', 
+                   'Dec 24', 'Dec 23', 'Dec 22', 'Dec 21', 'Dec 20', 'Dec 19', 'Dec 18',
+                   'Dec 17', 'Dec 16', 'Dec 15', 'Dec 14', 'Dec 13', 'Dec 12', 'Dec 11',
+                   'Dec 10', 'Dec 9', 'Dec 8', 'Dec 7', 'Dec 6', 'Dec 5', 'Dec 4', 'Dec 3',
+                   'Dec 2', 'Dec 1', 'Nov 30', 'Nov 29', 'Nov 28', 'Nov 27', 'Nov 26',
+                   'Nov 25', 'Nov 24', 'Nov 23', 'Nov 22', 'Nov 21', 'Nov 20', 'Nov 19',
+                   'Nov 18', 'Nov 17', 'Nov 16', 'Nov 15', 'Nov 14', 'Nov 13', 'Nov 12',
+                   'Nov 11', 'Nov 10', 'Nov 9', 'Nov 8', 'Nov 7', 'Nov 6', 'Nov 5', 'Nov 4',
+                   'Nov 3', 'Nov 2', 'Nov 1', 'Oct 31', 'Oct 30', 'Oct 29', 'Oct 28',
+                   'Oct 27', 'Oct 26', 'Oct 25', 'Oct 24', 'Oct 23', 'Oct 22', 'Oct 21',
+                   'Oct 20', 'Oct 19', 'Oct 18', 'Oct 17', 'Oct 16', 'Oct 15', 'Oct 14',
+                   'Oct 13', 'Oct 12', 'Oct 11', 'Oct 10', 'Oct 9', 'Oct 8', 'Oct 7',
+                   'Oct 6', 'Oct 5', 'Oct 4', 'Oct 3', 'Oct 2', 'Oct 1'];
+    
+    function updateDate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const index = Math.floor(easeOutQuart * (dates.length - 1));
+        
+        element.textContent = dates[index];
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateDate);
+        }
+    }
+    
+    requestAnimationFrame(updateDate);
+}
