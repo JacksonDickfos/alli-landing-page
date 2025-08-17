@@ -361,6 +361,12 @@ function initializeCounters() {
         const currentWaitlist = calculateCurrentWaitlist(waitlistStartDate, initialWaitlist);
         animateCounter(waitlistCounter, initialWaitlist, currentWaitlist, 2000);
         startLiveWaitlistCounter(waitlistCounter, waitlistStartDate, initialWaitlist);
+        
+        // Also initialize the waitlist section counter
+        const waitlistSectionCounter = document.getElementById('waitlist-counter-waitlist');
+        if (waitlistSectionCounter) {
+            waitlistSectionCounter.textContent = currentWaitlist.toLocaleString();
+        }
     }
     
     // Launch date counter: starts at Dec 31, goes to Oct 1
@@ -456,6 +462,12 @@ function startLiveWaitlistCounter(element, startDate, initialValue) {
     setInterval(() => {
         const currentValue = calculateCurrentWaitlist(startDate, initialValue);
         element.textContent = currentValue.toLocaleString();
+        
+        // Also update the waitlist section counter
+        const waitlistSectionCounter = document.getElementById('waitlist-counter-waitlist');
+        if (waitlistSectionCounter) {
+            waitlistSectionCounter.textContent = currentValue.toLocaleString();
+        }
     }, 60000); // 60 seconds
 }
 
