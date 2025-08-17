@@ -734,8 +734,10 @@ body {
 
 .step {
     display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
 }
 
 .step-number {
@@ -749,7 +751,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: #D4C4A8;
-    flex-shrink: 0;
+    margin-bottom: 0.5rem;
 }
 
 .step-content h3 {
@@ -758,12 +760,14 @@ body {
     line-height: 32px;
     margin-bottom: 0.5rem;
     color: #0C2240;
+    text-align: center;
 }
 
 .step-content p {
     color: #0C2240;
     line-height: 24px;
     font-size: 16px;
+    text-align: center;
 }
 
 /* Waitlist Section */
