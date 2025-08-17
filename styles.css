@@ -782,6 +782,7 @@ body {
 .waitlist-title {
     color: #F7F4ED !important;
     margin-top: 25px;
+    margin-bottom: 1rem;
 }
 
 .waitlist-subtitle {
