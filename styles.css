@@ -663,8 +663,8 @@ body {
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 1px solid #E6E5E3;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
     text-align: center;
 }
 
@@ -672,14 +672,12 @@ body {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
     border: 2px solid #BDD7EF;
-    transition: all 0.3s ease;
 }
 
 .feature-card:hover .feature-icon {
     background: #BDD7EF;
     color: #0C2240;
     transform: scale(1.1);
-    transition: all 0.3s ease;
 }
 
 .feature-icon {
