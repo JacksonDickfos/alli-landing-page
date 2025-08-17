@@ -626,7 +626,8 @@ body {
 /* Features Section */
 .features {
     padding: 80px 0;
-    background: #F7F4ED;
+    background: white;
+    margin: 40px 0;
 }
 
 .section-title {
@@ -662,7 +663,7 @@ body {
     background: white;
     padding: 16px;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     border: 1px solid #E6E5E3;
     text-align: center;
@@ -714,7 +715,7 @@ body {
 /* How It Works Section */
 .how-it-works {
     padding: 80px 0;
-    background: #F7F4ED;
+    background: white;
 }
 
 .steps-container {
