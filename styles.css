@@ -675,8 +675,8 @@ body {
 }
 
 .feature-card:hover .feature-icon {
-    background: #3B82F6;
-    color: white;
+    background: #D4C4A8;
+    color: #0C2240;
     transform: scale(1.1);
 }
 
@@ -691,7 +691,7 @@ body {
     justify-content: center;
     margin: 0 auto 1.5rem auto;
     font-size: 1.5rem;
-    color: #3B82F6;
+    color: #D4C4A8;
     transition: all 0.3s ease;
 }
 
