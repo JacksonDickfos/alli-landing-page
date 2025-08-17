@@ -265,6 +265,10 @@ body {
     margin-top: -1.5rem;
 }
 
+.app-title {
+    margin-bottom: 1rem;
+}
+
 .app-screens {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
