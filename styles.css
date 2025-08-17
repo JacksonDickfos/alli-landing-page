@@ -686,7 +686,7 @@ body {
     width: 48px;
     height: 48px;
     background: transparent;
-    border: 2px solid #BDD7EF;
+    border: none;
     border-radius: 12px;
     display: flex;
     align-items: center;
