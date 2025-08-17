@@ -265,7 +265,11 @@ body {
     margin-top: 0;
 }
 
-.app-title {
+.app-preview .section-subtitle {
+    margin-top: 0;
+}
+
+.app-preview .section-title {
     margin-bottom: 0.5rem;
 }
 
