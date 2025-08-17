@@ -732,6 +732,10 @@ body {
     margin-top: 3rem;
 }
 
+.how-it-works-title {
+    margin-bottom: 1rem;
+}
+
 .step {
     display: flex;
     flex-direction: column;
