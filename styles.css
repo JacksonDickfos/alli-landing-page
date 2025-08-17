@@ -659,17 +659,26 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
+.feature-card:hover .feature-icon {
+    background: #BDD7EF;
+    color: #0C2240;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
 .feature-icon {
     width: 48px;
     height: 48px;
-    background: #0C2240;
+    background: transparent;
+    border: 2px solid #BDD7EF;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem auto;
     font-size: 1.5rem;
-    color: #F7F4ED;
+    color: #BDD7EF;
+    transition: all 0.3s ease;
 }
 
 .feature-card h3 {
