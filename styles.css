@@ -671,12 +671,12 @@ body {
 .feature-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-    border: 2px solid #BDD7EF;
+    border: 2px solid #D4C4A8;
 }
 
 .feature-card:hover .feature-icon {
     background: #D4C4A8;
-    color: #0C2240;
+    color: white;
     transform: scale(1.1);
 }
 
