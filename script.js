@@ -369,10 +369,10 @@ function initializeCounters() {
         }
     }
     
-    // Launch date counter: starts at Dec 31, goes to Oct 1
+    // Launch date counter: starts at Dec 31, goes to Nov 1
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'Dec 31', 'Oct 1', 2000);
+        animateDateCounter(launchCounter, 'Dec 31', 'Nov 1', 2000);
     }
     
     // Members counter: starts at 180, increases by 1 every 7 minutes
@@ -416,11 +416,7 @@ function animateDateCounter(element, startDate, endDate, duration) {
                    'Nov 25', 'Nov 24', 'Nov 23', 'Nov 22', 'Nov 21', 'Nov 20', 'Nov 19',
                    'Nov 18', 'Nov 17', 'Nov 16', 'Nov 15', 'Nov 14', 'Nov 13', 'Nov 12',
                    'Nov 11', 'Nov 10', 'Nov 9', 'Nov 8', 'Nov 7', 'Nov 6', 'Nov 5', 'Nov 4',
-                   'Nov 3', 'Nov 2', 'Nov 1', 'Oct 31', 'Oct 30', 'Oct 29', 'Oct 28',
-                   'Oct 27', 'Oct 26', 'Oct 25', 'Oct 24', 'Oct 23', 'Oct 22', 'Oct 21',
-                   'Oct 20', 'Oct 19', 'Oct 18', 'Oct 17', 'Oct 16', 'Oct 15', 'Oct 14',
-                   'Oct 13', 'Oct 12', 'Oct 11', 'Oct 10', 'Oct 9', 'Oct 8', 'Oct 7',
-                   'Oct 6', 'Oct 5', 'Oct 4', 'Oct 3', 'Oct 2', 'Oct 1st'];
+                   'Nov 3', 'Nov 2', 'Nov 1'];
     
     function updateDate(currentTime) {
         const elapsed = currentTime - startTime;

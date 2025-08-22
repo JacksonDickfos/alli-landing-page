@@ -165,7 +165,7 @@ body {
 
 .hero-stats {
     display: flex;
-    gap: 2rem;
+    gap: 4rem;
     justify-content: center;
 }
 
