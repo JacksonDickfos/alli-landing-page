@@ -369,10 +369,10 @@ function initializeCounters() {
         }
     }
     
-    // Launch date counter: starts at Dec 31, goes to Nov 1
+    // Launch date counter: starts at Dec 31, goes to November 1st
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'Dec 31', 'Nov 1', 2000);
+        animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 2000);
     }
     
     // Members counter: starts at 180, increases by 1 every 7 minutes
@@ -412,11 +412,11 @@ function animateDateCounter(element, startDate, endDate, duration) {
                    'Dec 24', 'Dec 23', 'Dec 22', 'Dec 21', 'Dec 20', 'Dec 19', 'Dec 18',
                    'Dec 17', 'Dec 16', 'Dec 15', 'Dec 14', 'Dec 13', 'Dec 12', 'Dec 11',
                    'Dec 10', 'Dec 9', 'Dec 8', 'Dec 7', 'Dec 6', 'Dec 5', 'Dec 4', 'Dec 3',
-                   'Dec 2', 'Dec 1', 'Nov 30', 'Nov 29', 'Nov 28', 'Nov 27', 'Nov 26',
-                   'Nov 25', 'Nov 24', 'Nov 23', 'Nov 22', 'Nov 21', 'Nov 20', 'Nov 19',
-                   'Nov 18', 'Nov 17', 'Nov 16', 'Nov 15', 'Nov 14', 'Nov 13', 'Nov 12',
-                   'Nov 11', 'Nov 10', 'Nov 9', 'Nov 8', 'Nov 7', 'Nov 6', 'Nov 5', 'Nov 4',
-                   'Nov 3', 'Nov 2', 'Nov 1'];
+                   'Dec 2', 'Dec 1', 'November 30', 'November 29', 'November 28', 'November 27', 'November 26',
+                   'November 25', 'November 24', 'November 23', 'November 22', 'November 21', 'November 20', 'November 19',
+                   'November 18', 'November 17', 'November 16', 'November 15', 'November 14', 'November 13', 'November 12',
+                   'November 11', 'November 10', 'November 9', 'November 8', 'November 7', 'November 6', 'November 5', 'November 4',
+                   'November 3', 'November 2', 'November 1st'];
     
     function updateDate(currentTime) {
         const elapsed = currentTime - startTime;
