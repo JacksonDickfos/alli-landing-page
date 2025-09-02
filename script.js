@@ -7,23 +7,6 @@ function updateCopyrightYear() {
     }
 }
 
-
-// Fallback waitlist storage (localStorage)
-function saveToLocalWaitlist(email) {
-    try {
-        const existingEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
-        if (!existingEmails.includes(email)) {
-            existingEmails.push(email);
-            localStorage.setItem('waitlist_emails', JSON.stringify(existingEmails));
-            return true;
-        }
-        return false; // Email already exists
-    } catch (err) {
-        console.error('Error saving to localStorage:', err);
-        return false;
-    }
-}
-
 // Initialize copyright year on page load
 document.addEventListener("DOMContentLoaded", function() {
     updateCopyrightYear();
@@ -36,54 +19,6 @@ function updateCopyrightYear() {
     const yearElement = document.getElementById("current-year");
     if (yearElement) {
         yearElement.textContent = currentYear;
-    }
-}
-
-
-// Fallback waitlist storage (localStorage)
-function saveToLocalWaitlist(email) {
-    try {
-        const existingEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
-        if (!existingEmails.includes(email)) {
-            existingEmails.push(email);
-            localStorage.setItem('waitlist_emails', JSON.stringify(existingEmails));
-            return true;
-        }
-        return false; // Email already exists
-    } catch (err) {
-        console.error('Error saving to localStorage:', err);
-        return false;
-    }
-}
-
-// Initialize copyright year on page load
-document.addEventListener("DOMContentLoaded", function() {
-    updateCopyrightYear();
-});
-
-// Update copyright year dynamically
-function updateCopyrightYear() {
-    const currentYear = new Date().getFullYear();
-    const yearElement = document.getElementById("current-year");
-    if (yearElement) {
-        yearElement.textContent = currentYear;
-    }
-}
-
-
-// Fallback waitlist storage (localStorage)
-function saveToLocalWaitlist(email) {
-    try {
-        const existingEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
-        if (!existingEmails.includes(email)) {
-            existingEmails.push(email);
-            localStorage.setItem('waitlist_emails', JSON.stringify(existingEmails));
-            return true;
-        }
-        return false; // Email already exists
-    } catch (err) {
-        console.error('Error saving to localStorage:', err);
-        return false;
     }
 }
 
@@ -123,31 +58,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // Waitlist form submission
-    if (waitlistForm) { console.log("Waitlist form found:", waitlistForm); console.log("Form ID:", waitlistForm.id);
+    if (waitlistForm) {
         waitlistForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            console.log("=== FORM SUBMISSION STARTED ==="); console.log("=== FORM SUBMISSION STARTED ==="); console.log("Event:", e); console.log("Form submitted, email:", formData.get("email"));
             
             // Get form data
             const formData = new FormData(waitlistForm);
             const email = formData.get('email');
-            console.log("Email extracted:", email); console.log("Email extracted:", email); console.log("FormData entries:"); for (let [key, value] of formData.entries()) { console.log(key + ":", value); }
             
             // Validate form
-            if (!email) { console.log("No email provided");
+            if (!email) {
                 showNotification('Please enter your email address.', 'error');
                 return;
             }
             
-            if (!isValidEmail(email)) { console.log("Invalid email format:", email);
+            if (!isValidEmail(email)) {
                 showNotification('Please enter a valid email address.', 'error');
                 return;
             }
             
             // Save to Supabase
-                console.log("Attempting to save to Supabase..."); console.log("Supabase client:", supabase);
             try {
-                const { data, error } = await supabase; console.log("Supabase response:", { data, error });
+                const { data, error } = await supabase
                     .from('waitlist')
                     .insert([
                         { 
@@ -165,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 } else {
                     showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
-                    alert('Success! Email added to waitlist.'); alert('Success! Email added to waitlist.');
                     waitlistForm.reset();
                 }
             } catch (err) {
@@ -180,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("=== FORM SUBMISSION STARTED ==="); console.log("=== FORM SUBMISSION STARTED ==="); console.log("Event:", e); console.log("Form submitted, email:", formData.get("email"));
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
             
