@@ -1,3 +1,46 @@
+// Update copyright year dynamically
+function updateCopyrightYear() {
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById("current-year");
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
+}
+
+// Initialize copyright year on page load
+document.addEventListener("DOMContentLoaded", function() {
+    updateCopyrightYear();
+});
+
+
+// Update copyright year dynamically
+function updateCopyrightYear() {
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById("current-year");
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
+}
+
+// Initialize copyright year on page load
+document.addEventListener("DOMContentLoaded", function() {
+    updateCopyrightYear();
+});
+
+// Update copyright year dynamically
+function updateCopyrightYear() {
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById("current-year");
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
+}
+
+// Initialize copyright year on page load
+document.addEventListener("DOMContentLoaded", function() {
+    updateCopyrightYear();
+});
+
 // Initialize Supabase client
 const supabase = window.supabase.createClient(
     window.SUPABASE_CONFIG.url, 
