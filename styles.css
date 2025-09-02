@@ -1197,6 +1197,7 @@ body {
     margin: 0 auto;
     line-height: 1.6;
     color: #F7F4ED; /* Make description white for better readability */
+    padding-bottom: 40px; /* Add padding below the description */
 }
 
 .founding-membership-section {
@@ -1208,6 +1209,7 @@ body {
 .founding-membership-section .pre-order-section {
     max-width: 800px;
     margin: 0 auto;
+    padding: 40px 20px; /* Add padding around the founding membership bubble */
 }
 
 /* Ensure the founding membership bubble has good contrast */
@@ -1216,6 +1218,17 @@ body {
     border: 2px solid rgba(189, 215, 239, 0.6); /* Semi-transparent light blue border */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
     backdrop-filter: blur(10px); /* Add subtle blur effect for modern glass look */
+    padding: 40px; /* Add internal padding to the bubble */
+}
+
+/* Hide navigation buttons on founding membership page */
+.founding-membership-page .nav-links {
+    display: none;
+}
+
+/* Alternative approach: hide nav-links when on founding membership page */
+body:has(.founding-membership-hero) .nav-links {
+    display: none;
 }
 
 /* Responsive adjustments for founding membership page */
