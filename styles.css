@@ -1212,9 +1212,10 @@ body {
 
 /* Ensure the founding membership bubble has good contrast */
 .founding-membership-section .pre-order-bubble {
-    background: rgba(247, 244, 237, 0.95); /* Semi-transparent white background */
-    border: 2px solid #BDD7EF; /* Light blue border for definition */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
+    background: rgba(247, 244, 237, 0.15); /* Much more transparent white background */
+    border: 2px solid rgba(189, 215, 239, 0.6); /* Semi-transparent light blue border */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
+    backdrop-filter: blur(10px); /* Add subtle blur effect for modern glass look */
 }
 
 /* Responsive adjustments for founding membership page */
