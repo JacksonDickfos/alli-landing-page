@@ -7,6 +7,23 @@ function updateCopyrightYear() {
     }
 }
 
+
+// Fallback waitlist storage (localStorage)
+function saveToLocalWaitlist(email) {
+    try {
+        const existingEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
+        if (!existingEmails.includes(email)) {
+            existingEmails.push(email);
+            localStorage.setItem('waitlist_emails', JSON.stringify(existingEmails));
+            return true;
+        }
+        return false; // Email already exists
+    } catch (err) {
+        console.error('Error saving to localStorage:', err);
+        return false;
+    }
+}
+
 // Initialize copyright year on page load
 document.addEventListener("DOMContentLoaded", function() {
     updateCopyrightYear();
@@ -19,6 +36,54 @@ function updateCopyrightYear() {
     const yearElement = document.getElementById("current-year");
     if (yearElement) {
         yearElement.textContent = currentYear;
+    }
+}
+
+
+// Fallback waitlist storage (localStorage)
+function saveToLocalWaitlist(email) {
+    try {
+        const existingEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
+        if (!existingEmails.includes(email)) {
+            existingEmails.push(email);
+            localStorage.setItem('waitlist_emails', JSON.stringify(existingEmails));
+            return true;
+        }
+        return false; // Email already exists
+    } catch (err) {
+        console.error('Error saving to localStorage:', err);
+        return false;
+    }
+}
+
+// Initialize copyright year on page load
+document.addEventListener("DOMContentLoaded", function() {
+    updateCopyrightYear();
+});
+
+// Update copyright year dynamically
+function updateCopyrightYear() {
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById("current-year");
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
+}
+
+
+// Fallback waitlist storage (localStorage)
+function saveToLocalWaitlist(email) {
+    try {
+        const existingEmails = JSON.parse(localStorage.getItem('waitlist_emails') || '[]');
+        if (!existingEmails.includes(email)) {
+            existingEmails.push(email);
+            localStorage.setItem('waitlist_emails', JSON.stringify(existingEmails));
+            return true;
+        }
+        return false; // Email already exists
+    } catch (err) {
+        console.error('Error saving to localStorage:', err);
+        return false;
     }
 }
 
@@ -60,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Waitlist form submission
     if (waitlistForm) {
         waitlistForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
+            e.preventDefault(); console.log("Form submitted, email:", formData.get("email"));
             
             // Get form data
             const formData = new FormData(waitlistForm);
@@ -98,11 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
                     waitlistForm.reset();
-                    
-                    // Redirect to founding membership page after a short delay
-                    setTimeout(() => {
-                        window.location.href = 'founding-membership.html';
-                    }, 1500);
                 }
             } catch (err) {
                 console.error('Error saving to database:', err);
@@ -115,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
+            e.preventDefault(); console.log("Form submitted, email:", formData.get("email"));
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
             
