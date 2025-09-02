@@ -1181,13 +1181,14 @@ body {
     font-weight: 700;
     margin-bottom: 1.5rem;
     line-height: 1.2;
+    color: #F7F4ED; /* Ensure heading is white */
 }
 
 .founding-membership-hero .hero-subtitle {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: #BDD7EF;
+    color: #F7F4ED; /* Make subtitle white for better readability */
 }
 
 .founding-membership-hero .hero-description {
@@ -1195,17 +1196,25 @@ body {
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
-    color: #E6E5E3;
+    color: #F7F4ED; /* Make description white for better readability */
 }
 
 .founding-membership-section {
     padding: 80px 0;
-    background: #F7F4ED;
+    background: linear-gradient(135deg, #0C2240 0%, #1E3A5F 100%); /* Same blue gradient as hero */
+    color: #F7F4ED; /* Ensure text is readable on blue background */
 }
 
 .founding-membership-section .pre-order-section {
     max-width: 800px;
     margin: 0 auto;
+}
+
+/* Ensure the founding membership bubble has good contrast */
+.founding-membership-section .pre-order-bubble {
+    background: rgba(247, 244, 237, 0.95); /* Semi-transparent white background */
+    border: 2px solid #BDD7EF; /* Light blue border for definition */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
 }
 
 /* Responsive adjustments for founding membership page */
