@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         showNotification('This email is already on our waitlist!', 'info');
                         // Still redirect to founding membership page even if email exists
                         setTimeout(() => {
-                            window.location.href = '/founding-membership';
+                            window.location.href = 'founding-membership.html';
                         }, 1500);
                     } else {
                         console.error('Supabase error:', error);
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Redirect to founding membership page after a short delay
                     setTimeout(() => {
-                        window.location.href = '/founding-membership';
+                        window.location.href = 'founding-membership.html';
                     }, 1500);
                 }
             } catch (err) {
