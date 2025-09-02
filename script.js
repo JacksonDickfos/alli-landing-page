@@ -123,13 +123,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     // Waitlist form submission
-    if (waitlistForm) { console.log("Waitlist form found:", waitlistForm); console.log("Form ID:", waitlistForm.id); console.log("Form action:", waitlistForm.action);
+    if (waitlistForm) { console.log("Waitlist form found:", waitlistForm); console.log("Form ID:", waitlistForm.id);
         waitlistForm.addEventListener('submit', async function(e) {
-            e.preventDefault(); console.log("=== FORM SUBMISSION STARTED ==="); console.log("Event:", e); console.log("Form submitted, email:", formData.get("email"));
+            e.preventDefault();
+            console.log("=== FORM SUBMISSION STARTED ==="); console.log("=== FORM SUBMISSION STARTED ==="); console.log("Event:", e); console.log("Form submitted, email:", formData.get("email"));
             
             // Get form data
             const formData = new FormData(waitlistForm);
-            const email = formData.get('email'); console.log("Email extracted:", email); console.log("FormData entries:"); for (let [key, value] of formData.entries()) { console.log(key + ":", value); }
+            const email = formData.get('email');
+            console.log("Email extracted:", email); console.log("Email extracted:", email); console.log("FormData entries:"); for (let [key, value] of formData.entries()) { console.log(key + ":", value); }
             
             // Validate form
             if (!email) { console.log("No email provided");
@@ -162,7 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         showNotification('There was an error. Please try again.', 'error');
                     }
                 } else {
-                    showNotification('Thank you! You\'ve been added to our waitlist.', 'success'); alert('Success! Email added to waitlist.');
+                    showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
+                    alert('Success! Email added to waitlist.'); alert('Success! Email added to waitlist.');
                     waitlistForm.reset();
                 }
             } catch (err) {
@@ -176,7 +179,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault(); console.log("=== FORM SUBMISSION STARTED ==="); console.log("Event:", e); console.log("Form submitted, email:", formData.get("email"));
+            e.preventDefault();
+            console.log("=== FORM SUBMISSION STARTED ==="); console.log("=== FORM SUBMISSION STARTED ==="); console.log("Event:", e); console.log("Form submitted, email:", formData.get("email"));
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
             
