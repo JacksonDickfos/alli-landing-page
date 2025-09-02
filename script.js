@@ -91,6 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (error) {
                     if (error.code === '23505') { // Unique constraint violation
                         showNotification('This email is already on our waitlist!', 'info');
+                        // Still redirect to founding membership page even if email exists
+                        setTimeout(() => {
+                            window.location.href = 'founding-membership';
+                        }, 1500);
                     } else {
                         console.error('Supabase error:', error);
                         showNotification('There was an error. Please try again.', 'error');
@@ -101,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Redirect to founding membership page after a short delay
                     setTimeout(() => {
-                        window.location.href = 'founding-membership.html';
+                        window.location.href = 'founding-membership';
                     }, 1500);
                 }
             } catch (err) {
