@@ -1263,3 +1263,43 @@ body:has(.founding-membership-hero) .nav-links {
 }
 
  
+/* Enhanced Stripe Pricing Table Styling with Rounded Corners */
+.founding-membership-section stripe-pricing-table {
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px !important; /* Round the corners to match the bubble */
+    overflow: hidden !important; /* Ensure content respects the rounded corners */
+}
+
+/* Ensure the Stripe pricing table fills the entire bubble */
+.founding-membership-section .pre-order-bubble stripe-pricing-table {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px !important; /* Round the corners */
+    overflow: hidden !important; /* Clip content to rounded corners */
+}
+
+/* Force Stripe table to respect rounded corners */
+.founding-membership-section .pre-order-bubble {
+    overflow: hidden !important; /* Ensure child elements respect rounded corners */
+}
+
+/* Alternative: Full white background option */
+.founding-membership-page-full-white {
+    background: #FFFFFF !important;
+}
+
+.founding-membership-page-full-white .founding-membership-hero,
+.founding-membership-page-full-white .founding-membership-section {
+    background: #FFFFFF !important;
+}
+
+.founding-membership-page-full-white .hero-title,
+.founding-membership-page-full-white .hero-subtitle,
+.founding-membership-page-full-white .hero-description {
+    color: #0C2240 !important; /* Dark text on white background */
+}

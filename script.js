@@ -513,3 +513,32 @@ function startLiveMembersCounter(element, startDate, initialValue) {
         element.textContent = currentValue.toLocaleString();
     }, 60000); // 60 seconds
 }
+// Function to apply rounded corners to Stripe pricing table after it loads
+function applyStripeTableStyling() {
+    const stripeTable = document.querySelector('stripe-pricing-table');
+    if (stripeTable) {
+        // Wait for Stripe table to fully load
+        setTimeout(() => {
+            // Apply rounded corners to the Stripe table
+            stripeTable.style.borderRadius = '16px';
+            stripeTable.style.overflow = 'hidden';
+            
+            // Also try to style any iframe that Stripe might create
+            const iframe = stripeTable.querySelector('iframe');
+            if (iframe) {
+                iframe.style.borderRadius = '16px';
+                iframe.style.overflow = 'hidden';
+            }
+        }, 1000);
+    }
+}
+
+// Apply styling when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    applyStripeTableStyling();
+});
+
+// Also apply styling when Stripe table loads
+document.addEventListener('stripe-pricing-table-loaded', function() {
+    applyStripeTableStyling();
+});
