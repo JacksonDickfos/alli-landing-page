@@ -1221,6 +1221,19 @@ body {
     padding: 40px; /* Add internal padding to the bubble */
 }
 
+/* Stripe Pricing Table Styling */
+.founding-membership-section stripe-pricing-table {
+    margin-top: 30px;
+    display: block;
+    width: 100%;
+}
+
+/* Ensure the Stripe pricing table fits well within the bubble */
+.founding-membership-section .pre-order-bubble stripe-pricing-table {
+    margin: 0;
+    padding: 0;
+}
+
 /* Hide navigation buttons on founding membership page */
 .founding-membership-page .nav-links {
     display: none;
