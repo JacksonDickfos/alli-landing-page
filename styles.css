@@ -1303,3 +1303,90 @@ body:has(.founding-membership-hero) .nav-links {
 .founding-membership-page-full-white .hero-description {
     color: #0C2240 !important; /* Dark text on white background */
 }
+
+/* Unified Founding Membership Section - Single seamless blue background */
+.founding-membership-unified {
+    background: linear-gradient(135deg, #0C2240 0%, #1E3A5F 100%);
+    color: #F7F4ED;
+    padding: 120px 0 80px 0;
+    text-align: center;
+    min-height: 100vh; /* Ensure it covers the full viewport */
+}
+
+.founding-membership-unified .hero-content {
+    margin-bottom: 60px;
+}
+
+.founding-membership-unified .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    color: #F7F4ED;
+}
+
+.founding-membership-unified .hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #F7F4ED;
+}
+
+.founding-membership-unified .hero-description {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #F7F4ED;
+    padding-bottom: 40px;
+}
+
+.founding-membership-unified .pre-order-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Ensure the founding membership bubble has good contrast */
+.founding-membership-unified .pre-order-bubble {
+    background: #FFFFFF;
+    border: 2px solid #BDD7EF;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    border-radius: 16px;
+    overflow: hidden !important;
+}
+
+/* Stripe Pricing Table Styling for unified section */
+.founding-membership-unified stripe-pricing-table {
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+.founding-membership-unified .pre-order-bubble stripe-pricing-table {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+/* Responsive adjustments for unified section */
+@media (max-width: 768px) {
+    .founding-membership-unified .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .founding-membership-unified .hero-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .founding-membership-unified .hero-description {
+        font-size: 1.1rem;
+    }
+}
