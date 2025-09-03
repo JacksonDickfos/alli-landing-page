@@ -1214,24 +1214,27 @@ body {
 
 /* Ensure the founding membership bubble has good contrast */
 .founding-membership-section .pre-order-bubble {
-    background: rgba(247, 244, 237, 0.15); /* Much more transparent white background */
-    border: 2px solid rgba(189, 215, 239, 0.6); /* Semi-transparent light blue border */
+    background: #FFFFFF; /* Solid white background */
+    border: 2px solid #BDD7EF; /* Light blue border for definition */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
-    backdrop-filter: blur(10px); /* Add subtle blur effect for modern glass look */
-    padding: 40px; /* Add internal padding to the bubble */
+    padding: 0; /* Remove padding to let Stripe table fill entire space */
+    border-radius: 16px; /* Ensure rounded corners */
 }
 
 /* Stripe Pricing Table Styling */
 .founding-membership-section stripe-pricing-table {
-    margin-top: 30px;
+    margin: 0;
     display: block;
     width: 100%;
+    height: 100%;
 }
 
-/* Ensure the Stripe pricing table fits well within the bubble */
+/* Ensure the Stripe pricing table fills the entire bubble */
 .founding-membership-section .pre-order-bubble stripe-pricing-table {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /* Hide navigation buttons on founding membership page */
