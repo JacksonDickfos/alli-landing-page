@@ -1504,3 +1504,32 @@ body:has(.founding-membership-hero) .nav-links {
         padding: 0 20px;
     }
 }
+
+/* Fix description text to show full sentence - allow wrapping if needed */
+.hero-content-below-video .hero-description {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #F7F4ED;
+    white-space: normal; /* Allow text to wrap naturally */
+    overflow: visible; /* Show all text */
+    text-overflow: unset; /* Remove ellipsis */
+}
+
+/* Responsive adjustments - allow wrapping on all screen sizes */
+@media (min-width: 768px) and (max-width: 1200px) {
+    .hero-content-below-video .hero-description {
+        white-space: normal;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-content-below-video .hero-description {
+        white-space: normal;
+        max-width: 600px;
+        padding: 0 20px;
+    }
+}
