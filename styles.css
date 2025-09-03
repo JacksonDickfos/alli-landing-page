@@ -1390,3 +1390,31 @@ body:has(.founding-membership-hero) .nav-links {
         font-size: 1.1rem;
     }
 }
+
+/* Video Section Styling */
+.video-section {
+    margin: 40px auto 60px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.waitlist-video {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid #BDD7EF;
+}
+
+/* Responsive video adjustments */
+@media (max-width: 768px) {
+    .video-section {
+        margin: 30px auto 50px auto;
+        padding: 0 20px;
+    }
+    
+    .waitlist-video {
+        max-width: 100%;
+    }
+}
