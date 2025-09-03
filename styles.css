@@ -1474,3 +1474,33 @@ body:has(.founding-membership-hero) .nav-links {
         font-size: 1.1rem;
     }
 }
+
+/* Ensure description text stays on one line for laptop view */
+.hero-content-below-video .hero-description {
+    font-size: 1.2rem;
+    max-width: 800px; /* Increased from 600px to accommodate longer text */
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #F7F4ED;
+    white-space: nowrap; /* Force text to stay on one line */
+    overflow: hidden; /* Hide any overflow */
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+}
+
+/* Responsive adjustments to ensure one-line display */
+@media (min-width: 768px) and (max-width: 1200px) {
+    .hero-content-below-video .hero-description {
+        white-space: nowrap;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+/* For very small screens, allow wrapping */
+@media (max-width: 767px) {
+    .hero-content-below-video .hero-description {
+        white-space: normal;
+        max-width: 600px;
+        padding: 0 20px;
+    }
+}
