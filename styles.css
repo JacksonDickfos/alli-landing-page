@@ -1418,3 +1418,59 @@ body:has(.founding-membership-hero) .nav-links {
         max-width: 100%;
     }
 }
+
+/* Updated layout for video above subheadings */
+.founding-membership-unified .hero-content {
+    margin-bottom: 40px;
+}
+
+.founding-membership-unified .video-section {
+    margin: 0 auto 40px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.hero-content-below-video {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hero-content-below-video .hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #F7F4ED;
+}
+
+.hero-content-below-video .hero-description {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #F7F4ED;
+}
+
+/* Responsive adjustments for new layout */
+@media (max-width: 768px) {
+    .founding-membership-unified .hero-content {
+        margin-bottom: 30px;
+    }
+    
+    .founding-membership-unified .video-section {
+        margin: 0 auto 30px auto;
+        padding: 0 20px;
+    }
+    
+    .hero-content-below-video {
+        margin-bottom: 50px;
+        padding: 0 20px;
+    }
+    
+    .hero-content-below-video .hero-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .hero-content-below-video .hero-description {
+        font-size: 1.1rem;
+    }
+}
