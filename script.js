@@ -41,11 +41,10 @@ function scrollToAppPreview() {
     });
 }
 
-function scrollToFeatures() {
-    document.getElementById('features').scrollIntoView({
+function scrollToWaitlist() {
+    document.getElementById('waitlist').scrollIntoView({
         behavior: 'smooth'
     });
-}
 
 // Waitlist form handling
 document.addEventListener('DOMContentLoaded', function() {
