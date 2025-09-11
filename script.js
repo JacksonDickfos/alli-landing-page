@@ -415,121 +415,6 @@ function addCountdownBubbleClick() {
     }
 }
 
-// Function to apply rounded corners to Stripe pricing table after it loads
-function applyStripeTableStyling() {
-    const stripeTable = document.querySelector('stripe-pricing-table');
-    if (stripeTable) {
-        // Wait for Stripe table to fully load
-        setTimeout(() => {
-            // Apply rounded corners to the Stripe table
-            stripeTable.style.borderRadius = '16px';
-            stripeTable.style.overflow = 'hidden';
-            
-            // Also try to style any iframe that Stripe might create
-            const iframe = stripeTable.querySelector('iframe');
-            if (iframe) {
-                iframe.style.borderRadius = '16px';
-                iframe.style.overflow = 'hidden';
-            }
-        }, 1000);
-    }
-}
-
-// MAIN INITIALIZATION - Single DOMContentLoaded listener
-document.addEventListener('DOMContentLoaded', function() {
-    // Show spam folder popup on founding membership page
-    if (window.location.pathname.includes("founding-membership")) {
-        setTimeout(() => {
-            showSpamFolderPopup();
-        }, 2000);
-    }    }    // Update copyright year
-    updateCopyrightYear();
-    
-    // Add smooth scrolling to all navigation links
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Add scroll effect to navbar
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(247, 244, 237, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(12, 34, 64, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
-    });
-    
-    // Add animation to feature cards on scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Initialize animated counters
-    initializeCounters();
-    
-    // Observe feature cards, steps, and app screens
-    const animatedElements = document.querySelectorAll('.feature-card, .step, .screen-container');
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-    
-    // Initialize chat demo
-    initializeChatDemo();
-    
-    // Initialize countdown timer
-    initializeCountdownTimer();
-    
-    // Add countdown bubble click functionality
-    addCountdownBubbleClick();
-    
-    // Add hover effects to buttons
-    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px) scale(1.02)';
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-    
-    // Apply Stripe table styling
-    applyStripeTableStyling();
-});
-
-// Also apply styling when Stripe table loads
-document.addEventListener('stripe-pricing-table-loaded', function() {
-    applyStripeTableStyling();
-});
-
 // FAQ functionality
 function initializeFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
@@ -550,22 +435,6 @@ function initializeFAQ() {
         });
     });
 }
-
-// Initialize FAQ when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // Show spam folder popup on founding membership page
-    if (window.location.pathname.includes("founding-membership")) {
-        setTimeout(() => {
-            showSpamFolderPopup();
-        }, 2000);
-    }    }    initializeFAQ();
-});
-
-// Klaviyo form success handler
-function handleKlaviyoSuccess() {
-    // Show spam folder popup after successful Klaviyo signup
-    showSpamFolderPopup();
-    }}
 
 // Spam folder popup
 function showSpamFolderPopup() {
@@ -702,31 +571,122 @@ function showSpamFolderPopup() {
     }
 }
 
-// Listen for Klaviyo form submissions
+// Function to apply rounded corners to Stripe pricing table after it loads
+function applyStripeTableStyling() {
+    const stripeTable = document.querySelector('stripe-pricing-table');
+    if (stripeTable) {
+        // Wait for Stripe table to fully load
+        setTimeout(() => {
+            // Apply rounded corners to the Stripe table
+            stripeTable.style.borderRadius = '16px';
+            stripeTable.style.overflow = 'hidden';
+            
+            // Also try to style any iframe that Stripe might create
+            const iframe = stripeTable.querySelector('iframe');
+            if (iframe) {
+                iframe.style.borderRadius = '16px';
+                iframe.style.overflow = 'hidden';
+            }
+        }, 1000);
+    }
+}
+
+// MAIN INITIALIZATION - Single DOMContentLoaded listener
 document.addEventListener('DOMContentLoaded', function() {
+    // Update copyright year
+    updateCopyrightYear();
+    
     // Show spam folder popup on founding membership page
     if (window.location.pathname.includes("founding-membership")) {
         setTimeout(() => {
             showSpamFolderPopup();
         }, 2000);
-    }    }    // Check if Klaviyo is loaded
-    if (typeof window.klaviyo !== 'undefined') {
-        // Listen for Klaviyo form submissions
-        window.klaviyo.push(['on', 'form', 'submit', function(data) {
-            // Show popup after successful form submission
-            setTimeout(() => {
-                showSpamFolderPopup();
-    }            }, 1000);
-        }]);
-    } else {
-        // Fallback: Listen for any form submissions
-        const forms = document.querySelectorAll('form');
-        forms.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                setTimeout(() => {
-                    showSpamFolderPopup();
-    }                }, 1000);
-            });
-        });
     }
+    
+    // Add smooth scrolling to all navigation links
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(247, 244, 237, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(12, 34, 64, 0.1)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    });
+    
+    // Add animation to feature cards on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Initialize animated counters
+    initializeCounters();
+    
+    // Observe feature cards, steps, and app screens
+    const animatedElements = document.querySelectorAll('.feature-card, .step, .screen-container');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    // Initialize chat demo
+    initializeChatDemo();
+    
+    // Initialize countdown timer
+    initializeCountdownTimer();
+    
+    // Add countdown bubble click functionality
+    addCountdownBubbleClick();
+    
+    // Initialize FAQ
+    initializeFAQ();
+    
+    // Add hover effects to buttons
+    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Apply Stripe table styling
+    applyStripeTableStyling();
+});
+
+// Also apply styling when Stripe table loads
+document.addEventListener('stripe-pricing-table-loaded', function() {
+    applyStripeTableStyling();
 });
