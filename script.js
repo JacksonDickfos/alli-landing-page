@@ -7,36 +7,21 @@ function updateCopyrightYear() {
     }
 }
 
-// Initialize copyright year on page load
-document.addEventListener("DOMContentLoaded", function() {
-    updateCopyrightYear();
-});
-
-
-// Update copyright year dynamically
-function updateCopyrightYear() {
-    const currentYear = new Date().getFullYear();
-    const yearElement = document.getElementById("current-year");
-    if (yearElement) {
-        yearElement.textContent = currentYear;
-    }
-}
-
-// Initialize copyright year on page load
-document.addEventListener("DOMContentLoaded", function() {
-    updateCopyrightYear();
-});
-
 // Initialize Supabase client
 const supabase = window.supabase.createClient(
     window.SUPABASE_CONFIG.url, 
     window.SUPABASE_CONFIG.anonKey
 );
 
-// Smooth scrolling for navigation links
-
+// Smooth scrolling functions
 function scrollToAppPreview() {
     document.getElementById('app-preview').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
+function scrollToFeatures() {
+    document.getElementById('features').scrollIntoView({
         behavior: 'smooth'
     });
 }
@@ -45,68 +30,7 @@ function scrollToWaitlist() {
     document.getElementById('waitlist').scrollIntoView({
         behavior: 'smooth'
     });
-
-// Waitlist form handling
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Add smooth scrolling to all navigation links
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Add scroll effect to navbar
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(247, 244, 237, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(12, 34, 64, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
-    });
-    
-    // Add animation to feature cards on scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Initialize animated counters
-    initializeCounters();
-    
-    // Observe feature cards, steps, and app screens
-    const animatedElements = document.querySelectorAll('.feature-card, .step, .screen-container');
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-    
-    // Initialize chat demo
-    initializeChatDemo();
-});
+}
 
 // Email validation
 function isValidEmail(email) {
@@ -302,21 +226,6 @@ function typeMessage(element, text, speed = 50) {
     type();
 }
 
-// Add hover effects to buttons
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
-    
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px) scale(1.02)';
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}); 
-
 // Animated counters for hero stats
 function initializeCounters() {
     // Set start dates for calculations (adjust these as needed)
@@ -327,18 +236,12 @@ function initializeCounters() {
     const initialWaitlist = 1200;
     const initialMembers = 120;
     
-    // Waitlist counter: starts at 800, increases by 3 every 10 minutes
+    // Waitlist counter: starts at 1200, increases by 1 every 10 minutes
     const waitlistCounter = document.getElementById('waitlist-counter');
     if (waitlistCounter) {
         const currentWaitlist = calculateCurrentWaitlist(waitlistStartDate, initialWaitlist);
         animateCounter(waitlistCounter, initialWaitlist, currentWaitlist, 2000);
         startLiveWaitlistCounter(waitlistCounter, waitlistStartDate, initialWaitlist);
-        
-        // Also initialize the waitlist section counter
-        const waitlistSectionCounter = document.getElementById('waitlist-counter-waitlist');
-        if (waitlistSectionCounter) {
-            waitlistSectionCounter.textContent = currentWaitlist.toLocaleString();
-        }
     }
     
     // Launch date counter: starts at Dec 31, goes to November 1st
@@ -347,7 +250,7 @@ function initializeCounters() {
         animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 4000);
     }
     
-    // Members counter: starts at 180, increases by 1 every 7 minutes
+    // Members counter: starts at 120, increases by 1 every 20 minutes
     const membersCounter = document.getElementById('members-counter');
     if (membersCounter) {
         const currentMembers = calculateCurrentMembers(membersStartDate, initialMembers);
@@ -430,12 +333,6 @@ function startLiveWaitlistCounter(element, startDate, initialValue) {
     setInterval(() => {
         const currentValue = calculateCurrentWaitlist(startDate, initialValue);
         element.textContent = currentValue.toLocaleString();
-        
-        // Also update the waitlist section counter
-        const waitlistSectionCounter = document.getElementById('waitlist-counter-waitlist');
-        if (waitlistSectionCounter) {
-            waitlistSectionCounter.textContent = currentValue.toLocaleString();
-        }
     }, 60000); // 60 seconds
 }
 
@@ -447,35 +344,6 @@ function startLiveMembersCounter(element, startDate, initialValue) {
         element.textContent = currentValue.toLocaleString();
     }, 60000); // 60 seconds
 }
-// Function to apply rounded corners to Stripe pricing table after it loads
-function applyStripeTableStyling() {
-    const stripeTable = document.querySelector('stripe-pricing-table');
-    if (stripeTable) {
-        // Wait for Stripe table to fully load
-        setTimeout(() => {
-            // Apply rounded corners to the Stripe table
-            stripeTable.style.borderRadius = '16px';
-            stripeTable.style.overflow = 'hidden';
-            
-            // Also try to style any iframe that Stripe might create
-            const iframe = stripeTable.querySelector('iframe');
-            if (iframe) {
-                iframe.style.borderRadius = '16px';
-                iframe.style.overflow = 'hidden';
-            }
-        }, 1000);
-    }
-}
-
-// Apply styling when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-    applyStripeTableStyling();
-});
-
-// Also apply styling when Stripe table loads
-document.addEventListener('stripe-pricing-table-loaded', function() {
-    applyStripeTableStyling();
-});
 
 // Floating Countdown Timer
 function initializeCountdownTimer() {
@@ -531,11 +399,6 @@ function initializeCountdownTimer() {
     setInterval(updateCountdown, 1000);
 }
 
-// Initialize countdown timer when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    initializeCountdownTimer();
-});
-
 // Add click functionality to countdown bubble
 function addCountdownBubbleClick() {
     const countdownBubble = document.getElementById('countdown-bubble');
@@ -552,7 +415,112 @@ function addCountdownBubbleClick() {
     }
 }
 
-// Initialize countdown bubble click when page loads
+// Function to apply rounded corners to Stripe pricing table after it loads
+function applyStripeTableStyling() {
+    const stripeTable = document.querySelector('stripe-pricing-table');
+    if (stripeTable) {
+        // Wait for Stripe table to fully load
+        setTimeout(() => {
+            // Apply rounded corners to the Stripe table
+            stripeTable.style.borderRadius = '16px';
+            stripeTable.style.overflow = 'hidden';
+            
+            // Also try to style any iframe that Stripe might create
+            const iframe = stripeTable.querySelector('iframe');
+            if (iframe) {
+                iframe.style.borderRadius = '16px';
+                iframe.style.overflow = 'hidden';
+            }
+        }, 1000);
+    }
+}
+
+// MAIN INITIALIZATION - Single DOMContentLoaded listener
 document.addEventListener('DOMContentLoaded', function() {
+    // Update copyright year
+    updateCopyrightYear();
+    
+    // Add smooth scrolling to all navigation links
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(247, 244, 237, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(12, 34, 64, 0.1)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    });
+    
+    // Add animation to feature cards on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Initialize animated counters
+    initializeCounters();
+    
+    // Observe feature cards, steps, and app screens
+    const animatedElements = document.querySelectorAll('.feature-card, .step, .screen-container');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    // Initialize chat demo
+    initializeChatDemo();
+    
+    // Initialize countdown timer
+    initializeCountdownTimer();
+    
+    // Add countdown bubble click functionality
     addCountdownBubbleClick();
+    
+    // Add hover effects to buttons
+    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Apply Stripe table styling
+    applyStripeTableStyling();
+});
+
+// Also apply styling when Stripe table loads
+document.addEventListener('stripe-pricing-table-loaded', function() {
+    applyStripeTableStyling();
 });
