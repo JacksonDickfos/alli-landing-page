@@ -437,7 +437,12 @@ function applyStripeTableStyling() {
 
 // MAIN INITIALIZATION - Single DOMContentLoaded listener
 document.addEventListener('DOMContentLoaded', function() {
-    // Update copyright year
+    // Show spam folder popup on founding membership page
+    if (window.location.pathname.includes("founding-membership")) {
+        setTimeout(() => {
+            showSpamFolderPopup();
+        }, 2000);
+    }    }    // Update copyright year
     updateCopyrightYear();
     
     // Add smooth scrolling to all navigation links
@@ -548,14 +553,19 @@ function initializeFAQ() {
 
 // Initialize FAQ when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    initializeFAQ();
+    // Show spam folder popup on founding membership page
+    if (window.location.pathname.includes("founding-membership")) {
+        setTimeout(() => {
+            showSpamFolderPopup();
+        }, 2000);
+    }    }    initializeFAQ();
 });
 
 // Klaviyo form success handler
 function handleKlaviyoSuccess() {
     // Show spam folder popup after successful Klaviyo signup
     showSpamFolderPopup();
-}
+    }}
 
 // Spam folder popup
 function showSpamFolderPopup() {
@@ -694,14 +704,19 @@ function showSpamFolderPopup() {
 
 // Listen for Klaviyo form submissions
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if Klaviyo is loaded
+    // Show spam folder popup on founding membership page
+    if (window.location.pathname.includes("founding-membership")) {
+        setTimeout(() => {
+            showSpamFolderPopup();
+        }, 2000);
+    }    }    // Check if Klaviyo is loaded
     if (typeof window.klaviyo !== 'undefined') {
         // Listen for Klaviyo form submissions
         window.klaviyo.push(['on', 'form', 'submit', function(data) {
             // Show popup after successful form submission
             setTimeout(() => {
                 showSpamFolderPopup();
-            }, 1000);
+    }            }, 1000);
         }]);
     } else {
         // Fallback: Listen for any form submissions
@@ -710,7 +725,7 @@ document.addEventListener('DOMContentLoaded', function() {
             form.addEventListener('submit', function(e) {
                 setTimeout(() => {
                     showSpamFolderPopup();
-                }, 1000);
+    }                }, 1000);
             });
         });
     }
