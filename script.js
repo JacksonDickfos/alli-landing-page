@@ -536,3 +536,24 @@ function initializeCountdownTimer() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeCountdownTimer();
 });
+
+// Add click functionality to countdown bubble
+function addCountdownBubbleClick() {
+    const countdownBubble = document.getElementById('countdown-bubble');
+    if (countdownBubble) {
+        countdownBubble.addEventListener('click', function() {
+            // Scroll to waitlist section
+            const waitlistSection = document.getElementById('waitlist');
+            if (waitlistSection) {
+                waitlistSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+}
+
+// Initialize countdown bubble click when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    addCountdownBubbleClick();
+});
