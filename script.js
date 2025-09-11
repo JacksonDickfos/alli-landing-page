@@ -522,6 +522,10 @@ function showSpamFolderPopup() {
                 text-align: center;
             }
             .spam-popup-close {
+                width: 100%;
+                max-width: 200px;
+                margin: 0 auto;
+                display: block;
                 background: #78C6A3;
                 color: white;
                 border: none;
