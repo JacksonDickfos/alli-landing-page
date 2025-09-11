@@ -34,11 +34,6 @@ const supabase = window.supabase.createClient(
 );
 
 // Smooth scrolling for navigation links
-function scrollToWaitlist() {
-    document.getElementById('waitlist').scrollIntoView({
-        behavior: 'smooth'
-    });
-}
 
 function scrollToAppPreview() {
     document.getElementById('app-preview').scrollIntoView({
@@ -54,66 +49,6 @@ function scrollToFeatures() {
 
 // Waitlist form handling
 document.addEventListener('DOMContentLoaded', function() {
-    const waitlistForm = document.getElementById('waitlist-form');
-
-    
-    // Waitlist form submission
-    if (waitlistForm) {
-        waitlistForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(waitlistForm);
-            const email = formData.get('email');
-            
-            // Validate form
-            if (!email) {
-                showNotification('Please enter your email address.', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showNotification('Please enter a valid email address.', 'error');
-                return;
-            }
-            
-            // Save to Supabase
-            try {
-                const { data, error } = await supabase
-                    .from('waitlist')
-                    .insert([
-                        { 
-                            email: email,
-                            source: 'waitlist_section'
-                        }
-                    ]);
-
-                if (error) {
-                    if (error.code === '23505') { // Unique constraint violation
-                        showNotification('This email is already on our waitlist!', 'info');
-                        // Still redirect to founding membership page even if email exists
-                        setTimeout(() => {
-                            window.location.href = 'founding-membership.html';
-                        }, 1500);
-                    } else {
-                        console.error('Supabase error:', error);
-                        showNotification('There was an error. Please try again.', 'error');
-                    }
-                } else {
-                    showNotification('Thank you! You\'ve been added to our waitlist.', 'success');
-                    waitlistForm.reset();
-                    
-                    // Redirect to founding membership page after a short delay
-                    setTimeout(() => {
-                        window.location.href = 'founding-membership.html';
-                    }, 1500);
-                }
-            } catch (err) {
-                console.error('Error saving to database:', err);
-                showNotification('There was an error. Please try again.', 'error');
-            }
-        });
-    }
     
     // Add smooth scrolling to all navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
