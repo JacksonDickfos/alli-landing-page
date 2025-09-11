@@ -1170,7 +1170,7 @@ body {
 
 /* Founding Membership Page Styles */
 .founding-membership-hero {
-    background: linear-gradient(135deg, #0C2240 0%, #1E3A5F 100%);
+    background: #0C2240;
     color: #F7F4ED;
     padding: 120px 0 0 0; /* Remove bottom padding to merge with next section */
     text-align: center;
@@ -1202,7 +1202,7 @@ body {
 
 .founding-membership-section {
     padding: 0 0 80px 0; /* Remove top padding to merge with hero */
-    background: linear-gradient(135deg, #0C2240 0%, #1E3A5F 100%); /* Same blue gradient as hero */
+    background: #0C2240; /* Same blue gradient as hero */
     color: #F7F4ED; /* Ensure text is readable on blue background */
 }
 
@@ -1306,7 +1306,7 @@ body:has(.founding-membership-hero) .nav-links {
 
 /* Unified Founding Membership Section - Single seamless blue background */
 .founding-membership-unified {
-    background: linear-gradient(135deg, #0C2240 0%, #1E3A5F 100%);
+    background: #0C2240;
     color: #F7F4ED;
     padding: 120px 0 80px 0;
     text-align: center;
@@ -1655,7 +1655,7 @@ body:has(.founding-membership-hero) .nav-links {
 
 /* FAQ Section Styles */
 .faq-section {
-    background: linear-gradient(135deg, #0C2240 0%, #1E3A5F 100%);
+    background: #0C2240;
     padding: 80px 0;
     color: white;
 }
