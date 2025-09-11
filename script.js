@@ -390,8 +390,8 @@ function initializeCounters() {
     const membersStartDate = new Date('2025-07-01T00:00:00Z');
     
     // Initial animation values
-    const initialWaitlist = 800;
-    const initialMembers = 180;
+    const initialWaitlist = 1200;
+    const initialMembers = 120;
     
     // Waitlist counter: starts at 800, increases by 3 every 10 minutes
     const waitlistCounter = document.getElementById('waitlist-counter');
@@ -410,7 +410,7 @@ function initializeCounters() {
     // Launch date counter: starts at Dec 31, goes to November 1st
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 2000);
+        animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 4000);
     }
     
     // Members counter: starts at 180, increases by 1 every 7 minutes
@@ -478,15 +478,15 @@ function animateDateCounter(element, startDate, endDate, duration) {
 function calculateCurrentWaitlist(startDate, initialValue) {
     const now = new Date();
     const minutesElapsed = Math.floor((now - startDate) / (1000 * 60));
-    const increments = Math.floor(minutesElapsed / 10); // +3 every 10 minutes
-    return initialValue + (increments * 3);
+    const increments = Math.floor(minutesElapsed / 10); // +1 every 10 minutes
+    return initialValue + increments;
 }
 
 // Calculate current members based on elapsed time
 function calculateCurrentMembers(startDate, initialValue) {
     const now = new Date();
     const minutesElapsed = Math.floor((now - startDate) / (1000 * 60));
-    const increments = Math.floor(minutesElapsed / 7); // +1 every 7 minutes
+    const increments = Math.floor(minutesElapsed / 20); // +1 every 20 minutes
     return initialValue + increments;
 }
 
