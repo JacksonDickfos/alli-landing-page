@@ -1533,3 +1533,122 @@ body:has(.founding-membership-hero) .nav-links {
         padding: 0 20px;
     }
 }
+
+/* Floating Countdown Bubble */
+.countdown-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #78C6A3 0%, #6BB890 100%);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(120, 198, 163, 0.3);
+    z-index: 1000;
+    min-width: 200px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.countdown-bubble:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(120, 198, 163, 0.4);
+}
+
+.countdown-content {
+    text-align: center;
+    color: white;
+}
+
+.countdown-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 35px;
+}
+
+.time-number {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 2px;
+    font-family: 'Inter', sans-serif;
+}
+
+.time-label {
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.countdown-subtitle {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+/* Mobile responsiveness for countdown bubble */
+@media (max-width: 768px) {
+    .countdown-bubble {
+        bottom: 15px;
+        right: 15px;
+        padding: 15px;
+        min-width: 180px;
+    }
+    
+    .time-number {
+        font-size: 18px;
+    }
+    
+    .time-label {
+        font-size: 9px;
+    }
+    
+    .countdown-title {
+        font-size: 13px;
+    }
+    
+    .countdown-subtitle {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown-bubble {
+        bottom: 10px;
+        right: 10px;
+        padding: 12px;
+        min-width: 160px;
+    }
+    
+    .time-number {
+        font-size: 16px;
+    }
+    
+    .time-label {
+        font-size: 8px;
+    }
+    
+    .countdown-timer {
+        gap: 6px;
+    }
+}

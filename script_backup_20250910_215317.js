@@ -386,12 +386,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // Animated counters for hero stats
 function initializeCounters() {
     // Set start dates for calculations (adjust these as needed)
-    const waitlistStartDate = new Date('2025-09-10T21:57:00Z');
-    const membersStartDate = new Date('2025-09-10T21:57:00Z');
+    const waitlistStartDate = new Date('2025-07-01T00:00:00Z');
+    const membersStartDate = new Date('2025-07-01T00:00:00Z');
     
     // Initial animation values
-    const initialWaitlist = 1200;
-    const initialMembers = 120;
+    const initialWaitlist = 800;
+    const initialMembers = 180;
     
     // Waitlist counter: starts at 800, increases by 3 every 10 minutes
     const waitlistCounter = document.getElementById('waitlist-counter');
@@ -410,7 +410,7 @@ function initializeCounters() {
     // Launch date counter: starts at Dec 31, goes to November 1st
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 4000);
+        animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 2000);
     }
     
     // Members counter: starts at 180, increases by 1 every 7 minutes
@@ -478,15 +478,15 @@ function animateDateCounter(element, startDate, endDate, duration) {
 function calculateCurrentWaitlist(startDate, initialValue) {
     const now = new Date();
     const minutesElapsed = Math.floor((now - startDate) / (1000 * 60));
-    const increments = Math.floor(minutesElapsed / 10); // +1 every 10 minutes
-    return initialValue + increments;
+    const increments = Math.floor(minutesElapsed / 10); // +3 every 10 minutes
+    return initialValue + (increments * 3);
 }
 
 // Calculate current members based on elapsed time
 function calculateCurrentMembers(startDate, initialValue) {
     const now = new Date();
     const minutesElapsed = Math.floor((now - startDate) / (1000 * 60));
-    const increments = Math.floor(minutesElapsed / 20); // +1 every 20 minutes
+    const increments = Math.floor(minutesElapsed / 7); // +1 every 7 minutes
     return initialValue + increments;
 }
 
@@ -541,63 +541,4 @@ document.addEventListener('DOMContentLoaded', function() {
 // Also apply styling when Stripe table loads
 document.addEventListener('stripe-pricing-table-loaded', function() {
     applyStripeTableStyling();
-});
-
-// Floating Countdown Timer
-function initializeCountdownTimer() {
-    const launchDate = new Date('2025-11-01T00:00:00Z');
-    
-    function updateCountdown() {
-        const now = new Date();
-        const timeLeft = launchDate - now;
-        
-        if (timeLeft > 0) {
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            
-            // Update the countdown display
-            const daysElement = document.getElementById('days');
-            const hoursElement = document.getElementById('hours');
-            const minutesElement = document.getElementById('minutes');
-            const secondsElement = document.getElementById('seconds');
-            
-            if (daysElement) daysElement.textContent = days.toString().padStart(2, '0');
-            if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
-            if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
-            if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
-        } else {
-            // Launch day has arrived!
-            const daysElement = document.getElementById('days');
-            const hoursElement = document.getElementById('hours');
-            const minutesElement = document.getElementById('minutes');
-            const secondsElement = document.getElementById('seconds');
-            
-            if (daysElement) daysElement.textContent = '00';
-            if (hoursElement) hoursElement.textContent = '00';
-            if (minutesElement) minutesElement.textContent = '00';
-            if (secondsElement) secondsElement.textContent = '00';
-            
-            // Optional: Hide the countdown or show a different message
-            const countdownBubble = document.getElementById('countdown-bubble');
-            if (countdownBubble) {
-                countdownBubble.innerHTML = `
-                    <div class="countdown-content">
-                        <div class="countdown-title">🎉 We're Live!</div>
-                        <div class="countdown-subtitle">November 1st is here!</div>
-                    </div>
-                `;
-            }
-        }
-    }
-    
-    // Update immediately and then every second
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-}
-
-// Initialize countdown timer when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    initializeCountdownTimer();
 });
