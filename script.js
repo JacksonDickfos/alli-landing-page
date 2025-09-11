@@ -550,3 +550,168 @@ function initializeFAQ() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeFAQ();
 });
+
+// Klaviyo form success handler
+function handleKlaviyoSuccess() {
+    // Show spam folder popup after successful Klaviyo signup
+    showSpamFolderPopup();
+}
+
+// Spam folder popup
+function showSpamFolderPopup() {
+    // Remove existing popups
+    const existingPopups = document.querySelectorAll('.spam-folder-popup');
+    existingPopups.forEach(popup => popup.remove());
+    
+    // Create popup element
+    const popup = document.createElement('div');
+    popup.className = 'spam-folder-popup';
+    popup.innerHTML = `
+        <div class="spam-popup-content">
+            <div class="spam-popup-header">
+                <i class="fas fa-envelope-open-text"></i>
+                <h3>Check Your Email!</h3>
+            </div>
+            <div class="spam-popup-body">
+                <p>Check your email (and spam folder if you don't see it!) for confirmation and add my email to your 'safe senders' or your 'contact list' to ensure you receive my communications.</p>
+                <div class="spam-popup-actions">
+                    <button class="btn-primary spam-popup-close">Got it!</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add styles
+    popup.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    // Add popup styles
+    if (!document.querySelector('#spam-popup-styles')) {
+        const style = document.createElement('style');
+        style.id = 'spam-popup-styles';
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            .spam-popup-content {
+                background: white;
+                border-radius: 16px;
+                padding: 30px;
+                max-width: 500px;
+                margin: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                animation: slideUp 0.3s ease;
+            }
+            @keyframes slideUp {
+                from { transform: translateY(30px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .spam-popup-header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .spam-popup-header i {
+                font-size: 3rem;
+                color: #78C6A3;
+                margin-bottom: 10px;
+            }
+            .spam-popup-header h3 {
+                margin: 0;
+                color: #0C2240;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+            .spam-popup-body p {
+                color: #0C2240;
+                line-height: 1.6;
+                margin-bottom: 25px;
+                text-align: center;
+            }
+            .spam-popup-actions {
+                text-align: center;
+            }
+            .spam-popup-close {
+                background: #78C6A3;
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .spam-popup-close:hover {
+                background: #6BB890;
+                transform: translateY(-2px);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Add to page
+    document.body.appendChild(popup);
+    
+    // Add close functionality
+    const closeBtn = popup.querySelector('.spam-popup-close');
+    closeBtn.addEventListener('click', () => {
+        popup.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => popup.remove(), 300);
+    });
+    
+    // Close on background click
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => popup.remove(), 300);
+        }
+    });
+    
+    // Add fadeOut animation
+    if (!document.querySelector('#fadeout-styles')) {
+        const style = document.createElement('style');
+        style.id = 'fadeout-styles';
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Listen for Klaviyo form submissions
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if Klaviyo is loaded
+    if (typeof window.klaviyo !== 'undefined') {
+        // Listen for Klaviyo form submissions
+        window.klaviyo.push(['on', 'form', 'submit', function(data) {
+            // Show popup after successful form submission
+            setTimeout(() => {
+                showSpamFolderPopup();
+            }, 1000);
+        }]);
+    } else {
+        // Fallback: Listen for any form submissions
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                setTimeout(() => {
+                    showSpamFolderPopup();
+                }, 1000);
+            });
+        });
+    }
+});
