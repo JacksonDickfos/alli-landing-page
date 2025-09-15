@@ -1781,3 +1781,204 @@ body:has(.founding-membership-hero) .nav-links {
         font-size: 0.9rem;
     }
 }
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* General mobile adjustments */
+    .container {
+        padding: 0 20px;
+    }
+    
+    /* Hero section mobile improvements */
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+        padding: 40px 0;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+        line-height: 36px;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 18px;
+        line-height: 26px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-description {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 2rem;
+    }
+    
+    /* Waitlist section mobile improvements */
+    .waitlist {
+        padding: 40px 0;
+        min-height: auto;
+    }
+    
+    .waitlist-content {
+        padding: 0 20px;
+        margin-top: 0;
+    }
+    
+    .waitlist-title {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 1rem;
+    }
+    
+    .waitlist-subtitle {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 2rem;
+    }
+    
+    .waitlist-form {
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .form-group input {
+        padding: 14px 16px;
+        font-size: 16px;
+        height: 50px;
+    }
+    
+    .btn-primary {
+        padding: 14px 24px;
+        font-size: 16px;
+        height: 50px;
+        width: 100%;
+    }
+    
+    /* Countdown bubble mobile improvements */
+    .countdown-bubble {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px;
+        min-width: 140px;
+        max-width: 160px;
+    }
+    
+    .countdown-title {
+        font-size: 11px;
+        margin-bottom: 6px;
+    }
+    
+    .countdown-timer {
+        gap: 4px;
+        margin-bottom: 6px;
+    }
+    
+    .time-unit {
+        min-width: 28px;
+    }
+    
+    .time-number {
+        font-size: 14px;
+        font-weight: 700;
+    }
+    
+    .time-label {
+        font-size: 8px;
+        margin-top: 2px;
+    }
+    
+    .countdown-subtitle {
+        font-size: 9px;
+    }
+    
+    /* Stats section mobile */
+    .waitlist-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 20px;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra small mobile adjustments */
+    .container {
+        padding: 0 16px;
+    }
+    
+    .hero-title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .waitlist-title {
+        font-size: 22px;
+        line-height: 30px;
+    }
+    
+    .waitlist-subtitle {
+        font-size: 15px;
+        line-height: 22px;
+    }
+    
+    /* Even smaller countdown bubble */
+    .countdown-bubble {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+        min-width: 120px;
+        max-width: 140px;
+    }
+    
+    .countdown-title {
+        font-size: 10px;
+    }
+    
+    .time-number {
+        font-size: 12px;
+    }
+    
+    .time-label {
+        font-size: 7px;
+    }
+    
+    .countdown-subtitle {
+        font-size: 8px;
+    }
+    
+    .countdown-timer {
+        gap: 3px;
+    }
+    
+    .time-unit {
+        min-width: 24px;
+    }
+}
+
+/* Ensure proper viewport scaling */
+@media screen and (max-width: 768px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+    
+    body {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+}
+
