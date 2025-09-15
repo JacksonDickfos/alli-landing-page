@@ -16,7 +16,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 0 20px;
 }
 
 /* Navigation */
@@ -30,7 +30,7 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -85,7 +85,7 @@ body {
 .hero-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 0 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
@@ -242,29 +242,7 @@ body {
 
 /* Hero Video */
 /* Hero Visual Container */
-.hero-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 20px;
-}
 
-.hero-video {
-    width: 100%;
-    max-width: 640px;
-    height: auto;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    object-fit: cover;
-    display: block;
-    width: calc(100% - 40px);
-    margin: 0 auto;
-    display: block;
-
-
-    margin-left: auto;
-}
 
 /* App Preview Section */
 .app-preview {
@@ -1105,30 +1083,7 @@ body {
     }
     
 /* Hero Visual Container */
-.hero-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 20px;
-}
 
-    .hero-video {
-    width: 100%;
-    max-width: 640px;
-    height: auto;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    object-fit: cover;
-    display: block;
-    width: calc(100% - 40px);
-    margin: 0 auto;
-    display: block;
-
-        max-width: 100%;
-        border-radius: 15px;
-        margin-left: 0;
-    }
     
     .hero-submit-btn {
         width: 100%;
@@ -1175,7 +1130,7 @@ body {
     }
     
     .container {
-        padding: 0 16px;
+        padding: 0 20px;
     }
 }
 
@@ -1197,7 +1152,7 @@ body {
     }
     
     .container {
-        padding: 0 16px;
+        padding: 0 20px;
     }
     
     .app-screen {
@@ -1950,7 +1905,7 @@ body:has(.founding-membership-hero) .nav-links {
 @media (max-width: 480px) {
     /* Extra small mobile adjustments */
     .container {
-        padding: 0 16px;
+        padding: 0 20px;
     }
     
     .hero-title {
@@ -2024,11 +1979,32 @@ body:has(.founding-membership-hero) .nav-links {
 
 
 /* Hero Visual Container */
+
+
+/* Hero Visual Container - Clean Centering */
 .hero-visual {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 0 20px;
+}
+
+/* Hero Video - Clean Sizing */
+.hero-video {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    display: block;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero-video {
+        max-width: 100%;
+        border-radius: 15px;
+    }
 }
 
