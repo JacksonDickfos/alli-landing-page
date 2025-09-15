@@ -118,6 +118,7 @@ body {
 }
 
 .hero-waitlist {
+    padding: 0 20px;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 1.5rem;
@@ -240,6 +241,7 @@ body {
 
 /* Hero Video */
 .hero-video {
+    margin: 0 20px;
     width: 100%;
     max-width: 640px;
     height: auto;
@@ -1083,10 +1085,12 @@ body {
     }
     
     .hero-waitlist {
+    padding: 0 20px;
         margin-bottom: 1rem;
     }
     
     .hero-video {
+    margin: 0 20px;
         max-width: 100%;
         border-radius: 15px;
         margin-left: 0;
