@@ -670,6 +670,7 @@ body {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
     text-align: center;
+    position: relative;
 }
 
 .feature-card:hover {
@@ -712,6 +713,22 @@ body {
     line-height: 24px;
     font-size: 15px;
     padding-bottom: 15px;
+}
+
+.coming-banner {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #D4C4A8, #B8A082);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(212, 196, 168, 0.3);
+    z-index: 10;
 }
 
 /* How It Works Section */
