@@ -24,7 +24,7 @@ body {
     position: static;
     width: 100%;
     background: rgba(255, 255, 255, 0.95);
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 }
 
 .nav-container {
@@ -53,9 +53,11 @@ body {
 
 .logo img {
     display: block;
-    object-fit: contain;
-    height: 60px;
+    object-fit: cover;
+    height: 50px;
     width: auto;
+    transform: scale(1.5);
+    transform-origin: center;
 }
 
 .nav-links {
