@@ -54,6 +54,8 @@ body {
 .logo img {
     display: block;
     object-fit: contain;
+    height: 60px;
+    width: auto;
 }
 
 .nav-links {
