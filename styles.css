@@ -85,10 +85,10 @@ body {
 
 /* Hero Section */
 .hero {
-    padding: 80px 0 100px;
+    padding: 80px 0 130px; /* +30px bottom to increase overall section height */
     background: white;
     color: #0C2240;
-    min-height: calc(100vh + 20px);
+    min-height: calc(100vh + 50px); /* +30px to overall min-height */
     display: flex;
     flex-direction: column; /* Stack banner above the grid */
     align-items: center;
@@ -136,7 +136,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
-    margin-top: 40px; /* move down by 40px to accommodate taller hero section */
+    margin-top: 70px; /* +30px to move text+video down proportionately */
 }
 
 .hero-title {
@@ -208,7 +208,7 @@ body {
     justify-content: center;
     padding: 30px 0 80px;
     background: white;
-    margin-top: -360px; /* counteract the grid being moved down so metrics stay put */
+    margin-top: -330px; /* move metrics down by 30px as well */
 }
 
 .hero-stats {
