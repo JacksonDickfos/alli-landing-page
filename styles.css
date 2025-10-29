@@ -126,6 +126,12 @@ body {
         line-height: 36px;
         white-space: normal;
     }
+
+    /* Ensure metrics sit below the video on mobile */
+    .hero-stats-section {
+        margin-top: 20px; /* reset negative desktop offset */
+        padding: 24px 0 60px;
+    }
 }
 
 .hero-container {
