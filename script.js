@@ -244,10 +244,10 @@ function initializeCounters() {
         startLiveWaitlistCounter(waitlistCounter, waitlistStartDate, initialWaitlist);
     }
     
-    // Launch date counter: starts at Dec 31, goes to November 1st
+    // Launch date counter: starts at Dec 31, goes to Dec 1
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'Dec 31', 'November 1st', 4000);
+        animateDateCounter(launchCounter, 'Dec 31', 'Dec 1', 4000);
     }
     
     // Members counter: starts at 120, increases by 1 every 20 minutes
@@ -287,11 +287,7 @@ function animateDateCounter(element, startDate, endDate, duration) {
                    'Dec 24', 'Dec 23', 'Dec 22', 'Dec 21', 'Dec 20', 'Dec 19', 'Dec 18',
                    'Dec 17', 'Dec 16', 'Dec 15', 'Dec 14', 'Dec 13', 'Dec 12', 'Dec 11',
                    'Dec 10', 'Dec 9', 'Dec 8', 'Dec 7', 'Dec 6', 'Dec 5', 'Dec 4', 'Dec 3',
-                   'Dec 2', 'Dec 1', 'November 30', 'November 29', 'November 28', 'November 27', 'November 26',
-                   'November 25', 'November 24', 'November 23', 'November 22', 'November 21', 'November 20', 'November 19',
-                   'November 18', 'November 17', 'November 16', 'November 15', 'November 14', 'November 13', 'November 12',
-                   'November 11', 'November 10', 'November 9', 'November 8', 'November 7', 'November 6', 'November 5', 'November 4',
-                   'November 3', 'November 2', 'November 1st'];
+                   'Dec 2', 'Dec 1'];
     
     function updateDate(currentTime) {
         const elapsed = currentTime - startTime;
@@ -347,7 +343,7 @@ function startLiveMembersCounter(element, startDate, initialValue) {
 
 // Floating Countdown Timer
 function initializeCountdownTimer() {
-    const launchDate = new Date('2025-11-01T00:00:00Z');
+    const launchDate = new Date('2025-12-01T00:00:00Z');
     
     function updateCountdown() {
         const now = new Date();
@@ -387,7 +383,7 @@ function initializeCountdownTimer() {
                 countdownBubble.innerHTML = `
                     <div class="countdown-content">
                         <div class="countdown-title">🎉 We're Live!</div>
-                        <div class="countdown-subtitle">November 1st is here!</div>
+                        <div class="countdown-subtitle">December 1st is here!</div>
                     </div>
                 `;
             }
