@@ -74,7 +74,13 @@ body {
 }
 
 .nav-links a:hover {
-    color: #BDD7EF;
+    /* Apply the same animated gradient as ali-gradient to link text */
+    background: linear-gradient(45deg, #3B82F6, #EC4899, #8B5CF6);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease-in-out infinite;
 }
 
 /* Hero Section */
@@ -1585,10 +1591,11 @@ body:has(.founding-membership-hero) .nav-links {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: linear-gradient(135deg, #78C6A3 0%, #6BB890 100%);
+    /* Use the same gradient as ali-gradient for background */
+    background: linear-gradient(45deg, #3B82F6, #EC4899, #8B5CF6);
     border-radius: 20px;
     padding: 20px;
-    box-shadow: 0 8px 32px rgba(120, 198, 163, 0.3);
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.28);
     z-index: 1000;
     min-width: 200px;
     backdrop-filter: blur(10px);
@@ -1599,7 +1606,7 @@ body:has(.founding-membership-hero) .nav-links {
 
 .countdown-bubble:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(120, 198, 163, 0.4);
+    box-shadow: 0 12px 40px rgba(236, 72, 153, 0.35);
 }
 
 .countdown-content {
