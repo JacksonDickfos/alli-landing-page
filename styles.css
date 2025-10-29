@@ -817,6 +817,22 @@ body {
     margin-top: 30px;
 }
 
+/* Klaviyo form styling - ensure full width */
+.klaviyo-form-WGG8sC {
+    width: 100%;
+    max-width: 100%;
+}
+
+.klaviyo-form-WGG8sC form {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.klaviyo-form-WGG8sC .needsclick {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
 .waitlist-title {
     color: #F7F4ED !important;
     margin-top: 25px;
@@ -826,7 +842,7 @@ body {
 .waitlist-subtitle {
     font-size: 16px;
     line-height: 24px;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     margin-top: 10px;
     opacity: 0.9;
 }
