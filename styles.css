@@ -129,9 +129,12 @@ body {
 
     /* Ensure metrics sit below the video on mobile */
     .hero-stats-section {
-        margin-top: 20px; /* reset negative desktop offset */
+        margin-top: 20px !important; /* reset negative desktop offset */
         padding: 24px 0 60px;
     }
+
+    /* Add spacing below the video to further prevent overlap */
+    .hero-visual { margin-bottom: 16px; }
 }
 
 .hero-container {
