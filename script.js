@@ -229,14 +229,14 @@ function typeMessage(element, text, speed = 50) {
 // Animated counters for hero stats
 function initializeCounters() {
     // Set start dates for calculations (adjust these as needed)
-    const waitlistStartDate = new Date('2025-09-10T21:57:00Z');
-    const membersStartDate = new Date('2025-09-10T21:57:00Z');
+    const waitlistStartDate = new Date('2025-10-17T09:12:00Z');
+    const membersStartDate = new Date('2025-10-17T09:12:00Z');
     
-    // Initial animation values
-    const initialWaitlist = 1200;
-    const initialMembers = 120;
+    // Initial animation values (reduced to 1/4 to match target numbers)
+    const initialWaitlist = 300;
+    const initialMembers = 30;
     
-    // Waitlist counter: starts at 1200, increases by 1 every 10 minutes
+    // Waitlist counter: starts at 300, increases by 1 every 10 minutes
     const waitlistCounter = document.getElementById('waitlist-counter');
     if (waitlistCounter) {
         const currentWaitlist = calculateCurrentWaitlist(waitlistStartDate, initialWaitlist);
@@ -250,7 +250,7 @@ function initializeCounters() {
         animateDateCounter(launchCounter, 'Dec 31', 'Dec 1', 4000);
     }
     
-    // Members counter: starts at 120, increases by 1 every 20 minutes
+    // Members counter: starts at 30, increases by 1 every 20 minutes
     const membersCounter = document.getElementById('members-counter');
     if (membersCounter) {
         const currentMembers = calculateCurrentMembers(membersStartDate, initialMembers);
