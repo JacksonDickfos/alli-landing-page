@@ -1591,8 +1591,10 @@ body:has(.founding-membership-hero) .nav-links {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    /* Use the same gradient as ali-gradient for background */
+    /* Use the same animated gradient as ali-gradient for background */
     background: linear-gradient(45deg, #3B82F6, #EC4899, #8B5CF6);
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease-in-out infinite;
     border-radius: 20px;
     padding: 20px;
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.28);
