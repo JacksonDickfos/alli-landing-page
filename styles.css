@@ -90,6 +90,7 @@ body {
     color: #0C2240;
     min-height: 100vh;
     display: flex;
+    flex-direction: column; /* Stack banner above the grid */
     align-items: center;
 }
 
