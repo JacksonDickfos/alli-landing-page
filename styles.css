@@ -102,13 +102,28 @@ body {
 }
 
 .hero-banner-title {
-    font-size: 36px;
-    line-height: 44px;
+    font-size: 48px;
+    line-height: 56px;
     font-weight: 800;
     margin: 0 auto;
     color: #0C2240;
-    max-width: 900px;
+    max-width: 1400px;
     padding: 0 20px;
+}
+
+@media (max-width: 1200px) {
+    .hero-banner-title {
+        font-size: 42px;
+        line-height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-banner-title {
+        font-size: 32px;
+        line-height: 40px;
+        white-space: normal;
+    }
 }
 
 .hero-container {
