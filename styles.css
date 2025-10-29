@@ -808,7 +808,7 @@ body {
 
 .waitlist-content {
     text-align: center;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -819,8 +819,14 @@ body {
 
 /* Klaviyo form styling - ensure full width */
 .klaviyo-form-WGG8sC {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block;
+}
+
+.klaviyo-form-WGG8sC > * {
+    max-width: 100% !important;
+    width: 100% !important;
 }
 
 .klaviyo-form-WGG8sC form {
@@ -828,9 +834,18 @@ body {
     width: 100% !important;
 }
 
-.klaviyo-form-WGG8sC .needsclick {
+.klaviyo-form-WGG8sC .needsclick,
+.klaviyo-form-WGG8sC .klaviyo-form {
     max-width: 100% !important;
     width: 100% !important;
+}
+
+.klaviyo-form-WGG8sC input[type="text"],
+.klaviyo-form-WGG8sC input[type="email"],
+.klaviyo-form-WGG8sC button {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
 }
 
 .waitlist-title {
