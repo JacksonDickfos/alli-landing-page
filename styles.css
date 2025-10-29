@@ -85,10 +85,10 @@ body {
 
 /* Hero Section */
 .hero {
-    padding: 80px 0 130px; /* +30px bottom to increase overall section height */
+    padding: 80px 0 145px; /* +15px bottom to increase overall section height */
     background: white;
     color: #0C2240;
-    min-height: calc(100vh + 50px); /* +30px to overall min-height */
+    min-height: calc(100vh + 65px); /* +15px to overall min-height */
     display: flex;
     flex-direction: column; /* Stack banner above the grid */
     align-items: center;
@@ -136,7 +136,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
-    margin-top: 70px; /* +30px to move text+video down proportionately */
+    margin-top: 85px; /* +15px to move text+video down proportionately */
 }
 
 .hero-title {
@@ -208,7 +208,7 @@ body {
     justify-content: center;
     padding: 30px 0 80px;
     background: white;
-    margin-top: -330px; /* move metrics down by 30px as well */
+    margin-top: -315px; /* move metrics down by an additional 15px */
 }
 
 .hero-stats {
