@@ -121,9 +121,10 @@ body {
 }
 
 @media (max-width: 768px) {
-    /* Reduce hero section padding on mobile */
+    /* Reduce hero section padding on mobile - eliminate bottom padding */
     .hero {
-        padding: 20px 0 40px;
+        padding: 20px 0 0 !important; /* NO bottom padding to eliminate gap */
+        min-height: auto !important;
     }
     
     /* Reduce gap between logo and heading */
@@ -142,21 +143,29 @@ body {
     .hero-container {
         margin-top: 16px !important; /* much smaller gap after heading */
         gap: 1.5rem; /* reduce gap between elements */
+        margin-bottom: 0 !important; /* no bottom margin */
     }
 
-    /* Ensure metrics sit directly below the video on mobile */
+    /* Ensure metrics sit directly below the video on mobile - use negative margin */
     .hero-stats-section {
-        margin-top: 0 !important; /* reset negative desktop offset completely */
-        padding: 0 16px 24px !important; /* minimal padding, sit right below video */
+        margin-top: -10px !important; /* pull up into hero section to close gap */
+        padding: 8px 16px 24px !important; /* minimal padding */
         position: relative; /* ensure it flows naturally in document flow */
     }
 
-    /* Minimal spacing below the video */
+    /* Remove all spacing below the video */
     .hero-visual {
         margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
     }
     
     .hero-video {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    /* Remove any spacing from hero-content */
+    .hero-content {
         margin-bottom: 0 !important;
     }
 }
