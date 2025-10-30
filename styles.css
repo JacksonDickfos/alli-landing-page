@@ -121,21 +121,44 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Reduce hero section padding on mobile */
+    .hero {
+        padding: 20px 0 40px;
+    }
+    
+    /* Reduce gap between logo and heading */
+    .hero-banner {
+        margin-bottom: 8px;
+    }
+    
     .hero-banner-title {
         font-size: 28px;
         line-height: 36px;
         white-space: normal;
+        margin-bottom: 0; /* remove default margin */
+    }
+
+    /* Reduce gap between heading and "Hi I'm Alli" */
+    .hero-container {
+        margin-top: 16px !important; /* much smaller gap after heading */
+        gap: 1.5rem; /* reduce gap between elements */
     }
 
     /* Ensure metrics sit directly below the video on mobile */
     .hero-stats-section {
         margin-top: 0 !important; /* reset negative desktop offset completely */
-        padding: 8px 16px 32px; /* minimal padding, sit right below video */
+        padding: 0 16px 24px !important; /* minimal padding, sit right below video */
         position: relative; /* ensure it flows naturally in document flow */
     }
 
     /* Minimal spacing below the video */
-    .hero-visual { margin-bottom: 8px; }
+    .hero-visual {
+        margin-bottom: 0 !important;
+    }
+    
+    .hero-video {
+        margin-bottom: 0 !important;
+    }
 }
 
 .hero-container {
