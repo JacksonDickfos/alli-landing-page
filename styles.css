@@ -127,14 +127,17 @@ body {
         white-space: normal;
     }
 
-    /* Ensure metrics sit below the video on mobile */
+    /* Ensure metrics sit directly below the video on mobile */
     .hero-stats-section {
-        margin-top: 20px !important; /* reset negative desktop offset */
-        padding: 24px 0 60px;
+        margin-top: 0 !important; /* reset negative desktop offset completely */
+        padding: 32px 20px 40px; /* minimal padding, sit right below video */
+        position: relative; /* ensure it flows naturally in document flow */
     }
 
-    /* Add spacing below the video to further prevent overlap */
-    .hero-visual { margin-bottom: 16px; }
+    /* Add small spacing below the video */
+    .hero-visual {
+        margin-bottom: 24px;
+    }
 }
 
 .hero-container {
@@ -1190,10 +1193,6 @@ body {
     
     .hero-submit-btn {
         width: 100%;
-    }
-    
-    .hero-stats-section {
-        padding: 40px 0;
     }
     
     .hero-stats {
