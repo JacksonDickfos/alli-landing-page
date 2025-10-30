@@ -1205,6 +1205,11 @@ body {
         display: none;
     }
     
+    /* Center logo on mobile */
+    .nav-container {
+        justify-content: center;
+    }
+    
     .app-screens {
         grid-template-columns: 1fr;
         gap: 2rem;
