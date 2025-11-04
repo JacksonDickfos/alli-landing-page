@@ -12,7 +12,7 @@ if (window.SUPABASE_CONFIG) {
 }
 
 // Admin password (in production, this should be stored securely)
-const ADMIN_PASSWORD = 'alli2024'; // Change this to your desired password
+const ADMIN_PASSWORD = 'alli2025'; // Change this to your desired password
 
 // Check if admin is authenticated (stored in sessionStorage)
 function isAdminAuthenticated() {

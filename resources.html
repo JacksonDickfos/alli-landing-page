@@ -251,8 +251,8 @@
                     const passwordInput = document.getElementById('admin-password');
                     const password = passwordInput ? passwordInput.value : '';
                     
-                    // Check password (alli2024)
-                    if (password === 'alli2024') {
+                    // Check password (alli2025)
+                    if (password === 'alli2025') {
                         // Set authenticated
                         sessionStorage.setItem('adminAuthenticated', 'true');
                         
@@ -289,6 +289,60 @@
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         if (submitPassword) submitPassword.click();
+                    }
+                });
+            }
+            
+            // Add New Article button handler
+            const addResourceBtn = document.getElementById('add-resource-btn');
+            if (addResourceBtn) {
+                addResourceBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const addModal = document.getElementById('add-resource-modal');
+                    if (addModal) {
+                        addModal.style.display = 'flex';
+                    }
+                });
+            }
+            
+            // Close Add Resource Modal handlers
+            const closeAddModal = document.getElementById('close-add-modal');
+            if (closeAddModal) {
+                closeAddModal.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const addModal = document.getElementById('add-resource-modal');
+                    if (addModal) {
+                        addModal.style.display = 'none';
+                        const form = document.getElementById('add-resource-form');
+                        if (form) form.reset();
+                    }
+                });
+            }
+            
+            const cancelAddResource = document.getElementById('cancel-add-resource');
+            if (cancelAddResource) {
+                cancelAddResource.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const addModal = document.getElementById('add-resource-modal');
+                    if (addModal) {
+                        addModal.style.display = 'none';
+                        const form = document.getElementById('add-resource-form');
+                        if (form) form.reset();
+                    }
+                });
+            }
+            
+            // Close Add Resource Modal when clicking outside
+            const addResourceModal = document.getElementById('add-resource-modal');
+            if (addResourceModal) {
+                addResourceModal.addEventListener('click', function(e) {
+                    if (e.target === addResourceModal) {
+                        addResourceModal.style.display = 'none';
+                        const form = document.getElementById('add-resource-form');
+                        if (form) form.reset();
                     }
                 });
             }
