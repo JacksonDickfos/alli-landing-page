@@ -473,39 +473,49 @@ Remember, individual needs vary. Experiment to find what works best for your bod
 
 // Store articles in localStorage (in production, use Supabase)
 function initializeArticles() {
+    // ALWAYS ensure placeholder articles exist
     try {
         const existingArticles = localStorage.getItem('articles');
-        let shouldInitialize = false;
+        let articles = [];
         
-        if (!existingArticles) {
-            shouldInitialize = true;
-        } else {
+        if (existingArticles) {
             try {
-                const parsed = JSON.parse(existingArticles);
-                // If articles array is empty, not an array, or has fewer than 6 placeholder articles, reset
-                if (!Array.isArray(parsed) || parsed.length === 0 || parsed.length < 6) {
-                    shouldInitialize = true;
-                }
-            } catch (parseError) {
-                // If parsing fails, reset with placeholders
-                shouldInitialize = true;
+                articles = JSON.parse(existingArticles);
+            } catch (e) {
+                articles = [];
             }
         }
         
-        if (shouldInitialize) {
+        // If no articles or fewer than 6, use placeholders
+        if (!Array.isArray(articles) || articles.length < 6) {
             localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            return placeholderArticles;
         }
+        
+        return articles;
     } catch (e) {
-        // If there's any error, reset with placeholders
-        console.error('Error initializing articles:', e);
+        // If any error, always use placeholders
         localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+        return placeholderArticles;
     }
 }
 
 // Get all articles
 function getArticles() {
-    const articles = localStorage.getItem('articles');
-    return articles ? JSON.parse(articles) : [];
+    try {
+        const articles = localStorage.getItem('articles');
+        if (articles) {
+            const parsed = JSON.parse(articles);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                return parsed;
+            }
+        }
+    } catch (e) {
+        console.error('Error getting articles:', e);
+    }
+    
+    // Fallback: return placeholder articles
+    return placeholderArticles;
 }
 
 // Add new article
@@ -529,11 +539,18 @@ function displayArticles() {
         return;
     }
     
-    const articles = getArticles();
+    let articles = getArticles();
     
-    if (articles.length === 0) {
-        grid.innerHTML = '<p class="no-articles">No resources available yet. Check back soon!</p>';
-        return;
+    // If no articles, use placeholders directly
+    if (!articles || articles.length === 0) {
+        articles = placeholderArticles;
+        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+    }
+    
+    // Ensure we have at least 6 articles
+    if (articles.length < 6) {
+        articles = placeholderArticles;
+        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
     }
     
     grid.innerHTML = articles.map(article => `
@@ -639,17 +656,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize articles - force them to always be there
     initializeArticles();
-    displayArticles();
+    
+    // Display articles - use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(function() {
+        displayArticles();
+    });
+    
     initializeAdminControls();
     
-    // Make title clickable for admin access
+    // Make title clickable for admin access - handle clicks on title and span
     const resourcesTitle = document.getElementById('resources-title');
     if (resourcesTitle) {
-        resourcesTitle.addEventListener('click', function() {
+        // Handle clicks on the title or any child element
+        resourcesTitle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             if (!isAdminAuthenticated()) {
                 showAdminPasswordModal();
             }
         });
+        
+        // Also make the span clickable
+        const titleSpan = resourcesTitle.querySelector('.ali-gradient');
+        if (titleSpan) {
+            titleSpan.style.cursor = 'pointer';
+        }
     }
     
     // Admin password modal handlers
