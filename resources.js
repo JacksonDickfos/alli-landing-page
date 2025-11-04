@@ -227,7 +227,7 @@ Remember, meal planning is a tool to make your life easier, not add stress. Find
     {
         id: '3',
         title: 'Hydration: The Foundation of Health',
-        description: 'Explore why proper hydration is essential and how to ensure you're drinking enough water daily.',
+        description: 'Explore why proper hydration is essential and how to ensure you\'re drinking enough water daily.',
         image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=800',
         content: `# Hydration: The Foundation of Health
 
