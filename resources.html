@@ -668,8 +668,13 @@
                                 editBtn.addEventListener('click', function(e) {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    if (typeof openEditModal === 'function') {
-                                        openEditModal(newArticle.id);
+                                    const articleId = this.getAttribute('data-id');
+                                    if (window.openEditModal && typeof window.openEditModal === 'function') {
+                                        window.openEditModal(articleId);
+                                    } else if (typeof openEditModal === 'function') {
+                                        openEditModal(articleId);
+                                    } else {
+                                        console.error('openEditModal function not found');
                                     }
                                 });
                             }

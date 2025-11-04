@@ -1,14 +1,29 @@
 // Initialize Supabase client (only if config is available)
 let supabase = null;
-if (window.SUPABASE_CONFIG) {
-    try {
-        supabase = window.supabase.createClient(
-            window.SUPABASE_CONFIG.url, 
-            window.SUPABASE_CONFIG.anonKey
-        );
-    } catch (e) {
-        console.error('Supabase initialization error:', e);
+
+function initializeSupabase() {
+    if (window.SUPABASE_CONFIG && window.supabase) {
+        try {
+            supabase = window.supabase.createClient(
+                window.SUPABASE_CONFIG.url, 
+                window.SUPABASE_CONFIG.anonKey
+            );
+            console.log('Supabase client initialized successfully');
+            return true;
+        } catch (e) {
+            console.error('Supabase initialization error:', e);
+            return false;
+        }
+    } else {
+        console.warn('Supabase not available - using localStorage fallback');
+        console.warn('SUPABASE_CONFIG:', !!window.SUPABASE_CONFIG, 'supabase library:', !!window.supabase);
+        return false;
     }
+}
+
+// Try to initialize immediately, but also on DOMContentLoaded in case scripts load in wrong order
+if (window.SUPABASE_CONFIG && window.supabase) {
+    initializeSupabase();
 }
 
 // Admin password (in production, this should be stored securely)
@@ -654,9 +669,12 @@ function updateArticleInLocalStorage(articleId, updatedData) {
 
 // Get all articles from Supabase (with localStorage fallback)
 async function getArticles() {
+    console.log('getArticles called, Supabase available:', !!supabase);
+    
     // Try Supabase first
     if (supabase) {
         try {
+            console.log('Fetching articles from Supabase...');
             const { data, error } = await supabase
                 .from('articles')
                 .select('*')
@@ -665,12 +683,14 @@ async function getArticles() {
             if (error) {
                 console.error('Supabase error:', error);
                 // Fallback to localStorage
+                console.log('Falling back to localStorage due to error');
                 return getArticlesFromLocalStorage();
             }
             
             if (data && data.length > 0) {
+                console.log(`Found ${data.length} articles in Supabase`);
                 // Convert Supabase format to app format
-                return data.map(article => ({
+                const converted = data.map(article => ({
                     id: article.id.toString(),
                     title: article.title,
                     description: article.description,
@@ -679,6 +699,11 @@ async function getArticles() {
                     author: article.author,
                     createdAt: article.created_at
                 }));
+                console.log('Converted articles:', converted);
+                return converted;
+            } else {
+                console.log('No articles found in Supabase, falling back to localStorage');
+                return getArticlesFromLocalStorage();
             }
         } catch (e) {
             console.error('Error fetching from Supabase:', e);
@@ -688,6 +713,7 @@ async function getArticles() {
     }
     
     // Fallback to localStorage if Supabase not available
+    console.log('Supabase not available, using localStorage');
     return getArticlesFromLocalStorage();
 }
 
@@ -711,9 +737,13 @@ function getArticlesFromLocalStorage() {
 
 // Add new article to Supabase (with localStorage fallback) - make globally accessible
 window.addArticle = async function(article) {
+    console.log('addArticle called with:', article);
+    console.log('Supabase client available:', !!supabase);
+    
     // Try Supabase first
     if (supabase) {
         try {
+            console.log('Attempting to insert article into Supabase...');
             const { data, error } = await supabase
                 .from('articles')
                 .insert([{
@@ -734,10 +764,12 @@ window.addArticle = async function(article) {
                     id: Date.now().toString(),
                     createdAt: new Date().toISOString()
                 };
+                console.log('Falling back to localStorage, article:', fallbackArticle);
                 return addArticleToLocalStorage(fallbackArticle);
             }
             
             if (data) {
+                console.log('Article successfully inserted into Supabase:', data);
                 // Convert Supabase format to app format
                 const convertedArticle = {
                     id: data.id.toString(), // Convert numeric ID to string for consistency
@@ -752,6 +784,7 @@ window.addArticle = async function(article) {
                 // Also save to localStorage as backup
                 addArticleToLocalStorage(convertedArticle);
                 
+                console.log('Returning converted article:', convertedArticle);
                 return convertedArticle;
             }
         } catch (e) {
@@ -762,16 +795,19 @@ window.addArticle = async function(article) {
                 id: Date.now().toString(),
                 createdAt: new Date().toISOString()
             };
+            console.log('Exception caught, falling back to localStorage:', fallbackArticle);
             return addArticleToLocalStorage(fallbackArticle);
         }
     }
     
     // Fallback to localStorage if Supabase not available
+    console.warn('Supabase not available, using localStorage only');
     const fallbackArticle = {
         ...article,
         id: Date.now().toString(),
         createdAt: new Date().toISOString()
     };
+    console.log('Creating article in localStorage:', fallbackArticle);
     return addArticleToLocalStorage(fallbackArticle);
 }
 
@@ -841,7 +877,7 @@ async function displayArticles() {
     // Add click handlers for edit buttons
     if (isAdmin) {
         document.querySelectorAll('.edit-article-btn').forEach(btn => {
-            // Remove any existing handlers
+            // Remove any existing handlers by cloning
             const newBtn = btn.cloneNode(true);
             btn.parentNode.replaceChild(newBtn, btn);
             
@@ -849,10 +885,14 @@ async function displayArticles() {
                 e.preventDefault();
                 e.stopPropagation();
                 const articleId = this.getAttribute('data-id');
-                if (window.openEditModal) {
+                console.log('Edit button clicked for article:', articleId);
+                if (window.openEditModal && typeof window.openEditModal === 'function') {
                     window.openEditModal(articleId);
                 } else if (typeof openEditModal === 'function') {
                     openEditModal(articleId);
+                } else {
+                    console.error('openEditModal function not found');
+                    alert('Edit functionality not available. Please refresh the page.');
                 }
             });
         });
@@ -939,6 +979,11 @@ function hideAddResourceModal() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure Supabase is initialized (in case scripts loaded in wrong order)
+    if (!supabase) {
+        initializeSupabase();
+    }
+    
     // Update copyright year immediately
     const currentYear = new Date().getFullYear();
     const yearElements = document.querySelectorAll('#current-year');
@@ -953,6 +998,10 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(async function() {
             await displayArticles();
         });
+    }).catch(error => {
+        console.error('Error initializing articles:', error);
+        // Still try to display articles even if initialization fails
+        displayArticles().catch(err => console.error('Error displaying articles:', err));
     });
     
     initializeAdminControls();
