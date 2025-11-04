@@ -1022,11 +1022,34 @@ function hideAddResourceModal() {
 // Removed handleAddResource - form submission is now handled by inline script in resources.html
 // The inline script provides better functionality with dynamic DOM updates and async handling
 
+// Use event delegation for edit buttons (works for dynamically created elements)
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.edit-article-btn')) {
+        e.preventDefault();
+        e.stopPropagation();
+        const btn = e.target.closest('.edit-article-btn');
+        const articleId = btn.getAttribute('data-id');
+        console.log('Edit button clicked (via delegation) for article:', articleId);
+        if (window.openEditModal && typeof window.openEditModal === 'function') {
+            window.openEditModal(articleId);
+        } else {
+            console.error('openEditModal not found');
+            alert('Edit functionality not available. Please refresh the page.');
+        }
+    }
+});
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
     // Ensure Supabase is initialized (in case scripts loaded in wrong order)
     if (!supabase) {
         initializeSupabase();
+        // Give it a moment, then try again
+        setTimeout(() => {
+            if (!supabase) {
+                initializeSupabase();
+            }
+        }, 500);
     }
     
     // Update copyright year immediately
