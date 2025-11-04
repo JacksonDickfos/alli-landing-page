@@ -2527,13 +2527,6 @@ body:has(.founding-membership-hero) .nav-links {
 
 .modal-actions {
     display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-}
-
-.modal-actions {
-    display: flex;
     gap: 12px;
     align-items: center;
     justify-content: flex-end;
