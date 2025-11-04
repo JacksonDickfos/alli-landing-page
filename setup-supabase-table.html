@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Table Setup</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #F7F4ED;
+            color: #0C2240;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #0C2240;
+            margin-bottom: 10px;
+        }
+        .step {
+            margin: 30px 0;
+            padding: 20px;
+            background: #F7F4ED;
+            border-radius: 12px;
+            border-left: 4px solid #78C6A3;
+        }
+        .step h2 {
+            margin-top: 0;
+            color: #0C2240;
+        }
+        .sql-box {
+            background: #0C2240;
+            color: #F7F4ED;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #78C6A3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .copy-btn:hover {
+            background: #6BB890;
+        }
+        .test-btn {
+            background: #78C6A3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .test-btn:hover {
+            background: #6BB890;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .status.success {
+            background: #D4EDDA;
+            color: #155724;
+            border: 1px solid #C3E6CB;
+        }
+        .status.error {
+            background: #F8D7DA;
+            color: #721C24;
+            border: 1px solid #F5C6CB;
+        }
+        .status.info {
+            background: #D1ECF1;
+            color: #0C5460;
+            border: 1px solid #BEE5EB;
+        }
+        ol {
+            line-height: 1.8;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Supabase Articles Table Setup</h1>
+        <p>Follow these steps to create the articles table in your Supabase database.</p>
+
+        <div class="step">
+            <h2>Step 1: Open Supabase SQL Editor</h2>
+            <ol>
+                <li>Go to <a href="https://supabase.com/dashboard" target="_blank">Supabase Dashboard</a></li>
+                <li>Select your project</li>
+                <li>Click on <strong>"SQL Editor"</strong> in the left sidebar</li>
+                <li>Click <strong>"New Query"</strong></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h2>Step 2: Copy and Run the SQL</h2>
+            <p>Copy the SQL below and paste it into the SQL Editor, then click "Run":</p>
+            <div class="sql-box" id="sql-box">
+                <button class="copy-btn" onclick="copySQL()">Copy SQL</button>
+                <pre id="sql-content">-- Create articles table
+CREATE TABLE IF NOT EXISTS articles (
+    id BIGSERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    image_url TEXT,
+    content TEXT NOT NULL,
+    author TEXT DEFAULT 'Alli Nutrition Team',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create index on created_at for faster sorting
+CREATE INDEX IF NOT EXISTS idx_articles_created_at ON articles(created_at DESC);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow anyone to read articles
+CREATE POLICY "Anyone can read articles" ON articles
+    FOR SELECT
+    USING (true);
+
+-- Create policy to allow insert (you may want to restrict this to authenticated users)
+CREATE POLICY "Allow public inserts" ON articles
+    FOR INSERT
+    WITH CHECK (true);
+
+-- Create policy to allow updates (you may want to restrict this to authenticated users)
+CREATE POLICY "Allow public updates" ON articles
+    FOR UPDATE
+    USING (true);
+
+-- Optional: Create a function to automatically update updated_at
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Create trigger to automatically update updated_at
+CREATE TRIGGER update_articles_updated_at BEFORE UPDATE ON articles
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();</pre>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2>Step 3: Verify Table Creation</h2>
+            <p>After running the SQL, verify the table was created:</p>
+            <ol>
+                <li>Go to <strong>"Table Editor"</strong> in the left sidebar</li>
+                <li>You should see the <strong>"articles"</strong> table</li>
+                <li>It should have columns: id, title, description, image_url, content, author, created_at, updated_at</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h2>Step 4: Test the Connection</h2>
+            <p>Click the button below to test if the table is accessible:</p>
+            <button class="test-btn" onclick="testConnection()">Test Connection</button>
+            <div id="status" class="status"></div>
+        </div>
+
+        <div class="step">
+            <h2>Step 5: You're Done!</h2>
+            <p>Once the table is created and the test passes, your articles will automatically save to Supabase and persist across all devices!</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        function copySQL() {
+            const sqlContent = document.getElementById('sql-content').textContent;
+            navigator.clipboard.writeText(sqlContent).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        async function testConnection() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'status info';
+            statusDiv.textContent = 'Testing connection...';
+
+            try {
+                const supabase = window.supabase.createClient(
+                    window.SUPABASE_CONFIG.url,
+                    window.SUPABASE_CONFIG.anonKey
+                );
+
+                // Test 1: Check if table exists
+                const { data, error } = await supabase
+                    .from('articles')
+                    .select('id')
+                    .limit(1);
+
+                if (error) {
+                    if (error.code === '42P01' || error.message.includes('does not exist')) {
+                        statusDiv.className = 'status error';
+                        statusDiv.innerHTML = '❌ Table not found. Please run the SQL in Step 2 to create the table.';
+                    } else {
+                        statusDiv.className = 'status error';
+                        statusDiv.innerHTML = `❌ Error: ${error.message}`;
+                    }
+                    return;
+                }
+
+                // Test 2: Try to insert a test article (then delete it)
+                const testArticle = {
+                    title: 'Test Article',
+                    description: 'This is a test',
+                    content: 'Test content',
+                    author: 'Test'
+                };
+
+                const { data: insertData, error: insertError } = await supabase
+                    .from('articles')
+                    .insert([testArticle])
+                    .select()
+                    .single();
+
+                if (insertError) {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = `❌ Insert failed: ${insertError.message}`;
+                    return;
+                }
+
+                // Delete test article
+                await supabase
+                    .from('articles')
+                    .delete()
+                    .eq('id', insertData.id);
+
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = '✅ Success! The articles table is working correctly. You can now use the resources page!';
+            } catch (err) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Error: ${err.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
+
