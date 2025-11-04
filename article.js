@@ -1,7 +1,39 @@
-// Get article from localStorage
-function getArticleById(id) {
+// Get article from Supabase or localStorage
+async function getArticleById(id) {
+    // Try Supabase first
+    if (window.supabase && window.SUPABASE_CONFIG) {
+        try {
+            const supabase = window.supabase.createClient(
+                window.SUPABASE_CONFIG.url,
+                window.SUPABASE_CONFIG.anonKey
+            );
+            
+            const { data, error } = await supabase
+                .from('articles')
+                .select('*')
+                .eq('id', id)
+                .single();
+            
+            if (!error && data) {
+                // Convert Supabase format to app format
+                return {
+                    id: data.id.toString(),
+                    title: data.title,
+                    description: data.description,
+                    image: data.image_url,
+                    content: data.content,
+                    author: data.author,
+                    createdAt: data.created_at
+                };
+            }
+        } catch (e) {
+            console.error('Error fetching from Supabase:', e);
+        }
+    }
+    
+    // Fallback to localStorage
     const articles = JSON.parse(localStorage.getItem('articles') || '[]');
-    return articles.find(article => article.id === id);
+    return articles.find(article => article.id === id || article.id === id.toString());
 }
 
 // Format date
@@ -65,8 +97,8 @@ function formatContent(content) {
     return html;
 }
 
-// Display article
-function displayArticle() {
+// Display article (async to handle Supabase)
+async function displayArticle() {
     const urlParams = new URLSearchParams(window.location.search);
     const articleId = urlParams.get('id');
     
@@ -81,7 +113,7 @@ function displayArticle() {
         return;
     }
     
-    const article = getArticleById(articleId);
+    const article = await getArticleById(articleId);
     
     if (!article) {
         document.getElementById('article-content').innerHTML = `
