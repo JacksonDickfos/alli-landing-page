@@ -711,23 +711,17 @@ function getArticlesFromLocalStorage() {
 
 // Add new article to Supabase (with localStorage fallback) - make globally accessible
 window.addArticle = async function(article) {
-    const newArticle = {
-        ...article,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString()
-    };
-    
     // Try Supabase first
     if (supabase) {
         try {
             const { data, error } = await supabase
                 .from('articles')
                 .insert([{
-                    title: newArticle.title,
-                    description: newArticle.description,
-                    image_url: newArticle.image || null,
-                    content: newArticle.content,
-                    author: newArticle.author || 'Alli Nutrition Team'
+                    title: article.title,
+                    description: article.description,
+                    image_url: article.image || null,
+                    content: article.content,
+                    author: article.author || 'Alli Nutrition Team'
                 }])
                 .select()
                 .single();
@@ -735,13 +729,18 @@ window.addArticle = async function(article) {
             if (error) {
                 console.error('Supabase insert error:', error);
                 // Fallback to localStorage
-                return addArticleToLocalStorage(newArticle);
+                const fallbackArticle = {
+                    ...article,
+                    id: Date.now().toString(),
+                    createdAt: new Date().toISOString()
+                };
+                return addArticleToLocalStorage(fallbackArticle);
             }
             
             if (data) {
                 // Convert Supabase format to app format
                 const convertedArticle = {
-                    id: data.id.toString(),
+                    id: data.id.toString(), // Convert numeric ID to string for consistency
                     title: data.title,
                     description: data.description,
                     image: data.image_url,
@@ -758,12 +757,22 @@ window.addArticle = async function(article) {
         } catch (e) {
             console.error('Error adding to Supabase:', e);
             // Fallback to localStorage
-            return addArticleToLocalStorage(newArticle);
+            const fallbackArticle = {
+                ...article,
+                id: Date.now().toString(),
+                createdAt: new Date().toISOString()
+            };
+            return addArticleToLocalStorage(fallbackArticle);
         }
     }
     
     // Fallback to localStorage if Supabase not available
-    return addArticleToLocalStorage(newArticle);
+    const fallbackArticle = {
+        ...article,
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString()
+    };
+    return addArticleToLocalStorage(fallbackArticle);
 }
 
 // Add article to localStorage (fallback)
