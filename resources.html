@@ -346,6 +346,61 @@
                     }
                 });
             }
+            
+            // Handle Add Resource form submission
+            const addResourceForm = document.getElementById('add-resource-form');
+            if (addResourceForm) {
+                addResourceForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const title = document.getElementById('resource-title').value;
+                    const description = document.getElementById('resource-description').value;
+                    const image = document.getElementById('resource-image').value;
+                    const content = document.getElementById('resource-content').value;
+                    const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
+                    
+                    if (!title || !description || !content) {
+                        alert('Please fill in all required fields (Title, Description, and Content).');
+                        return;
+                    }
+                    
+                    // Get existing articles from localStorage
+                    let articles = [];
+                    try {
+                        const stored = localStorage.getItem('articles');
+                        if (stored) {
+                            articles = JSON.parse(stored);
+                        }
+                    } catch (e) {
+                        articles = [];
+                    }
+                    
+                    // Create new article
+                    const newArticle = {
+                        id: Date.now().toString(),
+                        title: title,
+                        description: description,
+                        image: image || null,
+                        content: content,
+                        author: author,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    // Add to articles array
+                    articles.push(newArticle);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('articles', JSON.stringify(articles));
+                    
+                    // Close modal and reset form
+                    addResourceModal.style.display = 'none';
+                    addResourceForm.reset();
+                    
+                    // Reload the page to show new article
+                    window.location.reload();
+                });
+            }
         });
     </script>
 </body>
