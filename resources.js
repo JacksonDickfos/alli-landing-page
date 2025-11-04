@@ -473,7 +473,20 @@ Remember, individual needs vary. Experiment to find what works best for your bod
 
 // Store articles in localStorage (in production, use Supabase)
 function initializeArticles() {
-    if (!localStorage.getItem('articles')) {
+    try {
+        const existingArticles = localStorage.getItem('articles');
+        // If no articles exist or articles array is empty, initialize with placeholders
+        if (!existingArticles) {
+            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+        } else {
+            const parsed = JSON.parse(existingArticles);
+            if (!Array.isArray(parsed) || parsed.length === 0) {
+                localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            }
+        }
+    } catch (e) {
+        // If there's an error parsing, reset with placeholders
+        console.error('Error initializing articles:', e);
         localStorage.setItem('articles', JSON.stringify(placeholderArticles));
     }
 }
@@ -500,7 +513,13 @@ function addArticle(article) {
 // Display articles
 function displayArticles() {
     const grid = document.getElementById('resources-grid');
+    if (!grid) {
+        console.error('Resources grid element not found');
+        return;
+    }
+    
     const articles = getArticles();
+    console.log('Articles loaded:', articles.length);
     
     if (articles.length === 0) {
         grid.innerHTML = '<p class="no-articles">No resources available yet. Check back soon!</p>';
@@ -606,6 +625,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearElement = document.getElementById('current-year');
     if (yearElement) {
         yearElement.textContent = currentYear;
+    } else {
+        console.warn('Copyright year element not found');
     }
     
     // Initialize articles
