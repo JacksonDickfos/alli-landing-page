@@ -597,7 +597,27 @@ async function initializeArticles() {
             
             // If Supabase is empty, seed with placeholders
             if (!error && (!data || data.length === 0)) {
+                console.log('Supabase articles table is empty, seeding placeholder articles...');
                 await seedPlaceholderArticles();
+                // After seeding, fetch again to get the actual articles from database
+                const { data: newData, error: newError } = await supabase
+                    .from('articles')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (!newError && newData && newData.length > 0) {
+                    const convertedArticles = newData.map(article => ({
+                        id: article.id.toString(),
+                        title: article.title,
+                        description: article.description,
+                        image: article.image_url,
+                        content: article.content,
+                        author: article.author,
+                        createdAt: article.created_at
+                    }));
+                    localStorage.setItem('articles', JSON.stringify(convertedArticles));
+                    return convertedArticles;
+                }
                 return placeholderArticles;
             }
         } catch (e) {
@@ -637,7 +657,7 @@ async function initializeArticles() {
     }
 }
 
-// Seed placeholder articles to Supabase
+// Seed placeholder articles to Supabase - Force insert all placeholder articles
 async function seedPlaceholderArticles() {
     if (!supabase) {
         console.warn('Cannot seed - Supabase client not available');
@@ -645,51 +665,86 @@ async function seedPlaceholderArticles() {
     }
     
     try {
-        console.log('Checking if articles table is empty...');
-        // Check if articles already exist
+        console.log('Checking for placeholder articles in database...');
+        
+        // Check if any of the placeholder articles already exist by title
+        const placeholderTitles = placeholderArticles.map(a => a.title);
         const { data: existingArticles, error: checkError } = await supabase
             .from('articles')
-            .select('id')
-            .limit(1);
+            .select('id, title')
+            .in('title', placeholderTitles);
         
         if (checkError) {
             console.error('Error checking for existing articles:', checkError);
             return;
         }
         
-        // Only seed if table is empty
-        if (!existingArticles || existingArticles.length === 0) {
-            console.log('Articles table is empty, seeding placeholder articles...');
-            const articlesToInsert = placeholderArticles.map(article => ({
-                title: article.title,
-                description: article.description,
-                image_url: article.image || null,
-                content: article.content,
-                author: article.author || 'Alli Nutrition Team'
-            }));
-            
-            const { data: insertedData, error: insertError } = await supabase
-                .from('articles')
-                .insert(articlesToInsert)
-                .select();
-            
-            if (insertError) {
-                console.error('❌ Error seeding placeholder articles:', insertError);
-                console.error('Error details:', JSON.stringify(insertError, null, 2));
-            } else {
-                console.log(`✅ Successfully seeded ${insertedData ? insertedData.length : 0} placeholder articles to Supabase`);
-                if (insertedData && insertedData.length > 0) {
-                    console.log('Sample inserted article:', insertedData[0]);
-                }
-            }
+        const existingTitles = existingArticles ? existingArticles.map(a => a.title) : [];
+        const articlesToInsert = placeholderArticles.filter(article => 
+            !existingTitles.includes(article.title)
+        );
+        
+        if (articlesToInsert.length === 0) {
+            console.log('✅ All placeholder articles already exist in database');
+            return;
+        }
+        
+        console.log(`Inserting ${articlesToInsert.length} placeholder articles into Supabase...`);
+        const articlesToInsertFormatted = articlesToInsert.map(article => ({
+            title: article.title,
+            description: article.description,
+            image_url: article.image || null,
+            content: article.content,
+            author: article.author || 'Alli Nutrition Team'
+        }));
+        
+        const { data: insertedData, error: insertError } = await supabase
+            .from('articles')
+            .insert(articlesToInsertFormatted)
+            .select();
+        
+        if (insertError) {
+            console.error('❌ Error seeding placeholder articles:', insertError);
+            console.error('Error details:', JSON.stringify(insertError, null, 2));
         } else {
-            console.log('Articles already exist in database, skipping seed');
+            console.log(`✅ Successfully inserted ${insertedData ? insertedData.length : 0} articles into Supabase`);
+            if (insertedData && insertedData.length > 0) {
+                console.log('Sample inserted article:', insertedData[0]);
+            }
         }
     } catch (e) {
         console.error('❌ Exception seeding articles:', e);
         console.error('Exception stack:', e.stack);
     }
 }
+
+// Force seed all placeholder articles (call this manually if needed)
+window.forceSeedPlaceholderArticles = async function() {
+    if (!supabase) {
+        console.error('Supabase not available');
+        return;
+    }
+    
+    console.log('Force seeding all placeholder articles...');
+    const articlesToInsert = placeholderArticles.map(article => ({
+        title: article.title,
+        description: article.description,
+        image_url: article.image || null,
+        content: article.content,
+        author: article.author || 'Alli Nutrition Team'
+    }));
+    
+    const { data, error } = await supabase
+        .from('articles')
+        .insert(articlesToInsert)
+        .select();
+    
+    if (error) {
+        console.error('Error:', error);
+    } else {
+        console.log(`✅ Successfully inserted ${data ? data.length : 0} articles`);
+    }
+};
 
 // Update article in Supabase (with localStorage fallback) - make globally accessible
 window.updateArticle = async function(articleId, updatedData) {
