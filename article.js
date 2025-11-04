@@ -157,7 +157,9 @@ document.addEventListener('DOMContentLoaded', function() {
         yearElement.textContent = currentYear;
     }
     
-    // Display article
-    displayArticle();
+    // Display article (async)
+    displayArticle().catch(err => {
+        console.error('Error displaying article:', err);
+    });
 });
 
