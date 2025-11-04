@@ -692,9 +692,9 @@
                         }, 10);
                         
                         // Close modal and reset form
-                        const addResourceModal = document.getElementById('add-resource-modal');
-                        if (addResourceModal) {
-                            addResourceModal.style.display = 'none';
+                        const modalToClose = document.getElementById('add-resource-modal');
+                        if (modalToClose) {
+                            modalToClose.style.display = 'none';
                         }
                         addResourceForm.reset();
                     } else {
