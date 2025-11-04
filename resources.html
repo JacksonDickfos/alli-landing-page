@@ -528,7 +528,9 @@
                         };
                         
                         // Use updateArticle function if available
-                        if (typeof updateArticle === 'function') {
+                        if (window.updateArticle && typeof window.updateArticle === 'function') {
+                            await window.updateArticle(articleId, updatedData);
+                        } else if (typeof updateArticle === 'function') {
                             await updateArticle(articleId, updatedData);
                         } else {
                             // Fallback: update localStorage directly
@@ -597,7 +599,9 @@
                         let newArticle;
                         
                         // Use addArticle function if available (Supabase)
-                        if (typeof addArticle === 'function') {
+                        if (window.addArticle && typeof window.addArticle === 'function') {
+                            newArticle = await window.addArticle(articleData);
+                        } else if (typeof addArticle === 'function') {
                             newArticle = await addArticle(articleData);
                         } else {
                             // Fallback: add to localStorage directly

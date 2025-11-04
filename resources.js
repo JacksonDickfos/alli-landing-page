@@ -579,8 +579,8 @@ async function seedPlaceholderArticles() {
     }
 }
 
-// Update article in Supabase (with localStorage fallback)
-async function updateArticle(articleId, updatedData) {
+// Update article in Supabase (with localStorage fallback) - make globally accessible
+window.updateArticle = async function(articleId, updatedData) {
     // Try Supabase first
     if (supabase) {
         try {
@@ -706,8 +706,8 @@ function getArticlesFromLocalStorage() {
     return placeholderArticles;
 }
 
-// Add new article to Supabase (with localStorage fallback)
-async function addArticle(article) {
+// Add new article to Supabase (with localStorage fallback) - make globally accessible
+window.addArticle = async function(article) {
     const newArticle = {
         ...article,
         id: Date.now().toString(),
