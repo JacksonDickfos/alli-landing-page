@@ -639,17 +639,27 @@ async function initializeArticles() {
 
 // Seed placeholder articles to Supabase
 async function seedPlaceholderArticles() {
-    if (!supabase) return;
+    if (!supabase) {
+        console.warn('Cannot seed - Supabase client not available');
+        return;
+    }
     
     try {
+        console.log('Checking if articles table is empty...');
         // Check if articles already exist
-        const { data } = await supabase
+        const { data: existingArticles, error: checkError } = await supabase
             .from('articles')
             .select('id')
             .limit(1);
         
+        if (checkError) {
+            console.error('Error checking for existing articles:', checkError);
+            return;
+        }
+        
         // Only seed if table is empty
-        if (!data || data.length === 0) {
+        if (!existingArticles || existingArticles.length === 0) {
+            console.log('Articles table is empty, seeding placeholder articles...');
             const articlesToInsert = placeholderArticles.map(article => ({
                 title: article.title,
                 description: article.description,
@@ -658,16 +668,26 @@ async function seedPlaceholderArticles() {
                 author: article.author || 'Alli Nutrition Team'
             }));
             
-            const { error } = await supabase
+            const { data: insertedData, error: insertError } = await supabase
                 .from('articles')
-                .insert(articlesToInsert);
+                .insert(articlesToInsert)
+                .select();
             
-            if (error) {
-                console.error('Error seeding placeholder articles:', error);
+            if (insertError) {
+                console.error('❌ Error seeding placeholder articles:', insertError);
+                console.error('Error details:', JSON.stringify(insertError, null, 2));
+            } else {
+                console.log(`✅ Successfully seeded ${insertedData ? insertedData.length : 0} placeholder articles to Supabase`);
+                if (insertedData && insertedData.length > 0) {
+                    console.log('Sample inserted article:', insertedData[0]);
+                }
             }
+        } else {
+            console.log('Articles already exist in database, skipping seed');
         }
     } catch (e) {
-        console.error('Error seeding articles:', e);
+        console.error('❌ Exception seeding articles:', e);
+        console.error('Exception stack:', e.stack);
     }
 }
 
