@@ -393,12 +393,50 @@
                     // Save to localStorage
                     localStorage.setItem('articles', JSON.stringify(articles));
                     
+                    // Add article to grid dynamically (no page reload)
+                    const grid = document.getElementById('resources-grid');
+                    if (grid) {
+                        // Create the article card HTML
+                        const articleCard = document.createElement('div');
+                        articleCard.className = 'resource-card';
+                        articleCard.setAttribute('data-id', newArticle.id);
+                        articleCard.innerHTML = `
+                            <div class="resource-bubble"></div>
+                            ${newArticle.image ? `<img src="${newArticle.image}" alt="${newArticle.title}" class="resource-image">` : ''}
+                            <div class="resource-content">
+                                <h3 class="resource-card-title">${newArticle.title}</h3>
+                                <p class="resource-card-description">${newArticle.description}</p>
+                                <div class="resource-meta">
+                                    ${newArticle.author ? `<span class="resource-author"><i class="fas fa-user"></i> ${newArticle.author}</span>` : ''}
+                                    <span class="resource-date">${new Date(newArticle.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Add click handler
+                        articleCard.addEventListener('click', function() {
+                            window.location.href = `article.html?id=${newArticle.id}`;
+                        });
+                        
+                        // Add to grid with animation
+                        articleCard.style.opacity = '0';
+                        articleCard.style.transform = 'translateY(20px)';
+                        grid.appendChild(articleCard);
+                        
+                        // Animate in
+                        setTimeout(() => {
+                            articleCard.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                            articleCard.style.opacity = '1';
+                            articleCard.style.transform = 'translateY(0)';
+                        }, 10);
+                    }
+                    
                     // Close modal and reset form
                     addResourceModal.style.display = 'none';
                     addResourceForm.reset();
                     
-                    // Reload the page to show new article
-                    window.location.reload();
+                    // Show success message (optional)
+                    // You could add a toast notification here if desired
                 });
             }
         });

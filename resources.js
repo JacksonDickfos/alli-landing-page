@@ -548,17 +548,14 @@ function displayArticles() {
     
     let articles = getArticles();
     
-    // If no articles, use placeholders directly
+    // If no articles, use placeholders directly (only on first load)
     if (!articles || articles.length === 0) {
         articles = placeholderArticles;
         localStorage.setItem('articles', JSON.stringify(placeholderArticles));
     }
     
-    // Ensure we have at least 6 articles
-    if (articles.length < 6) {
-        articles = placeholderArticles;
-        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
-    }
+    // Don't overwrite if user has added articles - show all articles from localStorage
+    // Only use placeholders if localStorage is completely empty
     
     grid.innerHTML = articles.map(article => `
         <div class="resource-card" data-id="${article.id}">
@@ -664,10 +661,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize articles - force them to always be there
     initializeArticles();
     
-    // Display articles - use requestAnimationFrame to ensure DOM is ready
-    requestAnimationFrame(function() {
-        displayArticles();
-    });
+    // Only display articles from localStorage if there are user-added articles
+    // Otherwise, keep the embedded HTML articles
+    const articles = getArticles();
+    // If localStorage has more than the 6 embedded placeholder articles, reload from localStorage
+    // This ensures user-added articles are shown
+    if (articles.length > 6) {
+        requestAnimationFrame(function() {
+            displayArticles();
+        });
+    } else {
+        // If we have embedded articles, make sure they're in localStorage
+        // but don't replace the HTML
+        const existingArticles = localStorage.getItem('articles');
+        if (!existingArticles) {
+            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+        }
+    }
     
     initializeAdminControls();
     
