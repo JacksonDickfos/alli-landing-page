@@ -595,11 +595,19 @@ function displayArticles() {
     // Add click handlers for edit buttons
     if (isAdmin) {
         document.querySelectorAll('.edit-article-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
+            // Remove any existing handlers
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            newBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 const articleId = this.getAttribute('data-id');
-                openEditModal(articleId);
+                if (window.openEditModal) {
+                    window.openEditModal(articleId);
+                } else if (typeof openEditModal === 'function') {
+                    openEditModal(articleId);
+                }
             });
         });
     }
