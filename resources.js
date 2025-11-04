@@ -4,21 +4,36 @@ let supabase = null;
 function initializeSupabase() {
     // Check for Supabase library - when loaded from CDN, it should be window.supabase
     if (!window.SUPABASE_CONFIG) {
-        console.error('SUPABASE_CONFIG not found! Check config.js');
+        console.error('❌ SUPABASE_CONFIG not found! Check config.js');
+        console.log('Config should be at:', window.SUPABASE_CONFIG);
         return false;
     }
     
-    if (!window.supabase) {
-        console.error('window.supabase not found! Check if Supabase script is loaded');
+    console.log('Checking for Supabase library...');
+    console.log('window.supabase:', window.supabase);
+    console.log('window.Supabase:', window.Supabase);
+    
+    // Try different ways the library might be exposed
+    let supabaseLib = null;
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseLib = window.supabase;
+        console.log('Found Supabase at window.supabase');
+    } else if (window.Supabase && typeof window.Supabase.createClient === 'function') {
+        supabaseLib = window.Supabase;
+        console.log('Found Supabase at window.Supabase');
+    } else {
+        console.error('❌ window.supabase not found! Check if Supabase script is loaded');
+        console.log('Available window properties:', Object.keys(window).filter(k => k.toLowerCase().includes('supa')));
+        console.log('Try calling window.testSupabaseDirect() in console');
         return false;
     }
     
     try {
-        supabase = window.supabase.createClient(
+        supabase = supabaseLib.createClient(
             window.SUPABASE_CONFIG.url, 
             window.SUPABASE_CONFIG.anonKey
         );
-        console.log('Supabase client initialized successfully');
+        console.log('✅ Supabase client initialized successfully');
         console.log('Supabase URL:', window.SUPABASE_CONFIG.url);
         
         // Test the connection immediately
@@ -26,7 +41,8 @@ function initializeSupabase() {
         
         return true;
     } catch (e) {
-        console.error('Supabase initialization error:', e);
+        console.error('❌ Supabase initialization error:', e);
+        console.error('Error stack:', e.stack);
         return false;
     }
 }
@@ -1088,17 +1104,82 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// Direct Supabase test function - callable from console
+window.testSupabaseDirect = async function() {
+    console.log('=== DIRECT SUPABASE TEST ===');
+    console.log('window.SUPABASE_CONFIG:', window.SUPABASE_CONFIG);
+    console.log('window.supabase:', window.supabase);
+    console.log('window.Supabase:', window.Supabase);
+    
+    // Try to create client directly
+    if (!window.SUPABASE_CONFIG) {
+        console.error('❌ SUPABASE_CONFIG not found');
+        return;
+    }
+    
+    let testClient = null;
+    try {
+        if (window.supabase && typeof window.supabase.createClient === 'function') {
+            testClient = window.supabase.createClient(
+                window.SUPABASE_CONFIG.url,
+                window.SUPABASE_CONFIG.anonKey
+            );
+            console.log('✅ Created client using window.supabase');
+        } else if (window.Supabase && typeof window.Supabase.createClient === 'function') {
+            testClient = window.Supabase.createClient(
+                window.SUPABASE_CONFIG.url,
+                window.SUPABASE_CONFIG.anonKey
+            );
+            console.log('✅ Created client using window.Supabase');
+        } else {
+            console.error('❌ Cannot find Supabase library');
+            console.log('Available window properties:', Object.keys(window).filter(k => k.toLowerCase().includes('supa')));
+            return;
+        }
+        
+        // Test query
+        console.log('Testing query to articles table...');
+        const { data, error } = await testClient
+            .from('articles')
+            .select('*')
+            .limit(5);
+        
+        if (error) {
+            console.error('❌ Query error:', error);
+            console.error('Error code:', error.code);
+            console.error('Error message:', error.message);
+            console.error('Error details:', error.details);
+            console.error('Error hint:', error.hint);
+        } else {
+            console.log(`✅ Query successful! Found ${data ? data.length : 0} articles`);
+            console.log('Articles:', data);
+        }
+    } catch (e) {
+        console.error('❌ Exception:', e);
+    }
+};
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== DOMContentLoaded ===');
+    console.log('window.SUPABASE_CONFIG:', window.SUPABASE_CONFIG);
+    console.log('window.supabase:', window.supabase);
+    
     // Ensure Supabase is initialized (in case scripts loaded in wrong order)
     if (!supabase) {
+        console.log('Supabase not initialized, attempting initialization...');
         initializeSupabase();
         // Give it a moment, then try again
         setTimeout(() => {
             if (!supabase) {
+                console.log('Retrying Supabase initialization...');
                 initializeSupabase();
             }
-        }, 500);
+            if (!supabase) {
+                console.error('❌ Supabase still not initialized after retries');
+                console.log('Call window.testSupabaseDirect() in console to debug');
+            }
+        }, 1000);
     }
     
     // Update copyright year immediately
