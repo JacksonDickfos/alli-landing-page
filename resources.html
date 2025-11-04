@@ -198,6 +198,14 @@
     <script>
         // Ensure title click and modal handlers work immediately
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already authenticated and show button
+            if (sessionStorage.getItem('adminAuthenticated') === 'true') {
+                const adminControls = document.getElementById('admin-controls');
+                if (adminControls) {
+                    adminControls.style.display = 'block';
+                }
+            }
+            
             const title = document.getElementById('resources-title');
             if (title) {
                 title.style.cursor = 'pointer';
