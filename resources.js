@@ -584,6 +584,9 @@ window.updateArticle = async function(articleId, updatedData) {
     // Try Supabase first
     if (supabase) {
         try {
+            // Convert articleId to number if it's a string (Supabase uses numeric IDs)
+            const numericId = typeof articleId === 'string' ? parseInt(articleId, 10) : articleId;
+            
             const { data, error } = await supabase
                 .from('articles')
                 .update({
@@ -593,7 +596,7 @@ window.updateArticle = async function(articleId, updatedData) {
                     content: updatedData.content,
                     author: updatedData.author || 'Alli Nutrition Team'
                 })
-                .eq('id', articleId)
+                .eq('id', numericId)
                 .select()
                 .single();
             

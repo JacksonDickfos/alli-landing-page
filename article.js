@@ -8,10 +8,13 @@ async function getArticleById(id) {
                 window.SUPABASE_CONFIG.anonKey
             );
             
+            // Convert id to number if it's a string (Supabase uses numeric IDs)
+            const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+            
             const { data, error } = await supabase
                 .from('articles')
                 .select('*')
-                .eq('id', id)
+                .eq('id', numericId)
                 .single();
             
             if (!error && data) {
