@@ -1,8 +1,15 @@
-// Initialize Supabase client
-const supabase = window.supabase.createClient(
-    window.SUPABASE_CONFIG.url, 
-    window.SUPABASE_CONFIG.anonKey
-);
+// Initialize Supabase client (only if config is available)
+let supabase = null;
+if (window.SUPABASE_CONFIG) {
+    try {
+        supabase = window.supabase.createClient(
+            window.SUPABASE_CONFIG.url, 
+            window.SUPABASE_CONFIG.anonKey
+        );
+    } catch (e) {
+        console.error('Supabase initialization error:', e);
+    }
+}
 
 // Admin password (in production, this should be stored securely)
 const ADMIN_PASSWORD = 'alli2024'; // Change this to your desired password

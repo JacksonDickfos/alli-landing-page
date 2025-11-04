@@ -47,6 +47,78 @@
             <!-- Resources Grid -->
             <div class="resources-grid" id="resources-grid">
                 <!-- Articles will be dynamically loaded here -->
+                <div class="resource-card" data-id="1" onclick="window.location.href='article.html?id=1'">
+                    <div class="resource-bubble"></div>
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800" alt="Understanding Macronutrients" class="resource-image">
+                    <div class="resource-content">
+                        <h3 class="resource-card-title">Understanding Macronutrients: A Complete Guide</h3>
+                        <p class="resource-card-description">Learn about proteins, carbs, and fats and how they fuel your body for optimal health.</p>
+                        <div class="resource-meta">
+                            <span class="resource-author"><i class="fas fa-user"></i> Alli Nutrition Team</span>
+                            <span class="resource-date">January 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card" data-id="2" onclick="window.location.href='article.html?id=2'">
+                    <div class="resource-bubble"></div>
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800" alt="Meal Planning" class="resource-image">
+                    <div class="resource-content">
+                        <h3 class="resource-card-title">Meal Planning Made Simple</h3>
+                        <p class="resource-card-description">Discover practical strategies for planning nutritious meals that fit your busy lifestyle.</p>
+                        <div class="resource-meta">
+                            <span class="resource-author"><i class="fas fa-user"></i> Alli Nutrition Team</span>
+                            <span class="resource-date">January 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card" data-id="3" onclick="window.location.href='article.html?id=3'">
+                    <div class="resource-bubble"></div>
+                    <img src="https://images.unsplash.com/photo-1523362628745-0c100150b504?w=800" alt="Hydration" class="resource-image">
+                    <div class="resource-content">
+                        <h3 class="resource-card-title">Hydration: The Foundation of Health</h3>
+                        <p class="resource-card-description">Explore why proper hydration is essential and how to ensure you're drinking enough water daily.</p>
+                        <div class="resource-meta">
+                            <span class="resource-author"><i class="fas fa-user"></i> Alli Nutrition Team</span>
+                            <span class="resource-date">January 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card" data-id="4" onclick="window.location.href='article.html?id=4'">
+                    <div class="resource-bubble"></div>
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800" alt="Healthy Habits" class="resource-image">
+                    <div class="resource-content">
+                        <h3 class="resource-card-title">Building Healthy Habits That Last</h3>
+                        <p class="resource-card-description">Learn evidence-based strategies for creating sustainable nutrition habits that stick.</p>
+                        <div class="resource-meta">
+                            <span class="resource-author"><i class="fas fa-user"></i> Alli Nutrition Team</span>
+                            <span class="resource-date">January 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card" data-id="5" onclick="window.location.href='article.html?id=5'">
+                    <div class="resource-bubble"></div>
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800" alt="Food Labels" class="resource-image">
+                    <div class="resource-content">
+                        <h3 class="resource-card-title">Understanding Food Labels</h3>
+                        <p class="resource-card-description">Navigate nutrition labels with confidence and make informed food choices.</p>
+                        <div class="resource-meta">
+                            <span class="resource-author"><i class="fas fa-user"></i> Alli Nutrition Team</span>
+                            <span class="resource-date">January 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="resource-card" data-id="6" onclick="window.location.href='article.html?id=6'">
+                    <div class="resource-bubble"></div>
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800" alt="Workout Nutrition" class="resource-image">
+                    <div class="resource-content">
+                        <h3 class="resource-card-title">Pre and Post-Workout Nutrition</h3>
+                        <p class="resource-card-description">Optimize your fitness results with the right foods before and after exercise.</p>
+                        <div class="resource-meta">
+                            <span class="resource-author"><i class="fas fa-user"></i> Alli Nutrition Team</span>
+                            <span class="resource-date">January 2025</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -123,6 +195,25 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="resources.js"></script>
+    <script>
+        // Ensure title click works immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.getElementById('resources-title');
+            if (title) {
+                title.style.cursor = 'pointer';
+                title.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const modal = document.getElementById('admin-password-modal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        const passwordInput = document.getElementById('admin-password');
+                        if (passwordInput) passwordInput.focus();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
 
