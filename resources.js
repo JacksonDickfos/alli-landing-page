@@ -475,17 +475,28 @@ Remember, individual needs vary. Experiment to find what works best for your bod
 function initializeArticles() {
     try {
         const existingArticles = localStorage.getItem('articles');
-        // If no articles exist or articles array is empty, initialize with placeholders
+        let shouldInitialize = false;
+        
         if (!existingArticles) {
-            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            shouldInitialize = true;
         } else {
-            const parsed = JSON.parse(existingArticles);
-            if (!Array.isArray(parsed) || parsed.length === 0) {
-                localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            try {
+                const parsed = JSON.parse(existingArticles);
+                // If articles array is empty, not an array, or has fewer than 6 placeholder articles, reset
+                if (!Array.isArray(parsed) || parsed.length === 0 || parsed.length < 6) {
+                    shouldInitialize = true;
+                }
+            } catch (parseError) {
+                // If parsing fails, reset with placeholders
+                shouldInitialize = true;
             }
         }
+        
+        if (shouldInitialize) {
+            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+        }
     } catch (e) {
-        // If there's an error parsing, reset with placeholders
+        // If there's any error, reset with placeholders
         console.error('Error initializing articles:', e);
         localStorage.setItem('articles', JSON.stringify(placeholderArticles));
     }
@@ -519,7 +530,6 @@ function displayArticles() {
     }
     
     const articles = getArticles();
-    console.log('Articles loaded:', articles.length);
     
     if (articles.length === 0) {
         grid.innerHTML = '<p class="no-articles">No resources available yet. Check back soon!</p>';
@@ -620,19 +630,27 @@ function handleAddResource(event) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    // Update copyright year
+    // Update copyright year immediately
     const currentYear = new Date().getFullYear();
-    const yearElement = document.getElementById('current-year');
-    if (yearElement) {
-        yearElement.textContent = currentYear;
-    } else {
-        console.warn('Copyright year element not found');
-    }
+    const yearElements = document.querySelectorAll('#current-year');
+    yearElements.forEach(element => {
+        element.textContent = currentYear;
+    });
     
-    // Initialize articles
+    // Initialize articles - force them to always be there
     initializeArticles();
     displayArticles();
     initializeAdminControls();
+    
+    // Make title clickable for admin access
+    const resourcesTitle = document.getElementById('resources-title');
+    if (resourcesTitle) {
+        resourcesTitle.addEventListener('click', function() {
+            if (!isAdminAuthenticated()) {
+                showAdminPasswordModal();
+            }
+        });
+    }
     
     // Admin password modal handlers
     const addResourceBtn = document.getElementById('add-resource-btn');
@@ -652,8 +670,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (verifyAdminPassword(password)) {
             setAdminAuthenticated(true);
             hideAdminPasswordModal();
+            // Show the Add New Article button
             document.getElementById('admin-controls').style.display = 'block';
-            showAddResourceModal();
         } else {
             document.getElementById('password-error').textContent = 'Incorrect password. Please try again.';
             document.getElementById('password-error').style.display = 'block';

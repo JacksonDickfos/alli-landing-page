@@ -2162,6 +2162,11 @@ body:has(.founding-membership-hero) .nav-links {
     line-height: 56px;
     margin-bottom: 1rem;
     color: #0C2240;
+    transition: opacity 0.3s ease;
+}
+
+.resources-title:hover {
+    opacity: 0.8;
 }
 
 .resources-subtitle {
