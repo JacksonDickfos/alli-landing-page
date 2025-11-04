@@ -1,0 +1,670 @@
+// Initialize Supabase client
+const supabase = window.supabase.createClient(
+    window.SUPABASE_CONFIG.url, 
+    window.SUPABASE_CONFIG.anonKey
+);
+
+// Admin password (in production, this should be stored securely)
+const ADMIN_PASSWORD = 'alli2024'; // Change this to your desired password
+
+// Check if admin is authenticated (stored in sessionStorage)
+function isAdminAuthenticated() {
+    return sessionStorage.getItem('adminAuthenticated') === 'true';
+}
+
+// Set admin authentication
+function setAdminAuthenticated(value) {
+    sessionStorage.setItem('adminAuthenticated', value ? 'true' : 'false');
+}
+
+// Placeholder articles data
+const placeholderArticles = [
+    {
+        id: '1',
+        title: 'Understanding Macronutrients: A Complete Guide',
+        description: 'Learn about proteins, carbs, and fats and how they fuel your body for optimal health.',
+        image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800',
+        content: `# Understanding Macronutrients: A Complete Guide
+
+Macronutrients are the three main components of our diet that provide energy: carbohydrates, proteins, and fats. Understanding how to balance these nutrients is crucial for optimal health and performance.
+
+## Carbohydrates
+
+Carbohydrates are your body's primary source of energy. They're broken down into glucose, which fuels your brain, muscles, and organs. There are two types:
+
+- **Simple carbs**: Found in fruits, honey, and processed foods. They provide quick energy.
+- **Complex carbs**: Found in whole grains, vegetables, and legumes. They provide sustained energy.
+
+## Proteins
+
+Proteins are essential for building and repairing tissues, making enzymes and hormones, and supporting immune function. Good sources include:
+
+- Lean meats and poultry
+- Fish and seafood
+- Eggs and dairy
+- Legumes and beans
+- Nuts and seeds
+
+## Fats
+
+Healthy fats are crucial for brain function, hormone production, and nutrient absorption. Focus on:
+
+- Avocados
+- Nuts and seeds
+- Olive oil
+- Fatty fish (salmon, mackerel)
+- Dark chocolate
+
+## Balancing Your Macros
+
+A balanced diet typically includes:
+- 45-65% carbohydrates
+- 10-35% protein
+- 20-35% fat
+
+Remember, individual needs vary based on activity level, goals, and health conditions.`,
+        author: 'Alli Nutrition Team',
+        createdAt: new Date().toISOString()
+    },
+    {
+        id: '2',
+        title: 'Meal Planning Made Simple',
+        description: 'Discover practical strategies for planning nutritious meals that fit your busy lifestyle.',
+        image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800',
+        content: `# Meal Planning Made Simple
+
+Meal planning doesn't have to be complicated. With a few simple strategies, you can save time, reduce stress, and eat healthier.
+
+## Benefits of Meal Planning
+
+- Saves time and money
+- Reduces food waste
+- Ensures balanced nutrition
+- Reduces decision fatigue
+- Helps you stick to your goals
+
+## Getting Started
+
+### 1. Choose Your Planning Method
+
+- **Weekly planning**: Plan all meals for the week ahead
+- **Batch cooking**: Prepare large batches of staples
+- **Theme nights**: Designate certain days for specific cuisines
+
+### 2. Build Your Meal Framework
+
+Start with:
+- Protein source
+- Complex carbohydrate
+- Vegetables (aim for 2-3 types)
+- Healthy fat
+
+### 3. Prep in Advance
+
+- Wash and chop vegetables
+- Cook grains and proteins
+- Portion snacks
+- Prepare dressings and sauces
+
+## Sample Meal Plan
+
+**Breakfast**: Greek yogurt with berries and granola
+**Lunch**: Quinoa salad with chickpeas and roasted vegetables
+**Dinner**: Grilled salmon with sweet potato and broccoli
+**Snacks**: Apple with almond butter, mixed nuts
+
+## Tips for Success
+
+1. Start small - plan just a few days at first
+2. Keep it flexible - have backup options
+3. Use leftovers creatively
+4. Invest in good storage containers
+5. Make it a weekly habit
+
+Remember, meal planning is a tool to make your life easier, not add stress. Find what works for you!`,
+        author: 'Alli Nutrition Team',
+        createdAt: new Date().toISOString()
+    },
+    {
+        id: '3',
+        title: 'Hydration: The Foundation of Health',
+        description: 'Explore why proper hydration is essential and how to ensure you're drinking enough water daily.',
+        image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=800',
+        content: `# Hydration: The Foundation of Health
+
+Water is essential for life, yet many people don't drink enough. Proper hydration affects everything from energy levels to cognitive function.
+
+## Why Hydration Matters
+
+Water makes up about 60% of your body weight and is involved in:
+
+- Regulating body temperature
+- Transporting nutrients
+- Removing waste
+- Lubricating joints
+- Supporting brain function
+- Maintaining healthy skin
+
+## Signs of Dehydration
+
+Watch for these symptoms:
+- Thirst
+- Dark yellow urine
+- Fatigue
+- Headaches
+- Dizziness
+- Dry skin
+
+## How Much Water Do You Need?
+
+The general recommendation is:
+- **Men**: About 3.7 liters (125 ounces) per day
+- **Women**: About 2.7 liters (91 ounces) per day
+
+But individual needs vary based on:
+- Activity level
+- Climate
+- Overall health
+- Pregnancy/breastfeeding
+
+## Tips for Staying Hydrated
+
+1. **Start your day** with a glass of water
+2. **Keep a water bottle** with you at all times
+3. **Set reminders** on your phone
+4. **Eat water-rich foods** like fruits and vegetables
+5. **Drink before you're thirsty**
+6. **Flavor your water** with lemon, cucumber, or berries
+
+## Hydration Beyond Water
+
+While water is best, other fluids count too:
+- Herbal teas
+- Sparkling water
+- Fruits and vegetables (cucumber, watermelon, oranges)
+- Broth-based soups
+
+## Special Considerations
+
+**During exercise**: Drink 17-20 ounces 2-3 hours before, and 7-10 ounces every 10-20 minutes during
+**In hot weather**: Increase intake by 1-2 glasses
+**When ill**: Extra fluids help with recovery
+
+Remember, your body is constantly losing water through breathing, sweating, and digestion. Make hydration a priority!`,
+        author: 'Alli Nutrition Team',
+        createdAt: new Date().toISOString()
+    },
+    {
+        id: '4',
+        title: 'Building Healthy Habits That Last',
+        description: 'Learn evidence-based strategies for creating sustainable nutrition habits that stick.',
+        image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800',
+        content: `# Building Healthy Habits That Last
+
+Creating lasting change isn't about willpower—it's about building systems and habits that support your goals.
+
+## The Science of Habits
+
+Habits consist of three parts:
+1. **Cue**: The trigger that starts the habit
+2. **Routine**: The behavior itself
+3. **Reward**: The benefit you get from the behavior
+
+## Start Small
+
+The key to sustainable change is starting with tiny, manageable steps:
+
+- Instead of "eat perfectly," start with "add one vegetable to lunch"
+- Instead of "never eat sugar," start with "drink water instead of soda"
+- Instead of "exercise daily," start with "10-minute walk after dinner"
+
+## Stack Your Habits
+
+Link new habits to existing ones:
+
+**After I [existing habit], I will [new habit]**
+
+Examples:
+- After I brush my teeth, I will drink a glass of water
+- After I finish dinner, I will prepare tomorrow's lunch
+- After I wake up, I will eat a protein-rich breakfast
+
+## Make It Obvious
+
+- Keep healthy foods visible and accessible
+- Remove tempting foods from sight
+- Set reminders on your phone
+- Use visual cues (like a water bottle on your desk)
+
+## Make It Attractive
+
+- Pair healthy habits with things you enjoy
+- Join a community with similar goals
+- Create a reward system
+- Track your progress visually
+
+## Make It Easy
+
+- Reduce friction for good habits
+- Increase friction for bad habits
+- Prepare in advance
+- Use the "2-minute rule" (start with just 2 minutes)
+
+## Make It Satisfying
+
+- Celebrate small wins
+- Track your progress
+- Share your success with others
+- Focus on how you feel, not just numbers
+
+## Common Pitfalls to Avoid
+
+1. **All-or-nothing thinking**: Progress, not perfection
+2. **Trying to change too much at once**: Focus on one habit at a time
+3. **Not planning for obstacles**: Have backup plans
+4. **Comparing yourself to others**: Your journey is unique
+
+## Building Your Habit System
+
+1. **Identify your goal**: What do you want to achieve?
+2. **Choose your first habit**: What's the smallest step?
+3. **Set up your environment**: Make it easy and obvious
+4. **Start**: Begin today, not Monday
+5. **Track**: Record your progress
+6. **Adjust**: Refine as you learn what works
+
+Remember, building habits is a marathon, not a sprint. Be patient with yourself and celebrate every step forward!`,
+        author: 'Alli Nutrition Team',
+        createdAt: new Date().toISOString()
+    },
+    {
+        id: '5',
+        title: 'Understanding Food Labels',
+        description: 'Navigate nutrition labels with confidence and make informed food choices.',
+        image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800',
+        content: `# Understanding Food Labels
+
+Reading food labels can be confusing, but it's an essential skill for making informed nutrition choices.
+
+## Key Components of a Nutrition Label
+
+### Serving Size
+This is the first thing to check. All other information on the label is based on this amount. Compare it to how much you actually eat.
+
+### Calories
+Shows the total energy in one serving. For weight management, this is important, but don't focus on it exclusively.
+
+### Macronutrients
+
+**Total Fat**: Includes all types of fat
+- **Saturated Fat**: Limit to less than 10% of daily calories
+- **Trans Fat**: Avoid when possible (look for "partially hydrogenated oils")
+
+**Cholesterol**: Generally, aim for less than 300mg per day
+
+**Sodium**: Most people need less than 2,300mg per day (1,500mg if you have high blood pressure)
+
+**Total Carbohydrates**: Includes fiber, sugars, and other carbs
+- **Dietary Fiber**: Aim for 25-30g per day
+- **Total Sugars**: Includes natural and added sugars
+- **Added Sugars**: Limit to less than 10% of daily calories
+
+**Protein**: Essential for muscle maintenance and satiety
+
+### Vitamins and Minerals
+The label shows key nutrients. Aim to get 100% of your daily value for most vitamins and minerals.
+
+## Ingredients List
+
+Ingredients are listed in descending order by weight. Key things to watch for:
+
+- **Sugar aliases**: High fructose corn syrup, cane sugar, honey, maple syrup, agave
+- **Artificial additives**: Preservatives, colors, flavors
+- **Allergens**: Clearly marked if present
+
+## Common Label Tricks
+
+1. **"Natural"**: Not a regulated term—doesn't mean healthy
+2. **"Low-fat"**: Often high in sugar to compensate for taste
+3. **"Sugar-free"**: May contain artificial sweeteners
+4. **Serving sizes**: Often smaller than what people actually eat
+5. **"Made with whole grains"**: Might still be mostly refined
+
+## How to Use Labels Effectively
+
+1. **Check the serving size first**
+2. **Look at the ingredients list** (shorter is usually better)
+3. **Focus on fiber and protein** for satiety
+4. **Limit added sugars** and sodium
+5. **Compare similar products** to make better choices
+6. **Don't obsess over calories**—quality matters too
+
+## Quick Reference
+
+**Good signs**:
+- High fiber (>3g per serving)
+- High protein (>10g per serving)
+- Low added sugars (<5g per serving)
+- Short, recognizable ingredients list
+
+**Red flags**:
+- High sodium (>400mg per serving)
+- High added sugars (>10g per serving)
+- Trans fats (any amount)
+- Long list of unrecognizable ingredients
+
+Remember, the best foods often don't have labels at all—think fresh fruits, vegetables, and whole foods!`,
+        author: 'Alli Nutrition Team',
+        createdAt: new Date().toISOString()
+    },
+    {
+        id: '6',
+        title: 'Pre and Post-Workout Nutrition',
+        description: 'Optimize your fitness results with the right foods before and after exercise.',
+        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800',
+        content: `# Pre and Post-Workout Nutrition
+
+What you eat before and after exercise can significantly impact your performance, recovery, and results.
+
+## Pre-Workout Nutrition
+
+### Timing
+- **Large meal**: 3-4 hours before exercise
+- **Small meal**: 2-3 hours before
+- **Snack**: 30-60 minutes before
+
+### What to Eat
+
+**Goal**: Provide energy without causing digestive discomfort
+
+**Best options**:
+- **30-60 minutes before**: Simple carbs (banana, dates, energy bar)
+- **2-3 hours before**: Balanced meal with carbs and protein (oatmeal with fruit, chicken and rice)
+- **3-4 hours before**: Full meal (same as your regular meals)
+
+**Avoid**:
+- High-fat foods (slow digestion)
+- High-fiber foods (can cause bloating)
+- Large amounts of protein (hard to digest quickly)
+- Spicy foods (can cause discomfort)
+
+### Hydration
+- Drink 17-20 ounces 2-3 hours before
+- Drink 8-10 ounces 10-20 minutes before
+- Consider electrolytes if exercising intensely or in heat
+
+## During Workout
+
+**For workouts under 60 minutes**: Usually no food needed, just water
+
+**For workouts over 60 minutes**: 
+- 30-60g carbs per hour
+- Sports drinks, energy gels, or bananas
+- Small amounts of water every 15-20 minutes
+
+## Post-Workout Nutrition
+
+### The "Anabolic Window"
+
+While not as critical as once thought, eating within 2 hours after exercise can help with recovery.
+
+### What Your Body Needs
+
+**Protein** (20-30g): 
+- Repairs muscle tissue
+- Supports muscle growth
+- Sources: chicken, fish, eggs, Greek yogurt, protein powder
+
+**Carbohydrates** (30-60g):
+- Replenishes glycogen stores
+- Helps with recovery
+- Sources: sweet potatoes, rice, quinoa, fruits
+
+**Fluids**:
+- Rehydrate with water or electrolyte drinks
+- Aim for 1.5x the fluid you lost
+
+### Sample Post-Workout Meals
+
+**Quick options**:
+- Greek yogurt with berries
+- Protein shake with banana
+- Chicken and rice
+- Egg scramble with toast
+
+**Full meal** (within 2 hours):
+- Grilled salmon with sweet potato and vegetables
+- Lean beef with quinoa and roasted vegetables
+- Chicken stir-fry with brown rice
+
+## Special Considerations
+
+### Morning Workouts
+- If you can't eat before: Small snack or just water
+- After: Full breakfast with protein and carbs
+
+### Evening Workouts
+- Have a balanced lunch 3-4 hours before
+- Post-workout: Light dinner or snack
+
+### Weight Loss Goals
+- Focus on protein intake
+- Don't "eat back" all calories burned
+- Still prioritize recovery nutrition
+
+### Muscle Gain Goals
+- Higher carb intake post-workout
+- Eat within the anabolic window
+- Ensure adequate total daily calories
+
+## Common Mistakes
+
+1. **Skipping pre-workout fuel**: Can lead to poor performance
+2. **Overeating post-workout**: Not necessary to eat everything
+3. **Ignoring hydration**: Critical for performance and recovery
+4. **Too much protein**: More isn't always better
+5. **Not planning**: Leads to poor food choices
+
+Remember, individual needs vary. Experiment to find what works best for your body and goals!`,
+        author: 'Alli Nutrition Team',
+        createdAt: new Date().toISOString()
+    }
+];
+
+// Store articles in localStorage (in production, use Supabase)
+function initializeArticles() {
+    if (!localStorage.getItem('articles')) {
+        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+    }
+}
+
+// Get all articles
+function getArticles() {
+    const articles = localStorage.getItem('articles');
+    return articles ? JSON.parse(articles) : [];
+}
+
+// Add new article
+function addArticle(article) {
+    const articles = getArticles();
+    const newArticle = {
+        ...article,
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString()
+    };
+    articles.push(newArticle);
+    localStorage.setItem('articles', JSON.stringify(articles));
+    return newArticle;
+}
+
+// Display articles
+function displayArticles() {
+    const grid = document.getElementById('resources-grid');
+    const articles = getArticles();
+    
+    if (articles.length === 0) {
+        grid.innerHTML = '<p class="no-articles">No resources available yet. Check back soon!</p>';
+        return;
+    }
+    
+    grid.innerHTML = articles.map(article => `
+        <div class="resource-card" data-id="${article.id}">
+            <div class="resource-bubble"></div>
+            ${article.image ? `<img src="${article.image}" alt="${article.title}" class="resource-image">` : ''}
+            <div class="resource-content">
+                <h3 class="resource-card-title">${article.title}</h3>
+                <p class="resource-card-description">${article.description}</p>
+                <div class="resource-meta">
+                    ${article.author ? `<span class="resource-author"><i class="fas fa-user"></i> ${article.author}</span>` : ''}
+                    <span class="resource-date">${formatDate(article.createdAt)}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Add click handlers
+    document.querySelectorAll('.resource-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const articleId = this.getAttribute('data-id');
+            window.location.href = `article.html?id=${articleId}`;
+        });
+    });
+}
+
+// Format date
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// Initialize admin controls
+function initializeAdminControls() {
+    if (isAdminAuthenticated()) {
+        document.getElementById('admin-controls').style.display = 'block';
+    }
+}
+
+// Show admin password modal
+function showAdminPasswordModal() {
+    document.getElementById('admin-password-modal').style.display = 'flex';
+    document.getElementById('admin-password').focus();
+}
+
+// Hide admin password modal
+function hideAdminPasswordModal() {
+    document.getElementById('admin-password-modal').style.display = 'none';
+    document.getElementById('admin-password').value = '';
+    document.getElementById('password-error').style.display = 'none';
+}
+
+// Verify admin password
+function verifyAdminPassword(password) {
+    return password === ADMIN_PASSWORD;
+}
+
+// Show add resource modal
+function showAddResourceModal() {
+    document.getElementById('add-resource-modal').style.display = 'flex';
+}
+
+// Hide add resource modal
+function hideAddResourceModal() {
+    document.getElementById('add-resource-modal').style.display = 'none';
+    document.getElementById('add-resource-form').reset();
+}
+
+// Handle add resource form submission
+function handleAddResource(event) {
+    event.preventDefault();
+    
+    const title = document.getElementById('resource-title').value;
+    const description = document.getElementById('resource-description').value;
+    const image = document.getElementById('resource-image').value;
+    const content = document.getElementById('resource-content').value;
+    const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
+    
+    const newArticle = {
+        title,
+        description,
+        image: image || null,
+        content,
+        author
+    };
+    
+    addArticle(newArticle);
+    displayArticles();
+    hideAddResourceModal();
+    
+    // Show success message
+    alert('Resource added successfully!');
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Update copyright year
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
+    
+    // Initialize articles
+    initializeArticles();
+    displayArticles();
+    initializeAdminControls();
+    
+    // Admin password modal handlers
+    const addResourceBtn = document.getElementById('add-resource-btn');
+    if (addResourceBtn) {
+        addResourceBtn.addEventListener('click', function() {
+            if (isAdminAuthenticated()) {
+                showAddResourceModal();
+            } else {
+                showAdminPasswordModal();
+            }
+        });
+    }
+    
+    // Password modal handlers
+    document.getElementById('submit-password')?.addEventListener('click', function() {
+        const password = document.getElementById('admin-password').value;
+        if (verifyAdminPassword(password)) {
+            setAdminAuthenticated(true);
+            hideAdminPasswordModal();
+            document.getElementById('admin-controls').style.display = 'block';
+            showAddResourceModal();
+        } else {
+            document.getElementById('password-error').textContent = 'Incorrect password. Please try again.';
+            document.getElementById('password-error').style.display = 'block';
+            document.getElementById('admin-password').value = '';
+        }
+    });
+    
+    document.getElementById('close-password-modal')?.addEventListener('click', hideAdminPasswordModal);
+    document.getElementById('close-add-modal')?.addEventListener('click', hideAddResourceModal);
+    document.getElementById('cancel-add-resource')?.addEventListener('click', hideAddResourceModal);
+    
+    // Add resource form handler
+    document.getElementById('add-resource-form')?.addEventListener('submit', handleAddResource);
+    
+    // Close modals when clicking outside
+    document.getElementById('admin-password-modal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideAdminPasswordModal();
+        }
+    });
+    
+    document.getElementById('add-resource-modal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideAddResourceModal();
+        }
+    });
+    
+    // Handle Enter key in password field
+    document.getElementById('admin-password')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('submit-password').click();
+        }
+    });
+});
+

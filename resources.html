@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Alli</title>
+    <link rel="canonical" href="https://youralli.io/resources">
+    <link rel="icon" type="image/png" href="the one - no background.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <div class="logo">
+                        <img src="logodone.png" alt="Alli Logo">
+                    </div>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html#app-preview">'Alli' App</a>
+                <a href="index.html#features">Why Alli?</a>
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="resources.html">Resources</a>
+                <a href="index.html#waitlist">Join VIP List</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="container">
+            <h1 class="resources-title">Nutrition <span class="ali-gradient">Resources</span></h1>
+            <p class="resources-subtitle">Expert articles and guides to support your nutrition journey</p>
+            
+            <!-- Admin Add Button (hidden by default, shown after password) -->
+            <div id="admin-controls" class="admin-controls" style="display: none;">
+                <button class="btn-primary" id="add-resource-btn">
+                    <i class="fas fa-plus"></i> Add New Resource
+                </button>
+            </div>
+
+            <!-- Resources Grid -->
+            <div class="resources-grid" id="resources-grid">
+                <!-- Articles will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Password Modal -->
+    <div id="admin-password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admin Access</h2>
+                <button class="modal-close" id="close-password-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Enter admin password to add resources:</p>
+                <input type="password" id="admin-password" placeholder="Enter password" class="modal-input">
+                <div class="modal-error" id="password-error" style="display: none;"></div>
+                <button class="btn-primary" id="submit-password">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Resource Modal -->
+    <div id="add-resource-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Add New Resource</h2>
+                <button class="modal-close" id="close-add-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-resource-form">
+                    <div class="form-group">
+                        <label for="resource-title">Title</label>
+                        <input type="text" id="resource-title" class="modal-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-description">Description</label>
+                        <textarea id="resource-description" class="modal-input modal-textarea" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-image">Image URL (optional)</label>
+                        <input type="url" id="resource-image" class="modal-input" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-content">Full Article Content</label>
+                        <textarea id="resource-content" class="modal-input modal-textarea" rows="10" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-author">Author (optional)</label>
+                        <input type="text" id="resource-author" class="modal-input">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" id="cancel-add-resource">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Resource</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/your-alli" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/youralli.io/" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2024</span> Alli. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="resources.js"></script>
+</body>
+</html>
+
