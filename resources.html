@@ -196,7 +196,7 @@
     <script src="config.js"></script>
     <script src="resources.js"></script>
     <script>
-        // Ensure title click works immediately
+        // Ensure title click and modal handlers work immediately
         document.addEventListener('DOMContentLoaded', function() {
             const title = document.getElementById('resources-title');
             if (title) {
@@ -209,6 +209,86 @@
                         modal.style.display = 'flex';
                         const passwordInput = document.getElementById('admin-password');
                         if (passwordInput) passwordInput.focus();
+                    }
+                });
+            }
+            
+            // Close modal handlers
+            const closePasswordModal = document.getElementById('close-password-modal');
+            if (closePasswordModal) {
+                closePasswordModal.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const modal = document.getElementById('admin-password-modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                        document.getElementById('admin-password').value = '';
+                        const errorDiv = document.getElementById('password-error');
+                        if (errorDiv) errorDiv.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Close modal when clicking outside
+            const adminPasswordModal = document.getElementById('admin-password-modal');
+            if (adminPasswordModal) {
+                adminPasswordModal.addEventListener('click', function(e) {
+                    if (e.target === adminPasswordModal) {
+                        adminPasswordModal.style.display = 'none';
+                        document.getElementById('admin-password').value = '';
+                        const errorDiv = document.getElementById('password-error');
+                        if (errorDiv) errorDiv.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Submit password handler
+            const submitPassword = document.getElementById('submit-password');
+            if (submitPassword) {
+                submitPassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const passwordInput = document.getElementById('admin-password');
+                    const password = passwordInput ? passwordInput.value : '';
+                    
+                    // Check password (alli2024)
+                    if (password === 'alli2024') {
+                        // Set authenticated
+                        sessionStorage.setItem('adminAuthenticated', 'true');
+                        
+                        // Hide modal
+                        const modal = document.getElementById('admin-password-modal');
+                        if (modal) {
+                            modal.style.display = 'none';
+                            passwordInput.value = '';
+                            const errorDiv = document.getElementById('password-error');
+                            if (errorDiv) errorDiv.style.display = 'none';
+                        }
+                        
+                        // Show Add New Article button
+                        const adminControls = document.getElementById('admin-controls');
+                        if (adminControls) {
+                            adminControls.style.display = 'block';
+                        }
+                    } else {
+                        // Show error
+                        const errorDiv = document.getElementById('password-error');
+                        if (errorDiv) {
+                            errorDiv.textContent = 'Incorrect password. Please try again.';
+                            errorDiv.style.display = 'block';
+                        }
+                        if (passwordInput) passwordInput.value = '';
+                    }
+                });
+            }
+            
+            // Handle Enter key in password field
+            const passwordInput = document.getElementById('admin-password');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (submitPassword) submitPassword.click();
                     }
                 });
             }
