@@ -2,9 +2,12 @@
 let supabase = null;
 
 function initializeSupabase() {
-    if (window.SUPABASE_CONFIG && window.supabase) {
+    // Check for Supabase library - it might be exposed as window.supabase or window.Supabase
+    const supabaseLib = window.supabase || window.Supabase;
+    
+    if (window.SUPABASE_CONFIG && supabaseLib) {
         try {
-            supabase = window.supabase.createClient(
+            supabase = supabaseLib.createClient(
                 window.SUPABASE_CONFIG.url, 
                 window.SUPABASE_CONFIG.anonKey
             );
@@ -16,14 +19,36 @@ function initializeSupabase() {
         }
     } else {
         console.warn('Supabase not available - using localStorage fallback');
-        console.warn('SUPABASE_CONFIG:', !!window.SUPABASE_CONFIG, 'supabase library:', !!window.supabase);
+        console.warn('SUPABASE_CONFIG:', !!window.SUPABASE_CONFIG);
+        console.warn('window.supabase:', !!window.supabase);
+        console.warn('window.Supabase:', !!window.Supabase);
+        console.warn('Available window properties:', Object.keys(window).filter(k => k.toLowerCase().includes('supabase')));
         return false;
     }
 }
 
-// Try to initialize immediately, but also on DOMContentLoaded in case scripts load in wrong order
-if (window.SUPABASE_CONFIG && window.supabase) {
+// Wait for scripts to load, then initialize
+function waitForSupabase(maxAttempts = 10) {
+    let attempts = 0;
+    const checkInterval = setInterval(() => {
+        attempts++;
+        const supabaseLib = window.supabase || window.Supabase;
+        if (window.SUPABASE_CONFIG && supabaseLib) {
+            clearInterval(checkInterval);
+            initializeSupabase();
+        } else if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            console.warn('Supabase library not found after waiting, using localStorage only');
+        }
+    }, 100);
+}
+
+// Try to initialize immediately
+if (window.SUPABASE_CONFIG && (window.supabase || window.Supabase)) {
     initializeSupabase();
+} else {
+    // Wait for scripts to load
+    waitForSupabase();
 }
 
 // Admin password (in production, this should be stored securely)
@@ -724,14 +749,20 @@ function getArticlesFromLocalStorage() {
         if (articles) {
             const parsed = JSON.parse(articles);
             if (Array.isArray(parsed) && parsed.length > 0) {
-                return parsed;
+                // Filter out placeholder articles by ID
+                const userArticles = parsed.filter(a => !['1', '2', '3', '4', '5', '6'].includes(a.id));
+                if (userArticles.length > 0) {
+                    console.log(`Found ${userArticles.length} user articles in localStorage`);
+                    return userArticles;
+                }
             }
         }
     } catch (e) {
         console.error('Error getting articles from localStorage:', e);
     }
     
-    // Fallback: return placeholder articles
+    // Only return placeholders if absolutely no articles exist
+    console.log('No user articles found, returning placeholders');
     return placeholderArticles;
 }
 
@@ -813,9 +844,23 @@ window.addArticle = async function(article) {
 
 // Add article to localStorage (fallback)
 function addArticleToLocalStorage(article) {
-    const articles = getArticlesFromLocalStorage();
+    let articles = [];
+    try {
+        const stored = localStorage.getItem('articles');
+        if (stored) {
+            articles = JSON.parse(stored);
+        }
+    } catch (e) {
+        console.error('Error parsing localStorage articles:', e);
+        articles = [];
+    }
+    
+    // Filter out placeholder articles (they have numeric string IDs like '1', '2', etc.)
+    articles = articles.filter(a => !['1', '2', '3', '4', '5', '6'].includes(a.id));
+    
     articles.push(article);
     localStorage.setItem('articles', JSON.stringify(articles));
+    console.log('Article saved to localStorage. Total articles:', articles.length);
     return article;
 }
 
