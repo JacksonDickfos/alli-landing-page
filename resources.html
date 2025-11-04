@@ -517,47 +517,52 @@
                         return;
                     }
                     
-                    // Get existing articles from localStorage
-                    let articles = [];
-                    try {
-                        const stored = localStorage.getItem('articles');
-                        if (stored) {
-                            articles = JSON.parse(stored);
+                    // Update article using Supabase (with localStorage fallback)
+                    (async function() {
+                        const updatedData = {
+                            title: title,
+                            description: description,
+                            image: image || null,
+                            content: content,
+                            author: author
+                        };
+                        
+                        // Use updateArticle function if available
+                        if (typeof updateArticle === 'function') {
+                            await updateArticle(articleId, updatedData);
+                        } else {
+                            // Fallback: update localStorage directly
+                            let articles = [];
+                            try {
+                                const stored = localStorage.getItem('articles');
+                                if (stored) {
+                                    articles = JSON.parse(stored);
+                                }
+                            } catch (e) {
+                                articles = [];
+                            }
+                            
+                            const articleIndex = articles.findIndex(a => a.id === articleId);
+                            if (articleIndex !== -1) {
+                                articles[articleIndex] = {
+                                    ...articles[articleIndex],
+                                    ...updatedData
+                                };
+                                localStorage.setItem('articles', JSON.stringify(articles));
+                            }
                         }
-                    } catch (e) {
-                        articles = [];
-                    }
-                    
-                    // Find and update the article
-                    const articleIndex = articles.findIndex(a => a.id === articleId);
-                    if (articleIndex === -1) {
-                        alert('Article not found');
-                        return;
-                    }
-                    
-                    // Update article (preserve createdAt)
-                    articles[articleIndex] = {
-                        ...articles[articleIndex],
-                        title: title,
-                        description: description,
-                        image: image || null,
-                        content: content,
-                        author: author
-                    };
-                    
-                    // Save to localStorage
-                    localStorage.setItem('articles', JSON.stringify(articles));
-                    
-                    // Close modal and reset form
-                    editResourceModal.style.display = 'none';
-                    editResourceForm.reset();
-                    
-                    // Refresh the grid to show updated article (sorted by date)
-                    if (typeof displayArticles === 'function') {
-                        displayArticles();
-                    } else {
-                        window.location.reload();
-                    }
+                        
+                        // Close modal and reset form
+                        editResourceModal.style.display = 'none';
+                        editResourceForm.reset();
+                        
+                        // Refresh the grid to show updated article (sorted by date)
+                        if (typeof displayArticles === 'function') {
+                            await displayArticles();
+                        } else {
+                            window.location.reload();
+                        }
+                    })();
                 });
             }
             
@@ -579,35 +584,44 @@
                         return;
                     }
                     
-                    // Get existing articles from localStorage
-                    let articles = [];
-                    try {
-                        const stored = localStorage.getItem('articles');
-                        if (stored) {
-                            articles = JSON.parse(stored);
+                    // Add article using Supabase (with localStorage fallback)
+                    (async function() {
+                        const articleData = {
+                            title: title,
+                            description: description,
+                            image: image || null,
+                            content: content,
+                            author: author
+                        };
+                        
+                        let newArticle;
+                        
+                        // Use addArticle function if available (Supabase)
+                        if (typeof addArticle === 'function') {
+                            newArticle = await addArticle(articleData);
+                        } else {
+                            // Fallback: add to localStorage directly
+                            const articles = [];
+                            try {
+                                const stored = localStorage.getItem('articles');
+                                if (stored) {
+                                    articles = JSON.parse(stored);
+                                }
+                            } catch (e) {
+                                articles = [];
+                            }
+                            
+                            newArticle = {
+                                id: Date.now().toString(),
+                                ...articleData,
+                                createdAt: new Date().toISOString()
+                            };
+                            
+                            articles.push(newArticle);
+                            localStorage.setItem('articles', JSON.stringify(articles));
                         }
-                    } catch (e) {
-                        articles = [];
-                    }
-                    
-                    // Create new article
-                    const newArticle = {
-                        id: Date.now().toString(),
-                        title: title,
-                        description: description,
-                        image: image || null,
-                        content: content,
-                        author: author,
-                        createdAt: new Date().toISOString()
-                    };
-                    
-                    // Add to articles array
-                    articles.push(newArticle);
-                    
-                    // Save to localStorage
-                    localStorage.setItem('articles', JSON.stringify(articles));
-                    
-                    // Add article to grid dynamically (no page reload) - insert at top (newest first)
+                        
+                        // Add article to grid dynamically (no page reload) - insert at top (newest first)
                     const grid = document.getElementById('resources-grid');
                     if (grid) {
                         // Check if admin is authenticated
@@ -676,6 +690,7 @@
                     
                     // Show success message (optional)
                     // You could add a toast notification here if desired
+                    })();
                 });
             }
         });

@@ -478,10 +478,43 @@ Remember, individual needs vary. Experiment to find what works best for your bod
     }
 ];
 
-// Store articles in localStorage (in production, use Supabase)
-function initializeArticles() {
-    // Only initialize placeholders if there are NO articles at all
-    // Never overwrite user-created articles
+// Initialize articles - check Supabase first, then localStorage
+async function initializeArticles() {
+    // Try Supabase first
+    if (supabase) {
+        try {
+            const { data, error } = await supabase
+                .from('articles')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (!error && data && data.length > 0) {
+                // Convert and save to localStorage as backup
+                const convertedArticles = data.map(article => ({
+                    id: article.id.toString(),
+                    title: article.title,
+                    description: article.description,
+                    image: article.image_url,
+                    content: article.content,
+                    author: article.author,
+                    createdAt: article.created_at
+                }));
+                localStorage.setItem('articles', JSON.stringify(convertedArticles));
+                return convertedArticles;
+            }
+            
+            // If Supabase is empty, seed with placeholders
+            if (!error && (!data || data.length === 0)) {
+                await seedPlaceholderArticles();
+                return placeholderArticles;
+            }
+        } catch (e) {
+            console.error('Error initializing from Supabase:', e);
+            // Fallback to localStorage
+        }
+    }
+    
+    // Fallback to localStorage
     try {
         const existingArticles = localStorage.getItem('articles');
         let articles = [];
@@ -495,33 +528,168 @@ function initializeArticles() {
         }
         
         // ONLY initialize placeholders if there are ZERO articles
-        // This preserves all user-created articles
         if (!Array.isArray(articles) || articles.length === 0) {
             localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            // Try to seed Supabase too
+            if (supabase) {
+                seedPlaceholderArticles();
+            }
             return placeholderArticles;
         }
         
-        // Return existing articles (user-created + placeholders)
         return articles;
     } catch (e) {
-        // If any error and no articles exist, use placeholders
-        const existingArticles = localStorage.getItem('articles');
-        if (!existingArticles) {
-            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
-            return placeholderArticles;
-        }
-        // If error but articles exist, try to return them anyway
-        try {
-            return JSON.parse(existingArticles);
-        } catch (e2) {
-            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
-            return placeholderArticles;
-        }
+        console.error('Error initializing articles:', e);
+        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+        return placeholderArticles;
     }
 }
 
-// Get all articles
-function getArticles() {
+// Seed placeholder articles to Supabase
+async function seedPlaceholderArticles() {
+    if (!supabase) return;
+    
+    try {
+        // Check if articles already exist
+        const { data } = await supabase
+            .from('articles')
+            .select('id')
+            .limit(1);
+        
+        // Only seed if table is empty
+        if (!data || data.length === 0) {
+            const articlesToInsert = placeholderArticles.map(article => ({
+                title: article.title,
+                description: article.description,
+                image_url: article.image || null,
+                content: article.content,
+                author: article.author || 'Alli Nutrition Team'
+            }));
+            
+            const { error } = await supabase
+                .from('articles')
+                .insert(articlesToInsert);
+            
+            if (error) {
+                console.error('Error seeding placeholder articles:', error);
+            }
+        }
+    } catch (e) {
+        console.error('Error seeding articles:', e);
+    }
+}
+
+// Update article in Supabase (with localStorage fallback)
+async function updateArticle(articleId, updatedData) {
+    // Try Supabase first
+    if (supabase) {
+        try {
+            const { data, error } = await supabase
+                .from('articles')
+                .update({
+                    title: updatedData.title,
+                    description: updatedData.description,
+                    image_url: updatedData.image || null,
+                    content: updatedData.content,
+                    author: updatedData.author || 'Alli Nutrition Team'
+                })
+                .eq('id', articleId)
+                .select()
+                .single();
+            
+            if (error) {
+                console.error('Supabase update error:', error);
+                // Fallback to localStorage
+                return updateArticleInLocalStorage(articleId, updatedData);
+            }
+            
+            if (data) {
+                // Convert and update localStorage
+                const convertedArticle = {
+                    id: data.id.toString(),
+                    title: data.title,
+                    description: data.description,
+                    image: data.image_url,
+                    content: data.content,
+                    author: data.author,
+                    createdAt: data.created_at
+                };
+                updateArticleInLocalStorage(convertedArticle.id, updatedData);
+                return convertedArticle;
+            }
+        } catch (e) {
+            console.error('Error updating in Supabase:', e);
+            // Fallback to localStorage
+            return updateArticleInLocalStorage(articleId, updatedData);
+        }
+    }
+    
+    // Fallback to localStorage
+    return updateArticleInLocalStorage(articleId, updatedData);
+}
+
+// Update article in localStorage (fallback)
+function updateArticleInLocalStorage(articleId, updatedData) {
+    const articles = getArticlesFromLocalStorage();
+    const articleIndex = articles.findIndex(a => a.id === articleId);
+    
+    if (articleIndex === -1) {
+        console.error('Article not found for update');
+        return null;
+    }
+    
+    // Preserve createdAt
+    articles[articleIndex] = {
+        ...articles[articleIndex],
+        ...updatedData,
+        id: articleId
+    };
+    
+    localStorage.setItem('articles', JSON.stringify(articles));
+    return articles[articleIndex];
+}
+
+// Get all articles from Supabase (with localStorage fallback)
+async function getArticles() {
+    // Try Supabase first
+    if (supabase) {
+        try {
+            const { data, error } = await supabase
+                .from('articles')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) {
+                console.error('Supabase error:', error);
+                // Fallback to localStorage
+                return getArticlesFromLocalStorage();
+            }
+            
+            if (data && data.length > 0) {
+                // Convert Supabase format to app format
+                return data.map(article => ({
+                    id: article.id.toString(),
+                    title: article.title,
+                    description: article.description,
+                    image: article.image_url,
+                    content: article.content,
+                    author: article.author,
+                    createdAt: article.created_at
+                }));
+            }
+        } catch (e) {
+            console.error('Error fetching from Supabase:', e);
+            // Fallback to localStorage
+            return getArticlesFromLocalStorage();
+        }
+    }
+    
+    // Fallback to localStorage if Supabase not available
+    return getArticlesFromLocalStorage();
+}
+
+// Get articles from localStorage (fallback)
+function getArticlesFromLocalStorage() {
     try {
         const articles = localStorage.getItem('articles');
         if (articles) {
@@ -531,35 +699,87 @@ function getArticles() {
             }
         }
     } catch (e) {
-        console.error('Error getting articles:', e);
+        console.error('Error getting articles from localStorage:', e);
     }
     
     // Fallback: return placeholder articles
     return placeholderArticles;
 }
 
-// Add new article
-function addArticle(article) {
-    const articles = getArticles();
+// Add new article to Supabase (with localStorage fallback)
+async function addArticle(article) {
     const newArticle = {
         ...article,
         id: Date.now().toString(),
         createdAt: new Date().toISOString()
     };
-    articles.push(newArticle);
-    localStorage.setItem('articles', JSON.stringify(articles));
-    return newArticle;
+    
+    // Try Supabase first
+    if (supabase) {
+        try {
+            const { data, error } = await supabase
+                .from('articles')
+                .insert([{
+                    title: newArticle.title,
+                    description: newArticle.description,
+                    image_url: newArticle.image || null,
+                    content: newArticle.content,
+                    author: newArticle.author || 'Alli Nutrition Team'
+                }])
+                .select()
+                .single();
+            
+            if (error) {
+                console.error('Supabase insert error:', error);
+                // Fallback to localStorage
+                return addArticleToLocalStorage(newArticle);
+            }
+            
+            if (data) {
+                // Convert Supabase format to app format
+                const convertedArticle = {
+                    id: data.id.toString(),
+                    title: data.title,
+                    description: data.description,
+                    image: data.image_url,
+                    content: data.content,
+                    author: data.author,
+                    createdAt: data.created_at
+                };
+                
+                // Also save to localStorage as backup
+                addArticleToLocalStorage(convertedArticle);
+                
+                return convertedArticle;
+            }
+        } catch (e) {
+            console.error('Error adding to Supabase:', e);
+            // Fallback to localStorage
+            return addArticleToLocalStorage(newArticle);
+        }
+    }
+    
+    // Fallback to localStorage if Supabase not available
+    return addArticleToLocalStorage(newArticle);
 }
 
-// Display articles
-function displayArticles() {
+// Add article to localStorage (fallback)
+function addArticleToLocalStorage(article) {
+    const articles = getArticlesFromLocalStorage();
+    articles.push(article);
+    localStorage.setItem('articles', JSON.stringify(articles));
+    return article;
+}
+
+// Display articles (async to handle Supabase)
+async function displayArticles() {
     const grid = document.getElementById('resources-grid');
     if (!grid) {
         console.error('Resources grid element not found');
         return;
     }
     
-    let articles = getArticles();
+    let articles = await getArticles();
     
     // Only use placeholders if there are absolutely no articles
     // Never overwrite user-created articles
@@ -627,10 +847,10 @@ function displayArticles() {
     }
 }
 
-// Open edit modal with article data (make globally accessible)
-window.openEditModal = function(articleId) {
-    const articles = getArticles();
-    const article = articles.find(a => a.id === articleId);
+// Open edit modal with article data (make globally accessible, async)
+window.openEditModal = async function(articleId) {
+    const articles = await getArticles();
+    const article = articles.find(a => a.id === articleId || a.id === articleId.toString());
     
     if (!article) {
         alert('Article not found');
@@ -737,12 +957,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Initialize articles - force them to always be there
-    initializeArticles();
-    
-    // Always display articles from localStorage to ensure edit buttons appear
-    // This replaces embedded HTML with dynamically generated cards
-    requestAnimationFrame(function() {
-        displayArticles();
+    initializeArticles().then(() => {
+        // Always display articles from localStorage to ensure edit buttons appear
+        // This replaces embedded HTML with dynamically generated cards
+        requestAnimationFrame(async function() {
+            await displayArticles();
+        });
     });
     
     initializeAdminControls();
