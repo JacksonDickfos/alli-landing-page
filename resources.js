@@ -730,26 +730,38 @@ function updateArticleInLocalStorage(articleId, updatedData) {
 
 // Get all articles from Supabase (with localStorage fallback)
 async function getArticles() {
-    console.log('getArticles called, Supabase available:', !!supabase);
+    console.log('=== getArticles called ===');
+    console.log('Supabase client available:', !!supabase);
+    console.log('Supabase client:', supabase);
     
     // Try Supabase first
     if (supabase) {
         try {
             console.log('Fetching articles from Supabase...');
+            console.log('Table: articles');
+            console.log('Config URL:', window.SUPABASE_CONFIG?.url);
+            
             const { data, error } = await supabase
                 .from('articles')
                 .select('*')
                 .order('created_at', { ascending: false });
             
+            console.log('Supabase response - error:', error);
+            console.log('Supabase response - data:', data);
+            
             if (error) {
-                console.error('Supabase error:', error);
+                console.error('❌ Supabase error:', error);
+                console.error('Error code:', error.code);
+                console.error('Error message:', error.message);
+                console.error('Error details:', error.details);
+                console.error('Error hint:', error.hint);
                 // Fallback to localStorage
                 console.log('Falling back to localStorage due to error');
                 return getArticlesFromLocalStorage();
             }
             
             if (data && data.length > 0) {
-                console.log(`Found ${data.length} articles in Supabase`);
+                console.log(`✅ Found ${data.length} articles in Supabase`);
                 // Convert Supabase format to app format
                 const converted = data.map(article => ({
                     id: article.id.toString(),
@@ -763,18 +775,19 @@ async function getArticles() {
                 console.log('Converted articles:', converted);
                 return converted;
             } else {
-                console.log('No articles found in Supabase, falling back to localStorage');
+                console.log('⚠️ No articles found in Supabase (empty result), falling back to localStorage');
                 return getArticlesFromLocalStorage();
             }
         } catch (e) {
-            console.error('Error fetching from Supabase:', e);
+            console.error('❌ Exception fetching from Supabase:', e);
+            console.error('Exception stack:', e.stack);
             // Fallback to localStorage
             return getArticlesFromLocalStorage();
         }
     }
     
     // Fallback to localStorage if Supabase not available
-    console.log('Supabase not available, using localStorage');
+    console.warn('⚠️ Supabase not available, using localStorage');
     return getArticlesFromLocalStorage();
 }
 
