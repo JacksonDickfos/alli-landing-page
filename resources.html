@@ -526,10 +526,17 @@
                         }
                         
                         // Refresh articles grid
+                        console.log('Refreshing articles grid after deletion...');
                         if (typeof displayArticles === 'function') {
                             await displayArticles();
+                            console.log('Articles grid refreshed');
+                        } else if (window.displayArticles && typeof window.displayArticles === 'function') {
+                            await window.displayArticles();
+                            console.log('Articles grid refreshed via window.displayArticles');
                         } else {
+                            console.log('displayArticles not found, reloading page...');
                             window.location.reload();
+                            return;
                         }
                         
                         alert('Article deleted successfully.');

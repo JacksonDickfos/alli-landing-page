@@ -748,35 +748,64 @@ window.forceSeedPlaceholderArticles = async function() {
 
 // Delete article from Supabase (with localStorage fallback) - make globally accessible
 window.deleteArticle = async function(articleId) {
+    console.log('=== deleteArticle called ===');
+    console.log('Article ID:', articleId);
+    console.log('Article ID type:', typeof articleId);
+    console.log('Supabase client available:', !!supabase);
+    
     // Try Supabase first
     if (supabase) {
         try {
             // Convert articleId to number if it's a string (Supabase uses numeric IDs)
             const numericId = typeof articleId === 'string' ? parseInt(articleId, 10) : articleId;
             
-            const { error } = await supabase
+            if (isNaN(numericId)) {
+                console.error('Invalid article ID - cannot convert to number:', articleId);
+                return false;
+            }
+            
+            console.log('Attempting to delete article with numeric ID:', numericId);
+            
+            const { data, error } = await supabase
                 .from('articles')
                 .delete()
-                .eq('id', numericId);
+                .eq('id', numericId)
+                .select();
+            
+            console.log('Supabase delete response - data:', data);
+            console.log('Supabase delete response - error:', error);
             
             if (error) {
-                console.error('Supabase delete error:', error);
+                console.error('❌ Supabase delete error:', error);
+                console.error('Error code:', error.code);
+                console.error('Error message:', error.message);
+                console.error('Error details:', error.details);
+                console.error('Error hint:', error.hint);
                 // Fallback to localStorage
-                return deleteArticleFromLocalStorage(articleId);
+                const localResult = deleteArticleFromLocalStorage(articleId);
+                return localResult;
+            }
+            
+            // Check if anything was actually deleted
+            if (data && data.length > 0) {
+                console.log(`✅ Successfully deleted article from Supabase. Deleted rows: ${data.length}`);
+            } else {
+                console.warn('⚠️ No rows deleted - article may not exist in database');
             }
             
             // Also delete from localStorage
             deleteArticleFromLocalStorage(articleId);
             
-            console.log('Article deleted from Supabase');
             return true;
         } catch (e) {
-            console.error('Error deleting from Supabase:', e);
+            console.error('❌ Exception deleting from Supabase:', e);
+            console.error('Exception stack:', e.stack);
             // Fallback to localStorage
             return deleteArticleFromLocalStorage(articleId);
         }
     }
     
+    console.warn('Supabase not available, using localStorage only');
     // Fallback to localStorage
     return deleteArticleFromLocalStorage(articleId);
 }
