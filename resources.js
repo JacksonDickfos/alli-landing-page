@@ -1087,8 +1087,8 @@ function addArticleToLocalStorage(article) {
     return article;
 }
 
-// Display articles (async to handle Supabase)
-async function displayArticles() {
+// Display articles (async to handle Supabase) - make globally accessible
+window.displayArticles = async function displayArticles() {
     const grid = document.getElementById('resources-grid');
     if (!grid) {
         console.error('Resources grid element not found');
