@@ -328,6 +328,28 @@ body {
     transform: translateY(-2px);
 }
 
+.btn-danger {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #DC2626;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #B91C1C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
+
 /* Hero Video */
 /* Hero Visual Container */
 
@@ -2510,8 +2532,17 @@ body:has(.founding-membership-hero) .nav-links {
     margin-top: 1.5rem;
 }
 
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+
 .modal-actions .btn-primary,
-.modal-actions .btn-secondary {
+.modal-actions .btn-secondary,
+.modal-actions .btn-danger {
     padding: 12px 24px;
     font-size: 16px;
     height: auto;

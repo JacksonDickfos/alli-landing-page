@@ -746,6 +746,60 @@ window.forceSeedPlaceholderArticles = async function() {
     }
 };
 
+// Delete article from Supabase (with localStorage fallback) - make globally accessible
+window.deleteArticle = async function(articleId) {
+    // Try Supabase first
+    if (supabase) {
+        try {
+            // Convert articleId to number if it's a string (Supabase uses numeric IDs)
+            const numericId = typeof articleId === 'string' ? parseInt(articleId, 10) : articleId;
+            
+            const { error } = await supabase
+                .from('articles')
+                .delete()
+                .eq('id', numericId);
+            
+            if (error) {
+                console.error('Supabase delete error:', error);
+                // Fallback to localStorage
+                return deleteArticleFromLocalStorage(articleId);
+            }
+            
+            // Also delete from localStorage
+            deleteArticleFromLocalStorage(articleId);
+            
+            console.log('Article deleted from Supabase');
+            return true;
+        } catch (e) {
+            console.error('Error deleting from Supabase:', e);
+            // Fallback to localStorage
+            return deleteArticleFromLocalStorage(articleId);
+        }
+    }
+    
+    // Fallback to localStorage
+    return deleteArticleFromLocalStorage(articleId);
+}
+
+// Delete article from localStorage (fallback)
+function deleteArticleFromLocalStorage(articleId) {
+    try {
+        let articles = [];
+        const stored = localStorage.getItem('articles');
+        if (stored) {
+            articles = JSON.parse(stored);
+        }
+        
+        articles = articles.filter(a => a.id !== articleId && a.id !== articleId.toString());
+        localStorage.setItem('articles', JSON.stringify(articles));
+        console.log('Article deleted from localStorage');
+        return true;
+    } catch (e) {
+        console.error('Error deleting from localStorage:', e);
+        return false;
+    }
+}
+
 // Update article in Supabase (with localStorage fallback) - make globally accessible
 window.updateArticle = async function(articleId, updatedData) {
     // Try Supabase first
