@@ -371,6 +371,13 @@
                         if (adminControls) {
                             adminControls.style.display = 'block';
                         }
+                        
+                        // Refresh articles to show edit buttons
+                        if (typeof displayArticles === 'function') {
+                            setTimeout(() => {
+                                displayArticles();
+                            }, 100);
+                        }
                     } else {
                         // Show error
                         const errorDiv = document.getElementById('password-error');
