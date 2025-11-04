@@ -605,8 +605,8 @@ function displayArticles() {
     }
 }
 
-// Open edit modal with article data
-function openEditModal(articleId) {
+// Open edit modal with article data (make globally accessible)
+window.openEditModal = function(articleId) {
     const articles = getArticles();
     const article = articles.find(a => a.id === articleId);
     
@@ -616,15 +616,25 @@ function openEditModal(articleId) {
     }
     
     // Fill form with article data
-    document.getElementById('edit-resource-title').value = article.title || '';
-    document.getElementById('edit-resource-description').value = article.description || '';
-    document.getElementById('edit-resource-image').value = article.image || '';
-    document.getElementById('edit-resource-content').value = article.content || '';
-    document.getElementById('edit-resource-author').value = article.author || '';
-    document.getElementById('edit-resource-id').value = article.id;
+    const titleInput = document.getElementById('edit-resource-title');
+    const descInput = document.getElementById('edit-resource-description');
+    const imageInput = document.getElementById('edit-resource-image');
+    const contentInput = document.getElementById('edit-resource-content');
+    const authorInput = document.getElementById('edit-resource-author');
+    const idInput = document.getElementById('edit-resource-id');
+    
+    if (titleInput) titleInput.value = article.title || '';
+    if (descInput) descInput.value = article.description || '';
+    if (imageInput) imageInput.value = article.image || '';
+    if (contentInput) contentInput.value = article.content || '';
+    if (authorInput) authorInput.value = article.author || '';
+    if (idInput) idInput.value = article.id;
     
     // Show edit modal
-    document.getElementById('edit-resource-modal').style.display = 'flex';
+    const editModal = document.getElementById('edit-resource-modal');
+    if (editModal) {
+        editModal.style.display = 'flex';
+    }
 }
 
 // Format date
@@ -707,23 +717,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize articles - force them to always be there
     initializeArticles();
     
-    // Only display articles from localStorage if there are user-added articles
-    // Otherwise, keep the embedded HTML articles
-    const articles = getArticles();
-    // If localStorage has more than the 6 embedded placeholder articles, reload from localStorage
-    // This ensures user-added articles are shown
-    if (articles.length > 6) {
-        requestAnimationFrame(function() {
-            displayArticles();
-        });
-    } else {
-        // If we have embedded articles, make sure they're in localStorage
-        // but don't replace the HTML
-        const existingArticles = localStorage.getItem('articles');
-        if (!existingArticles) {
-            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
-        }
-    }
+    // Always display articles from localStorage to ensure edit buttons appear
+    // This replaces embedded HTML with dynamically generated cards
+    requestAnimationFrame(function() {
+        displayArticles();
+    });
     
     initializeAdminControls();
     

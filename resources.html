@@ -243,6 +243,60 @@
                 if (adminControls) {
                     adminControls.style.display = 'block';
                 }
+                
+                // Refresh articles to show edit buttons
+                if (typeof displayArticles === 'function') {
+                    setTimeout(() => {
+                        displayArticles();
+                    }, 100);
+                }
+            }
+            
+            // Add edit button handlers after articles are displayed
+            function attachEditHandlers() {
+                document.querySelectorAll('.edit-article-btn').forEach(btn => {
+                    // Remove any existing handlers to avoid duplicates
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    
+                    // Add click handler
+                    newBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const articleId = this.getAttribute('data-id');
+                        
+                        // Try to use global function or inline version
+                        if (typeof openEditModal === 'function') {
+                            openEditModal(articleId);
+                        } else {
+                            // Fallback: open modal directly
+                            const articles = JSON.parse(localStorage.getItem('articles') || '[]');
+                            const article = articles.find(a => a.id === articleId);
+                            
+                            if (article) {
+                                document.getElementById('edit-resource-title').value = article.title || '';
+                                document.getElementById('edit-resource-description').value = article.description || '';
+                                document.getElementById('edit-resource-image').value = article.image || '';
+                                document.getElementById('edit-resource-content').value = article.content || '';
+                                document.getElementById('edit-resource-author').value = article.author || '';
+                                document.getElementById('edit-resource-id').value = article.id;
+                                document.getElementById('edit-resource-modal').style.display = 'flex';
+                            }
+                        }
+                    });
+                });
+            }
+            
+            // Attach handlers after a short delay to ensure articles are rendered
+            setTimeout(attachEditHandlers, 200);
+            
+            // Also attach handlers whenever articles might be updated
+            const originalDisplayArticles = window.displayArticles;
+            if (typeof originalDisplayArticles === 'function') {
+                window.displayArticles = function() {
+                    originalDisplayArticles();
+                    setTimeout(attachEditHandlers, 50);
+                };
             }
             
             const title = document.getElementById('resources-title');
