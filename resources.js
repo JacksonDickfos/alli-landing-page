@@ -934,30 +934,8 @@ function hideAddResourceModal() {
 }
 
 // Handle add resource form submission
-function handleAddResource(event) {
-    event.preventDefault();
-    
-    const title = document.getElementById('resource-title').value;
-    const description = document.getElementById('resource-description').value;
-    const image = document.getElementById('resource-image').value;
-    const content = document.getElementById('resource-content').value;
-    const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
-    
-    const newArticle = {
-        title,
-        description,
-        image: image || null,
-        content,
-        author
-    };
-    
-    addArticle(newArticle);
-    displayArticles();
-    hideAddResourceModal();
-    
-    // Show success message
-    alert('Resource added successfully!');
-}
+// Removed handleAddResource - form submission is now handled by inline script in resources.html
+// The inline script provides better functionality with dynamic DOM updates and async handling
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
@@ -1029,8 +1007,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('close-add-modal')?.addEventListener('click', hideAddResourceModal);
     document.getElementById('cancel-add-resource')?.addEventListener('click', hideAddResourceModal);
     
-    // Add resource form handler
-    document.getElementById('add-resource-form')?.addEventListener('submit', handleAddResource);
+    // Note: Add resource form handler is now in inline script in resources.html
+    // This provides better async handling and dynamic DOM updates
     
     // Close modals when clicking outside
     document.getElementById('admin-password-modal')?.addEventListener('click', function(e) {

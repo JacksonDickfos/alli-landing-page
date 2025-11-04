@@ -571,7 +571,7 @@
             // Handle Add Resource form submission
             const addResourceForm = document.getElementById('add-resource-form');
             if (addResourceForm) {
-                addResourceForm.addEventListener('submit', function(e) {
+                addResourceForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     
@@ -586,8 +586,7 @@
                         return;
                     }
                     
-                    // Add article using Supabase (with localStorage fallback)
-                    (async function() {
+                    try {
                         const articleData = {
                             title: title,
                             description: description,
@@ -623,6 +622,11 @@
                             
                             articles.push(newArticle);
                             localStorage.setItem('articles', JSON.stringify(articles));
+                        }
+                        
+                        if (!newArticle) {
+                            alert('Error: Failed to create article. Please try again.');
+                            return;
                         }
                         
                         // Add article to grid dynamically (no page reload) - insert at top (newest first)
@@ -686,15 +690,20 @@
                             articleCard.style.opacity = '1';
                             articleCard.style.transform = 'translateY(0)';
                         }, 10);
+                        
+                        // Close modal and reset form
+                        const addResourceModal = document.getElementById('add-resource-modal');
+                        if (addResourceModal) {
+                            addResourceModal.style.display = 'none';
+                        }
+                        addResourceForm.reset();
+                    } else {
+                        alert('Error: Could not add article to grid.');
                     }
-                    
-                    // Close modal and reset form
-                    addResourceModal.style.display = 'none';
-                    addResourceForm.reset();
-                    
-                    // Show success message (optional)
-                    // You could add a toast notification here if desired
-                    })();
+                    } catch (error) {
+                        console.error('Error adding article:', error);
+                        alert('Error adding article: ' + (error.message || 'Unknown error'));
+                    }
                 });
             }
         });
