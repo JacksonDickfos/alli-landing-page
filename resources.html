@@ -604,7 +604,7 @@
                             newArticle = await addArticle(articleData);
                         } else {
                             // Fallback: add to localStorage directly
-                            const articles = [];
+                            let articles = [];
                             try {
                                 const stored = localStorage.getItem('articles');
                                 if (stored) {
