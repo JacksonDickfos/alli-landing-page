@@ -2,49 +2,85 @@
 let supabase = null;
 
 function initializeSupabase() {
-    // Check for Supabase library - it might be exposed as window.supabase or window.Supabase
-    const supabaseLib = window.supabase || window.Supabase;
+    // Check for Supabase library - when loaded from CDN, it should be window.supabase
+    if (!window.SUPABASE_CONFIG) {
+        console.error('SUPABASE_CONFIG not found! Check config.js');
+        return false;
+    }
     
-    if (window.SUPABASE_CONFIG && supabaseLib) {
-        try {
-            supabase = supabaseLib.createClient(
-                window.SUPABASE_CONFIG.url, 
-                window.SUPABASE_CONFIG.anonKey
-            );
-            console.log('Supabase client initialized successfully');
-            return true;
-        } catch (e) {
-            console.error('Supabase initialization error:', e);
-            return false;
-        }
-    } else {
-        console.warn('Supabase not available - using localStorage fallback');
-        console.warn('SUPABASE_CONFIG:', !!window.SUPABASE_CONFIG);
-        console.warn('window.supabase:', !!window.supabase);
-        console.warn('window.Supabase:', !!window.Supabase);
-        console.warn('Available window properties:', Object.keys(window).filter(k => k.toLowerCase().includes('supabase')));
+    if (!window.supabase) {
+        console.error('window.supabase not found! Check if Supabase script is loaded');
+        return false;
+    }
+    
+    try {
+        supabase = window.supabase.createClient(
+            window.SUPABASE_CONFIG.url, 
+            window.SUPABASE_CONFIG.anonKey
+        );
+        console.log('Supabase client initialized successfully');
+        console.log('Supabase URL:', window.SUPABASE_CONFIG.url);
+        
+        // Test the connection immediately
+        testSupabaseConnection();
+        
+        return true;
+    } catch (e) {
+        console.error('Supabase initialization error:', e);
         return false;
     }
 }
 
+// Test Supabase connection
+async function testSupabaseConnection() {
+    if (!supabase) {
+        console.error('Cannot test - Supabase client not initialized');
+        return;
+    }
+    
+    try {
+        console.log('Testing Supabase connection...');
+        const { data, error, count } = await supabase
+            .from('articles')
+            .select('*', { count: 'exact' });
+        
+        if (error) {
+            console.error('❌ Supabase connection test FAILED:', error);
+            console.error('Error details:', JSON.stringify(error, null, 2));
+        } else {
+            console.log(`✅ Supabase connection test PASSED`);
+            console.log(`Found ${data ? data.length : 0} articles in database`);
+            if (data && data.length > 0) {
+                console.log('Sample article:', data[0]);
+            }
+        }
+    } catch (e) {
+        console.error('Exception during Supabase test:', e);
+    }
+}
+
 // Wait for scripts to load, then initialize
-function waitForSupabase(maxAttempts = 10) {
+function waitForSupabase(maxAttempts = 20) {
     let attempts = 0;
     const checkInterval = setInterval(() => {
         attempts++;
-        const supabaseLib = window.supabase || window.Supabase;
-        if (window.SUPABASE_CONFIG && supabaseLib) {
+        if (window.SUPABASE_CONFIG && window.supabase) {
             clearInterval(checkInterval);
             initializeSupabase();
         } else if (attempts >= maxAttempts) {
             clearInterval(checkInterval);
-            console.warn('Supabase library not found after waiting, using localStorage only');
+            console.error('❌ Supabase library not found after waiting');
+            console.error('SUPABASE_CONFIG available:', !!window.SUPABASE_CONFIG);
+            console.error('window.supabase available:', !!window.supabase);
+            if (window.SUPABASE_CONFIG) {
+                console.error('Config URL:', window.SUPABASE_CONFIG.url);
+            }
         }
     }, 100);
 }
 
 // Try to initialize immediately
-if (window.SUPABASE_CONFIG && (window.supabase || window.Supabase)) {
+if (window.SUPABASE_CONFIG && window.supabase) {
     initializeSupabase();
 } else {
     // Wait for scripts to load
