@@ -2333,6 +2333,41 @@ body:has(.founding-membership-hero) .nav-links {
     font-size: 12px;
 }
 
+/* Edit Article Button */
+.edit-article-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #D4C4A8;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-article-btn:hover {
+    background: #D4C4A8;
+    border-color: #B8A082;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.edit-article-btn i {
+    color: #0C2240;
+    font-size: 16px;
+}
+
+.edit-article-btn:hover i {
+    color: white;
+}
+
 .no-articles {
     text-align: center;
     padding: 4rem 2rem;

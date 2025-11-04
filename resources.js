@@ -554,12 +554,20 @@ function displayArticles() {
         localStorage.setItem('articles', JSON.stringify(placeholderArticles));
     }
     
-    // Don't overwrite if user has added articles - show all articles from localStorage
-    // Only use placeholders if localStorage is completely empty
+    // Sort articles by createdAt timestamp (newest first)
+    articles.sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0);
+        const dateB = new Date(b.createdAt || 0);
+        return dateB - dateA; // Descending order (newest first)
+    });
+    
+    // Check if admin is authenticated
+    const isAdmin = sessionStorage.getItem('adminAuthenticated') === 'true';
     
     grid.innerHTML = articles.map(article => `
         <div class="resource-card" data-id="${article.id}">
             <div class="resource-bubble"></div>
+            ${isAdmin ? `<button class="edit-article-btn" data-id="${article.id}" title="Edit Article"><i class="fas fa-edit"></i></button>` : ''}
             ${article.image ? `<img src="${article.image}" alt="${article.title}" class="resource-image">` : ''}
             <div class="resource-content">
                 <h3 class="resource-card-title">${article.title}</h3>
@@ -572,13 +580,51 @@ function displayArticles() {
         </div>
     `).join('');
     
-    // Add click handlers
+    // Add click handlers for cards (not on edit button)
     document.querySelectorAll('.resource-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function(e) {
+            // Don't navigate if clicking edit button
+            if (e.target.closest('.edit-article-btn')) {
+                return;
+            }
             const articleId = this.getAttribute('data-id');
             window.location.href = `article.html?id=${articleId}`;
         });
     });
+    
+    // Add click handlers for edit buttons
+    if (isAdmin) {
+        document.querySelectorAll('.edit-article-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const articleId = this.getAttribute('data-id');
+                openEditModal(articleId);
+            });
+        });
+    }
+}
+
+// Open edit modal with article data
+function openEditModal(articleId) {
+    const articles = getArticles();
+    const article = articles.find(a => a.id === articleId);
+    
+    if (!article) {
+        alert('Article not found');
+        return;
+    }
+    
+    // Fill form with article data
+    document.getElementById('edit-resource-title').value = article.title || '';
+    document.getElementById('edit-resource-description').value = article.description || '';
+    document.getElementById('edit-resource-image').value = article.image || '';
+    document.getElementById('edit-resource-content').value = article.content || '';
+    document.getElementById('edit-resource-author').value = article.author || '';
+    document.getElementById('edit-resource-id').value = article.id;
+    
+    // Show edit modal
+    document.getElementById('edit-resource-modal').style.display = 'flex';
 }
 
 // Format date
