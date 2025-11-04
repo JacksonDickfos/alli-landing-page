@@ -480,7 +480,8 @@ Remember, individual needs vary. Experiment to find what works best for your bod
 
 // Store articles in localStorage (in production, use Supabase)
 function initializeArticles() {
-    // ALWAYS ensure placeholder articles exist
+    // Only initialize placeholders if there are NO articles at all
+    // Never overwrite user-created articles
     try {
         const existingArticles = localStorage.getItem('articles');
         let articles = [];
@@ -493,17 +494,29 @@ function initializeArticles() {
             }
         }
         
-        // If no articles or fewer than 6, use placeholders
-        if (!Array.isArray(articles) || articles.length < 6) {
+        // ONLY initialize placeholders if there are ZERO articles
+        // This preserves all user-created articles
+        if (!Array.isArray(articles) || articles.length === 0) {
             localStorage.setItem('articles', JSON.stringify(placeholderArticles));
             return placeholderArticles;
         }
         
+        // Return existing articles (user-created + placeholders)
         return articles;
     } catch (e) {
-        // If any error, always use placeholders
-        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
-        return placeholderArticles;
+        // If any error and no articles exist, use placeholders
+        const existingArticles = localStorage.getItem('articles');
+        if (!existingArticles) {
+            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            return placeholderArticles;
+        }
+        // If error but articles exist, try to return them anyway
+        try {
+            return JSON.parse(existingArticles);
+        } catch (e2) {
+            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+            return placeholderArticles;
+        }
     }
 }
 
@@ -548,7 +561,8 @@ function displayArticles() {
     
     let articles = getArticles();
     
-    // If no articles, use placeholders directly (only on first load)
+    // Only use placeholders if there are absolutely no articles
+    // Never overwrite user-created articles
     if (!articles || articles.length === 0) {
         articles = placeholderArticles;
         localStorage.setItem('articles', JSON.stringify(placeholderArticles));
