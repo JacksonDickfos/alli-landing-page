@@ -265,8 +265,10 @@
                         e.stopPropagation();
                         const articleId = this.getAttribute('data-id');
                         
-                        // Try to use global function or inline version
-                        if (typeof openEditModal === 'function') {
+                        // Try to use global function
+                        if (window.openEditModal && typeof window.openEditModal === 'function') {
+                            window.openEditModal(articleId);
+                        } else if (typeof openEditModal === 'function') {
                             openEditModal(articleId);
                         } else {
                             // Fallback: open modal directly
