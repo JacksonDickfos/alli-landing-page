@@ -208,9 +208,6 @@
                         <input type="text" id="edit-resource-author" class="modal-input">
                     </div>
                     <div class="modal-actions">
-                        <button type="button" class="btn-danger" id="delete-article-btn" style="margin-right: auto;">
-                            <i class="fas fa-trash"></i> Delete Article
-                        </button>
                         <button type="button" class="btn-secondary" id="cancel-edit-resource">Cancel</button>
                         <button type="submit" class="btn-primary">Update Article</button>
                     </div>
@@ -485,64 +482,6 @@
                         editModal.style.display = 'none';
                         const form = document.getElementById('edit-resource-form');
                         if (form) form.reset();
-                    }
-                });
-            }
-            
-            // Handle Delete Article button
-            const deleteArticleBtn = document.getElementById('delete-article-btn');
-            if (deleteArticleBtn) {
-                deleteArticleBtn.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const articleId = document.getElementById('edit-resource-id').value;
-                    if (!articleId) {
-                        alert('No article ID found. Cannot delete.');
-                        return;
-                    }
-                    
-                    // Confirm deletion
-                    const confirmDelete = confirm('Are you sure you want to delete this article? This action cannot be undone.');
-                    if (!confirmDelete) {
-                        return;
-                    }
-                    
-                    // Delete article
-                    try {
-                        if (window.deleteArticle && typeof window.deleteArticle === 'function') {
-                            await window.deleteArticle(articleId);
-                        } else {
-                            alert('Delete function not available. Please refresh the page.');
-                            return;
-                        }
-                        
-                        // Close modal
-                        const editModal = document.getElementById('edit-resource-modal');
-                        if (editModal) {
-                            editModal.style.display = 'none';
-                            const form = document.getElementById('edit-resource-form');
-                            if (form) form.reset();
-                        }
-                        
-                        // Refresh articles grid
-                        console.log('Refreshing articles grid after deletion...');
-                        if (typeof displayArticles === 'function') {
-                            await displayArticles();
-                            console.log('Articles grid refreshed');
-                        } else if (window.displayArticles && typeof window.displayArticles === 'function') {
-                            await window.displayArticles();
-                            console.log('Articles grid refreshed via window.displayArticles');
-                        } else {
-                            console.log('displayArticles not found, reloading page...');
-                            window.location.reload();
-                            return;
-                        }
-                        
-                        alert('Article deleted successfully.');
-                    } catch (error) {
-                        console.error('Error deleting article:', error);
-                        alert('Error deleting article: ' + (error.message || 'Unknown error'));
                     }
                 });
             }
