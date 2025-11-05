@@ -766,6 +766,27 @@ window.deleteArticle = async function(articleId) {
             
             console.log('Attempting to delete article with numeric ID:', numericId);
             
+            // First, verify the article exists by querying it
+            const { data: articleData, error: fetchError } = await supabase
+                .from('articles')
+                .select('id, title')
+                .eq('id', numericId)
+                .single();
+            
+            console.log('Article lookup result:', articleData);
+            console.log('Article lookup error:', fetchError);
+            
+            if (fetchError || !articleData) {
+                console.error('❌ Article not found in database. ID:', numericId);
+                console.error('This might be a Row Level Security (RLS) issue or the ID doesn\'t exist.');
+                // Still try to delete from localStorage
+                deleteArticleFromLocalStorage(articleId);
+                return false;
+            }
+            
+            console.log(`Article found: "${articleData.title}" (ID: ${articleData.id})`);
+            
+            // Now attempt the delete
             const { data, error } = await supabase
                 .from('articles')
                 .delete()
@@ -781,6 +802,13 @@ window.deleteArticle = async function(articleId) {
                 console.error('Error message:', error.message);
                 console.error('Error details:', error.details);
                 console.error('Error hint:', error.hint);
+                
+                // Check if it's an RLS policy issue
+                if (error.code === '42501' || error.message.includes('permission') || error.message.includes('policy')) {
+                    console.error('⚠️ This looks like a Row Level Security (RLS) policy issue.');
+                    console.error('You may need to enable delete permissions in Supabase RLS policies.');
+                }
+                
                 // Fallback to localStorage
                 const localResult = deleteArticleFromLocalStorage(articleId);
                 return localResult;
@@ -789,8 +817,10 @@ window.deleteArticle = async function(articleId) {
             // Check if anything was actually deleted
             if (data && data.length > 0) {
                 console.log(`✅ Successfully deleted article from Supabase. Deleted rows: ${data.length}`);
+                console.log('Deleted article:', data[0]);
             } else {
-                console.warn('⚠️ No rows deleted - article may not exist in database');
+                console.warn('⚠️ No rows deleted - delete query returned empty result');
+                console.warn('This might be an RLS policy issue preventing deletion');
             }
             
             // Also delete from localStorage
