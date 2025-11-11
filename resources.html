@@ -577,7 +577,7 @@
                     const image = document.getElementById('edit-resource-image').value;
                     // Sync editor HTML into hidden textarea
                     const editEditor = document.getElementById('edit-resource-content-editor');
-                    const content = editEditor ? editEditor.innerHTML : document.getElementById('edit-resource-content').value;
+                    let content = editEditor ? editEditor.innerHTML : document.getElementById('edit-resource-content').value;
                     const author = document.getElementById('edit-resource-author').value || 'Alli Nutrition Team';
                     // Remove duplicated title if the content starts with it
                     const cleaned = sanitizeEditorContent(content);
@@ -653,7 +653,7 @@
                     const image = document.getElementById('resource-image').value;
                     // Sync editor HTML into hidden textarea
                     const addEditor = document.getElementById('resource-content-editor');
-                    const content = addEditor ? addEditor.innerHTML : document.getElementById('resource-content').value;
+                    let content = addEditor ? addEditor.innerHTML : document.getElementById('resource-content').value;
                     const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
                     // Remove duplicated title if the content starts with it
                     const cleanedAdd = sanitizeEditorContent(content);
