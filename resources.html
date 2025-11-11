@@ -242,6 +242,46 @@
             wireToolbar('add-editor-toolbar', 'resource-content-editor');
             wireToolbar('edit-editor-toolbar', 'edit-resource-content-editor');
             
+            function sanitizeEditorContent(html) {
+                if (!html) return '';
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                // Remove whitespace-only nodes at start
+                while (temp.firstChild && temp.firstChild.nodeType === Node.TEXT_NODE && !temp.firstChild.textContent.trim()) {
+                    temp.removeChild(temp.firstChild);
+                }
+                return temp.innerHTML;
+            }
+            
+            function removeLeadingTitle(html, title) {
+                if (!html || !title) return html;
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                const normalizedTitle = title.trim().toLowerCase();
+                
+                // Check first block element/text node
+                function nodeText(node) {
+                    if (!node) return '';
+                    if (node.nodeType === Node.TEXT_NODE) return node.textContent.trim();
+                    return node.textContent.trim();
+                }
+                
+                let changed = false;
+                while (temp.firstChild && nodeText(temp.firstChild).toLowerCase().startsWith(normalizedTitle)) {
+                    temp.removeChild(temp.firstChild);
+                    changed = true;
+                }
+                
+                if (!changed) {
+                    const textContent = temp.textContent.trim().toLowerCase();
+                    if (textContent.startsWith(normalizedTitle)) {
+                        return temp.innerHTML.substring(title.length).trim();
+                    }
+                }
+                
+                return temp.innerHTML;
+            }
+            
             // Check if user is already authenticated and show button
             if (sessionStorage.getItem('adminAuthenticated') === 'true') {
                 const adminControls = document.getElementById('admin-controls');
@@ -540,15 +580,8 @@
                     const content = editEditor ? editEditor.innerHTML : document.getElementById('edit-resource-content').value;
                     const author = document.getElementById('edit-resource-author').value || 'Alli Nutrition Team';
                     // Remove duplicated title if the content starts with it
-                    const plain = (content || '').replace(/<[^>]*>/g, '').trim();
-                    if (plain.toLowerCase().startsWith(title.trim().toLowerCase())) {
-                        // Remove the first occurrence line
-                        const idx = content.toLowerCase().indexOf(title.trim().toLowerCase());
-                        if (idx === 0) {
-                            // remove the leading title block up to first <br> or closing tag boundary
-                            content = content.replace(new RegExp('^\\s*' + title.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + '\\s*'), '');
-                        }
-                    }
+                    const cleaned = sanitizeEditorContent(content);
+                    content = removeLeadingTitle(cleaned, title);
                     document.getElementById('edit-resource-content').value = content;
                     
                     if (!title || !description || !content) {
@@ -623,10 +656,8 @@
                     const content = addEditor ? addEditor.innerHTML : document.getElementById('resource-content').value;
                     const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
                     // Remove duplicated title if the content starts with it
-                    const plainAdd = (content || '').replace(/<[^>]*>/g, '').trim();
-                    if (plainAdd.toLowerCase().startsWith(title.trim().toLowerCase())) {
-                        content = content.replace(new RegExp('^\\s*' + title.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + '\\s*'), '');
-                    }
+                    const cleanedAdd = sanitizeEditorContent(content);
+                    content = removeLeadingTitle(cleanedAdd, title);
                     document.getElementById('resource-content').value = content;
                     
                     if (!title || !description || !content) {
