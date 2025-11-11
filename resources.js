@@ -1125,6 +1125,19 @@ window.displayArticles = async function displayArticles() {
         return;
     }
     
+    // Show skeleton loaders while fetching
+    const skeletonCard = () => `
+        <div class="skeleton-card">
+            <div class="skeleton-image skeleton-shimmer"></div>
+            <div class="skeleton-content">
+                <div class="skeleton-line long skeleton-shimmer"></div>
+                <div class="skeleton-line medium skeleton-shimmer"></div>
+                <div class="skeleton-line short skeleton-shimmer" style="margin-top:16px"></div>
+            </div>
+        </div>
+    `;
+    grid.innerHTML = skeletonCard() + skeletonCard() + skeletonCard() + skeletonCard() + skeletonCard() + skeletonCard();
+    
     let articles = await getArticles();
     
     // Only use placeholders if there are absolutely no articles
