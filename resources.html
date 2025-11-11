@@ -90,7 +90,15 @@
                     </div>
                     <div class="form-group">
                         <label for="resource-content">Full Article Content</label>
-                        <textarea id="resource-content" class="modal-input modal-textarea" rows="10" required></textarea>
+                        <div class="editor-toolbar" id="add-editor-toolbar">
+                            <button type="button" class="btn-primary editor-btn" data-cmd="bold"><i class="fas fa-bold"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="italic"><i class="fas fa-italic"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="blockquote"><i class="fas fa-quote-right"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="link"><i class="fas fa-link"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="image"><i class="fas fa-image"></i></button>
+                        </div>
+                        <div id="resource-content-editor" class="modal-input modal-textarea" contenteditable="true" style="min-height:180px;"></div>
+                        <textarea id="resource-content" class="modal-input modal-textarea" rows="10" style="display:none;"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="resource-author">Author (optional)</label>
@@ -129,7 +137,15 @@
                     </div>
                     <div class="form-group">
                         <label for="edit-resource-content">Full Article Content</label>
-                        <textarea id="edit-resource-content" class="modal-input modal-textarea" rows="10" required></textarea>
+                        <div class="editor-toolbar" id="edit-editor-toolbar">
+                            <button type="button" class="btn-primary editor-btn" data-cmd="bold"><i class="fas fa-bold"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="italic"><i class="fas fa-italic"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="blockquote"><i class="fas fa-quote-right"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="link"><i class="fas fa-link"></i></button>
+                            <button type="button" class="btn-primary editor-btn" data-cmd="image"><i class="fas fa-image"></i></button>
+                        </div>
+                        <div id="edit-resource-content-editor" class="modal-input modal-textarea" contenteditable="true" style="min-height:180px;"></div>
+                        <textarea id="edit-resource-content" class="modal-input modal-textarea" rows="10" style="display:none;"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="edit-resource-author">Author (optional)</label>
@@ -165,6 +181,45 @@
     <script>
         // Ensure title click and modal handlers work immediately
         document.addEventListener('DOMContentLoaded', function() {
+            // Rich text editor helpers
+            function applyEditorCommand(cmd, editor) {
+                editor.focus();
+                if (cmd === 'bold') {
+                    document.execCommand('bold');
+                } else if (cmd === 'italic') {
+                    document.execCommand('italic');
+                } else if (cmd === 'blockquote') {
+                    document.execCommand('formatBlock', false, 'blockquote');
+                } else if (cmd === 'link') {
+                    const url = prompt('Enter URL (https://...)');
+                    if (url) document.execCommand('createLink', false, url);
+                } else if (cmd === 'image') {
+                    const url = prompt('Enter image URL (https://...)');
+                    if (url) {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.alt = '';
+                        img.style.maxWidth = '100%';
+                        const range = window.getSelection().getRangeAt(0);
+                        range.insertNode(img);
+                    }
+                }
+            }
+            function wireToolbar(toolbarId, editorId) {
+                const toolbar = document.getElementById(toolbarId);
+                const editor = document.getElementById(editorId);
+                if (!toolbar || !editor) return;
+                toolbar.querySelectorAll('.editor-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const cmd = btn.getAttribute('data-cmd');
+                        applyEditorCommand(cmd, editor);
+                    });
+                });
+            }
+            wireToolbar('add-editor-toolbar', 'resource-content-editor');
+            wireToolbar('edit-editor-toolbar', 'edit-resource-content-editor');
+            
             // Check if user is already authenticated and show button
             if (sessionStorage.getItem('adminAuthenticated') === 'true') {
                 const adminControls = document.getElementById('admin-controls');
@@ -437,7 +492,9 @@
                     const title = document.getElementById('edit-resource-title').value;
                     const description = document.getElementById('edit-resource-description').value;
                     const image = document.getElementById('edit-resource-image').value;
-                    const content = document.getElementById('edit-resource-content').value;
+                    // Sync editor HTML into hidden textarea
+                    const editEditor = document.getElementById('edit-resource-content-editor');
+                    const content = editEditor ? editEditor.innerHTML : document.getElementById('edit-resource-content').value;
                     const author = document.getElementById('edit-resource-author').value || 'Alli Nutrition Team';
                     
                     if (!title || !description || !content) {
@@ -506,7 +563,9 @@
                     const title = document.getElementById('resource-title').value;
                     const description = document.getElementById('resource-description').value;
                     const image = document.getElementById('resource-image').value;
-                    const content = document.getElementById('resource-content').value;
+                    // Sync editor HTML into hidden textarea
+                    const addEditor = document.getElementById('resource-content-editor');
+                    const content = addEditor ? addEditor.innerHTML : document.getElementById('resource-content').value;
                     const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
                     
                     if (!title || !description || !content) {

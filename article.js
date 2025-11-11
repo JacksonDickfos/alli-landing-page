@@ -47,6 +47,10 @@ function formatDate(dateString) {
 
 // Convert markdown-style content to HTML
 function formatContent(content) {
+    // If content already contains HTML tags, trust it and render as-is
+    if (typeof content === 'string' && content.trim().startsWith('<')) {
+        return content;
+    }
     let html = content;
     
     // Convert markdown headers to HTML (must be done first)

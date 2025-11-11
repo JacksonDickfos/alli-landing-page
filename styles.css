@@ -2569,6 +2569,19 @@ body:has(.founding-membership-hero) .nav-links {
     font-family: 'Inter', sans-serif;
 }
 
+/* Simple editor toolbar */
+.editor-toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.editor-btn {
+    padding: 8px 12px;
+    height: auto;
+}
+
 .modal-error {
     background: #FEE2E2;
     color: #991B1B;
