@@ -1210,6 +1210,22 @@ window.displayArticles = async function displayArticles() {
     }
 }
 
+function setEditorContent(editorId, textareaId, content) {
+    const editor = document.getElementById(editorId);
+    const textarea = document.getElementById(textareaId);
+    const value = content || '';
+    if (editor) {
+        if (/<[a-z][\s\S]*>/i.test(value.trim())) {
+            editor.innerHTML = value;
+        } else {
+            editor.innerHTML = value.replace(/\n/g, '<br>');
+        }
+    }
+    if (textarea) {
+        textarea.value = value;
+    }
+}
+
 // Open edit modal with article data (make globally accessible, async)
 window.openEditModal = async function(articleId) {
     const articles = await getArticles();
@@ -1234,6 +1250,7 @@ window.openEditModal = async function(articleId) {
     if (contentInput) contentInput.value = article.content || '';
     if (authorInput) authorInput.value = article.author || '';
     if (idInput) idInput.value = article.id;
+    setEditorContent('edit-resource-content-editor', 'edit-resource-content', article.content || '');
     
     // Show edit modal
     const editModal = document.getElementById('edit-resource-modal');

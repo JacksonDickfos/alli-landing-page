@@ -262,7 +262,16 @@
                                 document.getElementById('edit-resource-title').value = article.title || '';
                                 document.getElementById('edit-resource-description').value = article.description || '';
                                 document.getElementById('edit-resource-image').value = article.image || '';
-                                document.getElementById('edit-resource-content').value = article.content || '';
+                                const editEditor = document.getElementById('edit-resource-content-editor');
+                                const contentValue = article.content || '';
+                                if (editEditor) {
+                                    if (/<[a-z][\s\S]*>/i.test(contentValue.trim())) {
+                                        editEditor.innerHTML = contentValue;
+                                    } else {
+                                        editEditor.innerHTML = contentValue.replace(/\n/g, '<br>');
+                                    }
+                                }
+                                document.getElementById('edit-resource-content').value = contentValue;
                                 document.getElementById('edit-resource-author').value = article.author || '';
                                 document.getElementById('edit-resource-id').value = article.id;
                                 document.getElementById('edit-resource-modal').style.display = 'flex';
@@ -410,6 +419,8 @@
                         addModal.style.display = 'none';
                         const form = document.getElementById('add-resource-form');
                         if (form) form.reset();
+                        const editor = document.getElementById('resource-content-editor');
+                        if (editor) editor.innerHTML = '';
                     }
                 });
             }
@@ -424,6 +435,8 @@
                         addModal.style.display = 'none';
                         const form = document.getElementById('add-resource-form');
                         if (form) form.reset();
+                        const editor = document.getElementById('resource-content-editor');
+                        if (editor) editor.innerHTML = '';
                     }
                 });
             }
@@ -436,6 +449,8 @@
                         addResourceModal.style.display = 'none';
                         const form = document.getElementById('add-resource-form');
                         if (form) form.reset();
+                        const editor = document.getElementById('resource-content-editor');
+                        if (editor) editor.innerHTML = '';
                     }
                 });
             }
@@ -451,6 +466,8 @@
                         editModal.style.display = 'none';
                         const form = document.getElementById('edit-resource-form');
                         if (form) form.reset();
+                        const editor = document.getElementById('edit-resource-content-editor');
+                        if (editor) editor.innerHTML = '';
                     }
                 });
             }
@@ -465,6 +482,8 @@
                         editModal.style.display = 'none';
                         const form = document.getElementById('edit-resource-form');
                         if (form) form.reset();
+                        const editor = document.getElementById('edit-resource-content-editor');
+                        if (editor) editor.innerHTML = '';
                     }
                 });
             }
@@ -477,6 +496,8 @@
                         editResourceModal.style.display = 'none';
                         const form = document.getElementById('edit-resource-form');
                         if (form) form.reset();
+                        const editor = document.getElementById('edit-resource-content-editor');
+                        if (editor) editor.innerHTML = '';
                     }
                 });
             }
@@ -496,6 +517,7 @@
                     const editEditor = document.getElementById('edit-resource-content-editor');
                     const content = editEditor ? editEditor.innerHTML : document.getElementById('edit-resource-content').value;
                     const author = document.getElementById('edit-resource-author').value || 'Alli Nutrition Team';
+                    document.getElementById('edit-resource-content').value = content;
                     
                     if (!title || !description || !content) {
                         alert('Please fill in all required fields (Title, Description, and Content).');
@@ -542,6 +564,7 @@
                         // Close modal and reset form
                         editResourceModal.style.display = 'none';
                         editResourceForm.reset();
+                        if (editEditor) editEditor.innerHTML = '';
                         
                         // Refresh the grid to show updated article (sorted by date)
                         if (typeof displayArticles === 'function') {
@@ -567,6 +590,7 @@
                     const addEditor = document.getElementById('resource-content-editor');
                     const content = addEditor ? addEditor.innerHTML : document.getElementById('resource-content').value;
                     const author = document.getElementById('resource-author').value || 'Alli Nutrition Team';
+                    document.getElementById('resource-content').value = content;
                     
                     if (!title || !description || !content) {
                         alert('Please fill in all required fields (Title, Description, and Content).');
@@ -689,6 +713,7 @@
                             modalToClose.style.display = 'none';
                         }
                         addResourceForm.reset();
+                        if (addEditor) addEditor.innerHTML = '';
                     } else {
                         alert('Error: Could not add article to grid.');
                     }
