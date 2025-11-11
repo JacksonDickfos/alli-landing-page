@@ -2582,6 +2582,30 @@ body:has(.founding-membership-hero) .nav-links {
     height: auto;
 }
 
+/* Styled quote (medium-like) */
+.rich-quote {
+    font-size: 20px;
+    line-height: 1.7;
+    font-style: italic;
+    color: #0C2240;
+    padding: 16px 0;
+    margin: 16px 0;
+    position: relative;
+}
+.rich-quote::before,
+.rich-quote::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: #E6E5E3;
+}
+.rich-quote::before { margin-bottom: 12px; }
+.rich-quote::after { margin-top: 12px; }
+.rich-quote:empty::after,
+.rich-quote:empty::before {
+    display: none;
+}
+
 .modal-error {
     background: #FEE2E2;
     color: #991B1B;

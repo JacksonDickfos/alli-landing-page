@@ -133,7 +133,27 @@ async function displayArticle() {
         return;
     }
     
-    const formattedContent = formatContent(article.content);
+    // Remove duplicated leading title line if present (both HTML and plain cases)
+    function stripDuplicateTitle(title, content) {
+        if (!title || !content) return content;
+        const t = title.trim();
+        let c = content;
+        // HTML paragraph/heading cases
+        const htmlTitleRegex = new RegExp(
+            '^\\s*(<(p|h1|h2|h3)[^>]*>\\s*)?' +
+            t.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') +
+            '(\\s*</(p|h1|h2|h3)>\\s*)?',
+            'i'
+        );
+        c = c.replace(htmlTitleRegex, '').trim();
+        // Plain text first line case
+        if (c.trim().toLowerCase().startsWith(t.toLowerCase())) {
+            c = c.trim().substring(t.length).trim();
+        }
+        return c;
+    }
+    const safeContent = stripDuplicateTitle(article.title, article.content);
+    const formattedContent = formatContent(safeContent);
     
     document.getElementById('article-content').innerHTML = `
         <article class="article">
