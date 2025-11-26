@@ -244,10 +244,10 @@ function initializeCounters() {
         startLiveWaitlistCounter(waitlistCounter, waitlistStartDate, initialWaitlist);
     }
     
-    // Launch date counter: starts at Dec 31, goes to Dec 1
+    // Launch date counter: starts at Dec 31, goes to Jan 1
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'Dec 31', 'Dec 1', 4000);
+        animateDateCounter(launchCounter, 'Dec 31', 'Jan 1', 4000);
     }
     
     // Members counter: starts at 30, increases by 1 every 20 minutes
@@ -287,7 +287,7 @@ function animateDateCounter(element, startDate, endDate, duration) {
                    'Dec 24', 'Dec 23', 'Dec 22', 'Dec 21', 'Dec 20', 'Dec 19', 'Dec 18',
                    'Dec 17', 'Dec 16', 'Dec 15', 'Dec 14', 'Dec 13', 'Dec 12', 'Dec 11',
                    'Dec 10', 'Dec 9', 'Dec 8', 'Dec 7', 'Dec 6', 'Dec 5', 'Dec 4', 'Dec 3',
-                   'Dec 2', 'Dec 1'];
+                   'Dec 2', 'Dec 1', 'Jan 1'];
     
     function updateDate(currentTime) {
         const elapsed = currentTime - startTime;
