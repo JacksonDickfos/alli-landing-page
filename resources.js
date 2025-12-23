@@ -33,10 +33,11 @@ function initializeSupabase() {
     }
     
     try {
-        supabase = supabaseLib.createClient(
+        window._resourcesSupabaseClient = supabaseLib.createClient(
             window.SUPABASE_CONFIG.url, 
             window.SUPABASE_CONFIG.anonKey
         );
+        supabase = window._resourcesSupabaseClient;
         console.log('✅ Supabase client initialized successfully');
         console.log('Supabase URL:', window.SUPABASE_CONFIG.url);
         
