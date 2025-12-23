@@ -1,5 +1,9 @@
 // Initialize Supabase client (only if config is available)
-let supabase = null;
+// Use window property to avoid conflicts with other scripts
+if (!window._resourcesSupabaseClient) {
+    window._resourcesSupabaseClient = null;
+}
+let supabase = window._resourcesSupabaseClient;
 
 function initializeSupabase() {
     // Check for Supabase library - when loaded from CDN, it should be window.supabase
