@@ -956,7 +956,6 @@ async function getArticles() {
     console.log('=== getArticles called ===');
     const supabase = getSupabaseClient();
     console.log('Supabase client available:', !!supabase);
-    const supabase = getSupabaseClient();
     console.log('Supabase client:', supabase);
     
     // Try Supabase first
