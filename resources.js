@@ -1153,17 +1153,17 @@ window.displayArticles = async function displayArticles() {
             articles = placeholderArticles;
             localStorage.setItem('articles', JSON.stringify(placeholderArticles));
         }
-    
-    // Sort articles by createdAt timestamp (newest first)
-    articles.sort((a, b) => {
-        const dateA = new Date(a.createdAt || 0);
-        const dateB = new Date(b.createdAt || 0);
-        return dateB - dateA; // Descending order (newest first)
-    });
-    
-    // Check if admin is authenticated
-    const isAdmin = sessionStorage.getItem('adminAuthenticated') === 'true';
-    
+        
+        // Sort articles by createdAt timestamp (newest first)
+        articles.sort((a, b) => {
+            const dateA = new Date(a.createdAt || 0);
+            const dateB = new Date(b.createdAt || 0);
+            return dateB - dateA; // Descending order (newest first)
+        });
+        
+        // Check if admin is authenticated
+        const isAdmin = sessionStorage.getItem('adminAuthenticated') === 'true';
+        
         const html = articles.map(article => `
         <div class="resource-card" data-id="${article.id}">
             <div class="resource-bubble"></div>
@@ -1183,41 +1183,42 @@ window.displayArticles = async function displayArticles() {
         console.log('Rendering HTML for', articles.length, 'articles');
         grid.innerHTML = html;
         console.log('✅ Articles rendered to grid');
-    
-    // Add click handlers for cards (not on edit button)
-    document.querySelectorAll('.resource-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Don't navigate if clicking edit button
-            if (e.target.closest('.edit-article-btn')) {
-                return;
-            }
-            const articleId = this.getAttribute('data-id');
-            window.location.href = `article.html?id=${articleId}`;
-        });
-    });
-    
-    // Add click handlers for edit buttons
-    if (isAdmin) {
-        document.querySelectorAll('.edit-article-btn').forEach(btn => {
-            // Remove any existing handlers by cloning
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            
-            newBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const articleId = this.getAttribute('data-id');
-                console.log('Edit button clicked for article:', articleId);
-                if (window.openEditModal && typeof window.openEditModal === 'function') {
-                    window.openEditModal(articleId);
-                } else if (typeof openEditModal === 'function') {
-                    openEditModal(articleId);
-                } else {
-                    console.error('openEditModal function not found');
-                    alert('Edit functionality not available. Please refresh the page.');
+        
+        // Add click handlers for cards (not on edit button)
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't navigate if clicking edit button
+                if (e.target.closest('.edit-article-btn')) {
+                    return;
                 }
+                const articleId = this.getAttribute('data-id');
+                window.location.href = `article.html?id=${articleId}`;
             });
         });
+        
+        // Add click handlers for edit buttons
+        if (isAdmin) {
+            document.querySelectorAll('.edit-article-btn').forEach(btn => {
+                // Remove any existing handlers by cloning
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const articleId = this.getAttribute('data-id');
+                    console.log('Edit button clicked for article:', articleId);
+                    if (window.openEditModal && typeof window.openEditModal === 'function') {
+                        window.openEditModal(articleId);
+                    } else if (typeof openEditModal === 'function') {
+                        openEditModal(articleId);
+                    } else {
+                        console.error('openEditModal function not found');
+                        alert('Edit functionality not available. Please refresh the page.');
+                    }
+                });
+            });
+        }
         
         console.log('✅ displayArticles completed successfully');
     } catch (error) {
