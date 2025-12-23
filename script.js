@@ -30,49 +30,41 @@ function scrollToFeatures() {
     });
 }
 
-// Unified scrollToWaitlist function - make it globally accessible
+// Unified scrollToWaitlist function - SIMPLIFIED AND ROBUST
 function scrollToWaitlist() {
-    console.log('scrollToWaitlist function called');
+    console.log('=== scrollToWaitlist CALLED ===');
+    
+    // Simple approach: just scroll to the element
     const waitlistSection = document.getElementById('waitlist');
-    console.log('scrollToWaitlist called, waitlistSection:', waitlistSection);
     
     if (!waitlistSection) {
-        console.error('Waitlist section not found');
-        // If waitlist section doesn't exist, try to navigate to it
-        if (window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
-            window.location.href = 'index.html#waitlist';
-        }
+        console.error('Waitlist section NOT FOUND');
+        alert('Waitlist section not found on this page');
         return;
     }
     
-    // Calculate scroll position accounting for any fixed headers
-    const navbar = document.querySelector('.navbar');
-    const navbarHeight = navbar ? navbar.offsetHeight : 0;
-    const yOffset = navbarHeight + 20; // Add padding
+    console.log('Waitlist section found:', waitlistSection);
     
-    // Get element position relative to viewport
-    const elementTop = waitlistSection.getBoundingClientRect().top;
-    // Get current scroll position
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    // Calculate target scroll position
-    const targetScroll = elementTop + currentScroll - yOffset;
+    // Get the position
+    const rect = waitlistSection.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const targetY = rect.top + scrollTop - 100; // 100px offset from top
     
-    console.log('Scrolling to:', targetScroll);
+    console.log('Scrolling to position:', targetY);
     
-    // Use window.scrollTo for reliable scrolling
-    try {
+    // Try smooth scroll first
+    if ('scrollBehavior' in document.documentElement.style) {
         window.scrollTo({
-            top: Math.max(0, targetScroll), // Ensure non-negative
+            top: targetY,
             behavior: 'smooth'
         });
-    } catch (e) {
-        console.error('Scroll error:', e);
-        // Fallback to instant scroll
-        window.scrollTo(0, Math.max(0, targetScroll));
+    } else {
+        // Fallback for older browsers
+        window.scrollTo(0, targetY);
     }
 }
 
-// Make it globally accessible immediately
+// Make it globally accessible IMMEDIATELY
 window.scrollToWaitlist = scrollToWaitlist;
 
 // Email validation
@@ -464,50 +456,27 @@ function initializeCountdownTimer() {
     setInterval(updateCountdown, 1000);
 }
 
-// Add click functionality to countdown bubble
+// Add click functionality to countdown bubble - SIMPLIFIED
 function addCountdownBubbleClick() {
-    // Try multiple times in case element isn't ready yet
     const tryAttach = () => {
         const countdownBubble = document.getElementById('countdown-bubble');
         if (countdownBubble) {
-            console.log('Countdown bubble found, attaching click handler');
-            // Ensure pointer events are enabled
+            console.log('=== Countdown bubble found, attaching handler ===');
             countdownBubble.style.cursor = 'pointer';
-            countdownBubble.style.pointerEvents = 'auto';
             
-            // Remove any existing listeners by cloning (clean slate)
-            const newBubble = countdownBubble.cloneNode(true);
-            countdownBubble.parentNode.replaceChild(newBubble, countdownBubble);
-            
-            // Attach click handler to the new element
-            newBubble.style.cursor = 'pointer';
-            newBubble.style.pointerEvents = 'auto';
-            newBubble.addEventListener('click', function(e) {
+            // Simple direct click handler
+            countdownBubble.onclick = function(e) {
+                console.log('=== COUNTDOWN BUBBLE CLICKED ===');
                 e.preventDefault();
                 e.stopPropagation();
-                
-                console.log('Countdown bubble clicked');
-                // Use the scrollToWaitlist function
                 scrollToWaitlist();
-            });
-            
-            // Also attach to child elements to ensure clicks work
-            const content = newBubble.querySelector('.countdown-content');
-            if (content) {
-                content.style.pointerEvents = 'auto';
-                content.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Countdown content clicked');
-                    scrollToWaitlist();
-                });
-            }
+                return false;
+            };
         } else {
-            console.warn('Countdown bubble element not found, retrying...');
+            console.warn('Countdown bubble not found, retrying...');
             setTimeout(tryAttach, 100);
         }
     };
-    
     tryAttach();
 }
 
