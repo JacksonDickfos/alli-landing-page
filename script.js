@@ -349,11 +349,24 @@ function startLiveMembersCounter(element, startDate, initialValue) {
 
 // Floating Countdown Timer
 function initializeCountdownTimer() {
-    const launchDate = new Date('2026-02-01T00:00:00Z');
+    // Check if countdown elements exist
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+    
+    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+        console.error('Countdown elements not found!');
+        return;
+    }
+    
+    // Set launch date to February 1st, 2026 at midnight UTC
+    // Using explicit date constructor to avoid timezone issues
+    const launchDate = new Date(Date.UTC(2026, 1, 1, 0, 0, 0)); // Month is 0-indexed, so 1 = February
     
     function updateCountdown() {
         const now = new Date();
-        const timeLeft = launchDate - now;
+        const timeLeft = launchDate.getTime() - now.getTime();
         
         if (timeLeft > 0) {
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
