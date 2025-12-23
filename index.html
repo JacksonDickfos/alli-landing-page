@@ -265,6 +265,45 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Ensure scrollToWaitlist is available and test it
+        console.log('Testing scrollToWaitlist availability:', typeof window.scrollToWaitlist, typeof scrollToWaitlist);
+        if (typeof scrollToWaitlist === 'undefined' && typeof window.scrollToWaitlist !== 'undefined') {
+            window.scrollToWaitlist = window.scrollToWaitlist;
+        }
+        // Test button click
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.querySelector('.hero-submit-btn');
+            if (btn) {
+                console.log('VIP button found in inline script');
+                btn.onclick = function() {
+                    console.log('VIP button clicked - inline handler');
+                    if (window.scrollToWaitlist) {
+                        window.scrollToWaitlist();
+                    } else if (typeof scrollToWaitlist === 'function') {
+                        scrollToWaitlist();
+                    } else {
+                        alert('Scroll function not available');
+                    }
+                    return false;
+                };
+            }
+            // Test countdown bubble
+            const bubble = document.getElementById('countdown-bubble');
+            if (bubble) {
+                console.log('Countdown bubble found in inline script');
+                bubble.onclick = function() {
+                    console.log('Countdown bubble clicked - inline handler');
+                    if (window.scrollToWaitlist) {
+                        window.scrollToWaitlist();
+                    } else if (typeof scrollToWaitlist === 'function') {
+                        scrollToWaitlist();
+                    }
+                    return false;
+                };
+            }
+        });
+    </script>
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
