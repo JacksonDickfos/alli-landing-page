@@ -266,25 +266,33 @@
     <script src="config.js"></script>
     <script src="script.js"></script>
     <script>
-        // Ensure scrollToWaitlist is available and test it
-        console.log('Testing scrollToWaitlist availability:', typeof window.scrollToWaitlist, typeof scrollToWaitlist);
-        if (typeof scrollToWaitlist === 'undefined' && typeof window.scrollToWaitlist !== 'undefined') {
-            window.scrollToWaitlist = window.scrollToWaitlist;
+        // Define scrollToWaitlist function here as ultimate fallback
+        function scrollToWaitlistFallback() {
+            console.log('=== scrollToWaitlistFallback CALLED ===');
+            const waitlistSection = document.getElementById('waitlist');
+            if (!waitlistSection) {
+                console.error('Waitlist section NOT FOUND');
+                return;
+            }
+            const rect = waitlistSection.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const targetY = rect.top + scrollTop - 100;
+            console.log('Scrolling to:', targetY);
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
         }
+        
+        // Make it globally available
+        window.scrollToWaitlist = window.scrollToWaitlist || scrollToWaitlistFallback;
+        
         // Test button click
         document.addEventListener('DOMContentLoaded', function() {
             const btn = document.querySelector('.hero-submit-btn');
             if (btn) {
                 console.log('VIP button found in inline script');
-                btn.onclick = function() {
+                btn.onclick = function(e) {
+                    e.preventDefault();
                     console.log('VIP button clicked - inline handler');
-                    if (window.scrollToWaitlist) {
-                        window.scrollToWaitlist();
-                    } else if (typeof scrollToWaitlist === 'function') {
-                        scrollToWaitlist();
-                    } else {
-                        alert('Scroll function not available');
-                    }
+                    (window.scrollToWaitlist || scrollToWaitlistFallback)();
                     return false;
                 };
             }
@@ -292,13 +300,10 @@
             const bubble = document.getElementById('countdown-bubble');
             if (bubble) {
                 console.log('Countdown bubble found in inline script');
-                bubble.onclick = function() {
+                bubble.onclick = function(e) {
+                    e.preventDefault();
                     console.log('Countdown bubble clicked - inline handler');
-                    if (window.scrollToWaitlist) {
-                        window.scrollToWaitlist();
-                    } else if (typeof scrollToWaitlist === 'function') {
-                        scrollToWaitlist();
-                    }
+                    (window.scrollToWaitlist || scrollToWaitlistFallback)();
                     return false;
                 };
             }
