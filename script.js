@@ -773,13 +773,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Also attach click handler to VIP button directly (in addition to onclick)
     const vipButton = document.querySelector('.hero-submit-btn');
     if (vipButton) {
-        console.log('VIP button found, attaching click handler');
-        vipButton.addEventListener('click', function(e) {
+        console.log('=== VIP button found, attaching handler ===');
+        // Use onclick as backup to ensure it works
+        vipButton.onclick = function(e) {
+            console.log('=== VIP BUTTON CLICKED ===');
             e.preventDefault();
             e.stopPropagation();
-            console.log('VIP button clicked via event listener');
             scrollToWaitlist();
-        });
+            return false;
+        };
     } else {
         console.warn('VIP button not found');
     }
