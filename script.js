@@ -411,11 +411,15 @@ function initializeCountdownTimer() {
         const now = new Date();
         const timeLeft = launchDate.getTime() - now.getTime();
         
+        console.log('Countdown update - Now:', now.toLocaleString(), 'Target:', launchDate.toLocaleString(), 'Time left:', timeLeft, 'ms');
+        
         if (timeLeft > 0) {
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            console.log('Countdown values - Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds);
             
             // Update the countdown display
             const daysElement = document.getElementById('days');
@@ -423,11 +427,32 @@ function initializeCountdownTimer() {
             const minutesElement = document.getElementById('minutes');
             const secondsElement = document.getElementById('seconds');
             
-            if (daysElement) daysElement.textContent = days.toString().padStart(2, '0');
-            if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
-            if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
-            if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
+            if (daysElement) {
+                daysElement.textContent = days.toString().padStart(2, '0');
+                console.log('Updated days element:', daysElement.textContent);
+            } else {
+                console.error('Days element not found!');
+            }
+            if (hoursElement) {
+                hoursElement.textContent = hours.toString().padStart(2, '0');
+                console.log('Updated hours element:', hoursElement.textContent);
+            } else {
+                console.error('Hours element not found!');
+            }
+            if (minutesElement) {
+                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                console.log('Updated minutes element:', minutesElement.textContent);
+            } else {
+                console.error('Minutes element not found!');
+            }
+            if (secondsElement) {
+                secondsElement.textContent = seconds.toString().padStart(2, '0');
+                console.log('Updated seconds element:', secondsElement.textContent);
+            } else {
+                console.error('Seconds element not found!');
+            }
         } else {
+            console.warn('Countdown expired or invalid - timeLeft:', timeLeft);
             // Launch day has arrived!
             const daysElement = document.getElementById('days');
             const hoursElement = document.getElementById('hours');
