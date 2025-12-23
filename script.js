@@ -11,11 +11,10 @@ function updateCopyrightYear() {
 }
 
 // Define scrollToWaitlist immediately so it's available for onclick handlers
-// Initialize Supabase client (only if available)
-let supabase = null;
-if (window.supabase && window.SUPABASE_CONFIG) {
+// Initialize Supabase client (only if available) - use window property to avoid conflicts
+if (!window._supabaseClient && window.supabase && window.SUPABASE_CONFIG) {
     try {
-        supabase = window.supabase.createClient(
+        window._supabaseClient = window.supabase.createClient(
             window.SUPABASE_CONFIG.url, 
             window.SUPABASE_CONFIG.anonKey
         );
@@ -23,6 +22,8 @@ if (window.supabase && window.SUPABASE_CONFIG) {
         console.warn('Supabase initialization failed:', e);
     }
 }
+// Create a local reference for convenience
+const supabase = window._supabaseClient || null;
 
 // Smooth scrolling functions
 function scrollToAppPreview() {
