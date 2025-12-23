@@ -814,44 +814,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize chat demo
     initializeChatDemo();
     
-    // Ensure hero video plays
-    const heroVideo = document.querySelector('.hero-video');
+    // Ensure hero video plays - comprehensive handling
+    const heroVideo = document.querySelector('.hero-video') || document.getElementById('hero-video');
     if (heroVideo) {
-        console.log('Hero video found:', heroVideo);
-        console.log('Video src:', heroVideo.querySelector('source')?.src);
+        console.log('✅ Hero video element found');
+        console.log('Video element:', heroVideo);
+        console.log('Video src:', heroVideo.querySelector('source')?.src || heroVideo.src);
+        console.log('Video readyState:', heroVideo.readyState);
         
         // Ensure muted for autoplay
         heroVideo.muted = true;
         heroVideo.setAttribute('muted', '');
+        heroVideo.volume = 0;
+        
+        // Function to play video
+        const playVideo = async () => {
+            try {
+                console.log('Attempting to play video...');
+                await heroVideo.play();
+                console.log('✅ Video playing successfully');
+                return true;
+            } catch (error) {
+                console.error('❌ Video play failed:', error);
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                return false;
+            }
+        };
         
         // Try to play immediately
-        const tryPlay = () => {
-            heroVideo.play().then(() => {
-                console.log('✅ Video playing successfully');
-            }).catch(error => {
-                console.log('Video autoplay prevented:', error);
-            });
+        if (heroVideo.readyState >= 2) {
+            // Video is loaded enough to play
+            playVideo();
+        } else {
+            // Wait for video to load
+            heroVideo.addEventListener('canplay', () => {
+                console.log('Video can play, attempting playback');
+                playVideo();
+            }, { once: true });
+            
+            heroVideo.addEventListener('loadeddata', () => {
+                console.log('Video data loaded, attempting playback');
+                playVideo();
+            }, { once: true });
+        }
+        
+        // Play on ANY user interaction (click, scroll, touch, keypress)
+        const playOnInteraction = () => {
+            console.log('User interaction detected, attempting to play video');
+            playVideo();
         };
         
-        // Try immediately
-        tryPlay();
-        
-        // Also try when video is loaded
-        heroVideo.addEventListener('loadeddata', () => {
-            console.log('Video loaded, attempting to play');
-            tryPlay();
+        // Add multiple event listeners for user interaction
+        ['click', 'scroll', 'touchstart', 'keydown', 'mousedown'].forEach(eventType => {
+            document.addEventListener(eventType, playOnInteraction, { once: true, passive: true });
         });
         
-        // Play on any user interaction
-        const playOnInteraction = () => {
-            heroVideo.play().catch(e => console.log('Play failed:', e));
-        };
+        // Also add click handler directly to video
+        heroVideo.addEventListener('click', () => {
+            console.log('Video clicked, attempting to play');
+            playVideo();
+        });
         
-        document.addEventListener('click', playOnInteraction, { once: true });
-        document.addEventListener('scroll', playOnInteraction, { once: true });
-        document.addEventListener('touchstart', playOnInteraction, { once: true });
     } else {
-        console.error('Hero video element not found!');
+        console.error('❌ Hero video element not found!');
     }
     
     // Initialize countdown timer
