@@ -244,10 +244,10 @@ function initializeCounters() {
         startLiveWaitlistCounter(waitlistCounter, waitlistStartDate, initialWaitlist);
     }
     
-    // Launch date counter: starts at March 31, goes to Jan 1
+    // Launch date counter: starts at March 31, goes to Feb 1
     const launchCounter = document.getElementById('launch-counter');
     if (launchCounter) {
-        animateDateCounter(launchCounter, 'March 31', 'Jan 1', 4000);
+        animateDateCounter(launchCounter, 'March 31', 'Feb 1', 4000);
     }
     
     // Members counter: starts at 30, increases by 1 every 20 minutes
@@ -292,11 +292,7 @@ function animateDateCounter(element, startDate, endDate, duration) {
         'Feb 28', 'Feb 27', 'Feb 26', 'Feb 25', 'Feb 24', 'Feb 23', 'Feb 22', 'Feb 21', 
         'Feb 20', 'Feb 19', 'Feb 18', 'Feb 17', 'Feb 16', 'Feb 15', 'Feb 14', 'Feb 13',
         'Feb 12', 'Feb 11', 'Feb 10', 'Feb 9', 'Feb 8', 'Feb 7', 'Feb 6', 'Feb 5', 'Feb 4',
-        'Feb 3', 'Feb 2', 'Feb 1',
-        'Jan 31', 'Jan 30', 'Jan 29', 'Jan 28', 'Jan 27', 'Jan 26', 'Jan 25', 'Jan 24',
-        'Jan 23', 'Jan 22', 'Jan 21', 'Jan 20', 'Jan 19', 'Jan 18', 'Jan 17', 'Jan 16',
-        'Jan 15', 'Jan 14', 'Jan 13', 'Jan 12', 'Jan 11', 'Jan 10', 'Jan 9', 'Jan 8',
-        'Jan 7', 'Jan 6', 'Jan 5', 'Jan 4', 'Jan 3', 'Jan 2', 'Jan 1'
+        'Feb 3', 'Feb 2', 'Feb 1'
     ];
     
     function updateDate(currentTime) {
@@ -353,7 +349,7 @@ function startLiveMembersCounter(element, startDate, initialValue) {
 
 // Floating Countdown Timer
 function initializeCountdownTimer() {
-    const launchDate = new Date('2025-02-01T00:00:00Z');
+    const launchDate = new Date('2026-02-01T00:00:00Z');
     
     function updateCountdown() {
         const now = new Date();
