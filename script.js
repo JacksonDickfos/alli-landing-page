@@ -31,6 +31,7 @@ function scrollToFeatures() {
 
 // Unified scrollToWaitlist function - make it globally accessible
 function scrollToWaitlist() {
+    console.log('scrollToWaitlist function called');
     const waitlistSection = document.getElementById('waitlist');
     console.log('scrollToWaitlist called, waitlistSection:', waitlistSection);
     
@@ -55,14 +56,22 @@ function scrollToWaitlist() {
     // Calculate target scroll position
     const targetScroll = elementTop + currentScroll - yOffset;
     
+    console.log('Scrolling to:', targetScroll);
+    
     // Use window.scrollTo for reliable scrolling
-    window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth'
-    });
+    try {
+        window.scrollTo({
+            top: Math.max(0, targetScroll), // Ensure non-negative
+            behavior: 'smooth'
+        });
+    } catch (e) {
+        console.error('Scroll error:', e);
+        // Fallback to instant scroll
+        window.scrollTo(0, Math.max(0, targetScroll));
+    }
 }
 
-// Make it globally accessible
+// Make it globally accessible immediately
 window.scrollToWaitlist = scrollToWaitlist;
 
 // Email validation
@@ -456,21 +465,49 @@ function initializeCountdownTimer() {
 
 // Add click functionality to countdown bubble
 function addCountdownBubbleClick() {
-    const countdownBubble = document.getElementById('countdown-bubble');
-    if (countdownBubble) {
-        // Use a single event listener
-        countdownBubble.style.cursor = 'pointer';
-        countdownBubble.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+    // Try multiple times in case element isn't ready yet
+    const tryAttach = () => {
+        const countdownBubble = document.getElementById('countdown-bubble');
+        if (countdownBubble) {
+            console.log('Countdown bubble found, attaching click handler');
+            // Ensure pointer events are enabled
+            countdownBubble.style.cursor = 'pointer';
+            countdownBubble.style.pointerEvents = 'auto';
             
-            console.log('Countdown bubble clicked');
-            // Use the scrollToWaitlist function
-            scrollToWaitlist();
-        }, { once: false }); // Allow multiple clicks
-    } else {
-        console.warn('Countdown bubble element not found');
-    }
+            // Remove any existing listeners by cloning (clean slate)
+            const newBubble = countdownBubble.cloneNode(true);
+            countdownBubble.parentNode.replaceChild(newBubble, countdownBubble);
+            
+            // Attach click handler to the new element
+            newBubble.style.cursor = 'pointer';
+            newBubble.style.pointerEvents = 'auto';
+            newBubble.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log('Countdown bubble clicked');
+                // Use the scrollToWaitlist function
+                scrollToWaitlist();
+            });
+            
+            // Also attach to child elements to ensure clicks work
+            const content = newBubble.querySelector('.countdown-content');
+            if (content) {
+                content.style.pointerEvents = 'auto';
+                content.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Countdown content clicked');
+                    scrollToWaitlist();
+                });
+            }
+        } else {
+            console.warn('Countdown bubble element not found, retrying...');
+            setTimeout(tryAttach, 100);
+        }
+    };
+    
+    tryAttach();
 }
 
 // FAQ functionality
@@ -762,6 +799,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add countdown bubble click functionality
     addCountdownBubbleClick();
+    
+    // Also attach click handler to VIP button directly (in addition to onclick)
+    const vipButton = document.querySelector('.hero-submit-btn');
+    if (vipButton) {
+        console.log('VIP button found, attaching click handler');
+        vipButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('VIP button clicked via event listener');
+            scrollToWaitlist();
+        });
+    } else {
+        console.warn('VIP button not found');
+    }
     
     // Initialize FAQ
     initializeFAQ();
