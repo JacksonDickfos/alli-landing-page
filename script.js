@@ -402,9 +402,10 @@ function initializeCountdownTimer() {
         return;
     }
     
-    // Set launch date to February 1st, 2026 at midnight UTC
-    // Using explicit date constructor to avoid timezone issues
-    const launchDate = new Date(Date.UTC(2026, 1, 1, 0, 0, 0)); // Month is 0-indexed, so 1 = February
+    // Set launch date to February 1st, 2026 at midnight local time
+    // Using explicit date constructor - month is 0-indexed, so 1 = February
+    const launchDate = new Date(2026, 1, 1, 0, 0, 0); // February 1st, 2026 at midnight
+    console.log('Countdown target date:', launchDate.toLocaleString());
     
     function updateCountdown() {
         const now = new Date();
