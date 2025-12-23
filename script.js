@@ -27,9 +27,16 @@ function scrollToFeatures() {
 }
 
 function scrollToWaitlist() {
-    document.getElementById('waitlist').scrollIntoView({
-        behavior: 'smooth'
-    });
+    const waitlistSection = document.getElementById('waitlist');
+    if (waitlistSection) {
+        waitlistSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    } else {
+        // If waitlist section doesn't exist, try to navigate to it
+        window.location.href = 'index.html#waitlist';
+    }
 }
 
 // Email validation
@@ -423,8 +430,14 @@ function addCountdownBubbleClick() {
             const waitlistSection = document.getElementById('waitlist');
             if (waitlistSection) {
                 waitlistSection.scrollIntoView({
-                    behavior: 'smooth'
+                    behavior: 'smooth',
+                    block: 'start'
                 });
+            } else {
+                // If on a different page, navigate to index page with waitlist anchor
+                if (window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
+                    window.location.href = 'index.html#waitlist';
+                }
             }
         });
     }
@@ -434,10 +447,23 @@ function addCountdownBubbleClick() {
 function initializeFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
     
+    if (faqItems.length === 0) {
+        return; // No FAQ items found, exit early
+    }
+    
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
         
-        question.addEventListener('click', () => {
+        if (!question) {
+            console.warn('FAQ item missing .faq-question element');
+            return; // Skip if question element not found
+        }
+        
+        // Use event delegation - attach listener to the question element
+        question.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             // Close all other FAQ items
             faqItems.forEach(otherItem => {
                 if (otherItem !== item) {
