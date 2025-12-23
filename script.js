@@ -10,6 +10,7 @@ function updateCopyrightYear() {
     });
 }
 
+// Define scrollToWaitlist immediately so it's available for onclick handlers
 // Initialize Supabase client
 const supabase = window.supabase.createClient(
     window.SUPABASE_CONFIG.url, 
