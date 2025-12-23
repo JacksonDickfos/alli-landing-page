@@ -26,17 +26,40 @@ function scrollToFeatures() {
     });
 }
 
-function scrollToWaitlist() {
+// Make scrollToWaitlist globally accessible
+window.scrollToWaitlist = function() {
     const waitlistSection = document.getElementById('waitlist');
+    console.log('scrollToWaitlist called, waitlistSection:', waitlistSection);
+    
     if (waitlistSection) {
-        waitlistSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+        // Try multiple scrolling methods for maximum compatibility
+        try {
+            // Method 1: scrollIntoView with options
+            waitlistSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'nearest'
+            });
+        } catch (e) {
+            console.log('scrollIntoView failed, trying window.scrollTo');
+            // Method 2: window.scrollTo as fallback
+            const yOffset = -20;
+            const y = waitlistSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({
+                top: y,
+                behavior: 'smooth'
+            });
+        }
     } else {
+        console.error('Waitlist section not found');
         // If waitlist section doesn't exist, try to navigate to it
         window.location.href = 'index.html#waitlist';
     }
+};
+
+// Also keep the function declaration for backwards compatibility
+function scrollToWaitlist() {
+    window.scrollToWaitlist();
 }
 
 // Email validation
@@ -425,18 +448,37 @@ function initializeCountdownTimer() {
 function addCountdownBubbleClick() {
     const countdownBubble = document.getElementById('countdown-bubble');
     if (countdownBubble) {
-        countdownBubble.addEventListener('click', function() {
-            // Scroll to waitlist section
-            const waitlistSection = document.getElementById('waitlist');
-            if (waitlistSection) {
-                waitlistSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+        countdownBubble.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Countdown bubble clicked');
+            // Use the same scrollToWaitlist function
+            if (window.scrollToWaitlist) {
+                window.scrollToWaitlist();
             } else {
-                // If on a different page, navigate to index page with waitlist anchor
-                if (window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
-                    window.location.href = 'index.html#waitlist';
+                // Fallback if function not available
+                const waitlistSection = document.getElementById('waitlist');
+                if (waitlistSection) {
+                    try {
+                        waitlistSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    } catch (e) {
+                        const yOffset = -20;
+                        const y = waitlistSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({
+                            top: y,
+                            behavior: 'smooth'
+                        });
+                    }
+                } else {
+                    console.error('Waitlist section not found');
+                    if (window.location.pathname !== '/index.html' && window.location.pathname !== '/') {
+                        window.location.href = 'index.html#waitlist';
+                    }
                 }
             }
         });
