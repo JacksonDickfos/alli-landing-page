@@ -1119,11 +1119,13 @@ function addArticleToLocalStorage(article) {
 
 // Display articles (async to handle Supabase) - make globally accessible
 window.displayArticles = async function displayArticles() {
+    console.log('=== displayArticles called ===');
     const grid = document.getElementById('resources-grid');
     if (!grid) {
-        console.error('Resources grid element not found');
+        console.error('❌ Resources grid element not found!');
         return;
     }
+    console.log('✅ Resources grid found');
     
     // Show skeleton loaders while fetching
     const skeletonCard = () => `
@@ -1137,15 +1139,20 @@ window.displayArticles = async function displayArticles() {
         </div>
     `;
     grid.innerHTML = skeletonCard() + skeletonCard() + skeletonCard() + skeletonCard() + skeletonCard() + skeletonCard();
+    console.log('Skeleton loaders displayed');
     
-    let articles = await getArticles();
-    
-    // Only use placeholders if there are absolutely no articles
-    // Never overwrite user-created articles
-    if (!articles || articles.length === 0) {
-        articles = placeholderArticles;
-        localStorage.setItem('articles', JSON.stringify(placeholderArticles));
-    }
+    try {
+        let articles = await getArticles();
+        console.log('Articles fetched:', articles);
+        console.log('Article count:', articles ? articles.length : 0);
+        
+        // Only use placeholders if there are absolutely no articles
+        // Never overwrite user-created articles
+        if (!articles || articles.length === 0) {
+            console.log('⚠️ No articles found, using placeholders');
+            articles = placeholderArticles;
+            localStorage.setItem('articles', JSON.stringify(placeholderArticles));
+        }
     
     // Sort articles by createdAt timestamp (newest first)
     articles.sort((a, b) => {
@@ -1157,7 +1164,7 @@ window.displayArticles = async function displayArticles() {
     // Check if admin is authenticated
     const isAdmin = sessionStorage.getItem('adminAuthenticated') === 'true';
     
-    grid.innerHTML = articles.map(article => `
+        const html = articles.map(article => `
         <div class="resource-card" data-id="${article.id}">
             <div class="resource-bubble"></div>
             ${isAdmin ? `<button class="edit-article-btn" data-id="${article.id}" title="Edit Article"><i class="fas fa-edit"></i></button>` : ''}
@@ -1172,6 +1179,10 @@ window.displayArticles = async function displayArticles() {
             </div>
         </div>
     `).join('');
+        
+        console.log('Rendering HTML for', articles.length, 'articles');
+        grid.innerHTML = html;
+        console.log('✅ Articles rendered to grid');
     
     // Add click handlers for cards (not on edit button)
     document.querySelectorAll('.resource-card').forEach(card => {
@@ -1207,6 +1218,16 @@ window.displayArticles = async function displayArticles() {
                 }
             });
         });
+        
+        console.log('✅ displayArticles completed successfully');
+    } catch (error) {
+        console.error('❌ Error in displayArticles:', error);
+        console.error('Error stack:', error.stack);
+        // Show error message to user
+        const grid = document.getElementById('resources-grid');
+        if (grid) {
+            grid.innerHTML = '<div style="text-align:center; padding:40px; color:#666;"><p>Error loading articles. Please refresh the page.</p></div>';
+        }
     }
 }
 
