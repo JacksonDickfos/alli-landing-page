@@ -673,6 +673,7 @@ async function initializeArticles() {
 
 // Seed placeholder articles to Supabase - Force insert all placeholder articles
 async function seedPlaceholderArticles() {
+    const supabase = getSupabaseClient();
     if (!supabase) {
         console.warn('Cannot seed - Supabase client not available');
         return;
@@ -735,6 +736,7 @@ async function seedPlaceholderArticles() {
 
 // Force seed all placeholder articles (call this manually if needed)
 window.forceSeedPlaceholderArticles = async function() {
+    const supabase = getSupabaseClient();
     if (!supabase) {
         console.error('Supabase not available');
         return;
