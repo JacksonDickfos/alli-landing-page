@@ -438,6 +438,13 @@ function initializeCountdownTimer() {
                         <div class="countdown-subtitle">February 1st is here!</div>
                     </div>
                 `;
+                // Re-attach click handler after innerHTML replacement
+                countdownBubble.style.cursor = 'pointer';
+                countdownBubble.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollToWaitlist();
+                });
             }
         }
     }
