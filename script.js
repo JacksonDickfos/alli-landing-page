@@ -490,9 +490,20 @@ function initializeCountdownTimer() {
     console.log('=== COUNTDOWN TIMER INITIALIZING ===');
     console.log('Target date:', launchDate.toLocaleString());
     console.log('Current date:', new Date().toLocaleString());
+    console.log('Time difference:', launchDate.getTime() - new Date().getTime(), 'ms');
+    
+    // Force immediate update
     updateCountdown();
-    setInterval(updateCountdown, 1000);
-    console.log('Countdown timer interval set - will update every second');
+    
+    // Set interval to update every second
+    const intervalId = setInterval(function() {
+        updateCountdown();
+    }, 1000);
+    
+    console.log('Countdown timer interval set - will update every second. Interval ID:', intervalId);
+    
+    // Also expose updateCountdown globally for manual testing
+    window.updateCountdown = updateCountdown;
 }
 
 // Add click functionality to countdown bubble - SIMPLIFIED
