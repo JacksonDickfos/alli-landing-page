@@ -353,7 +353,7 @@ function startLiveMembersCounter(element, startDate, initialValue) {
 
 // Floating Countdown Timer
 function initializeCountdownTimer() {
-    const launchDate = new Date('2025-12-01T00:00:00Z');
+    const launchDate = new Date('2025-02-01T00:00:00Z');
     
     function updateCountdown() {
         const now = new Date();
@@ -393,7 +393,7 @@ function initializeCountdownTimer() {
                 countdownBubble.innerHTML = `
                     <div class="countdown-content">
                         <div class="countdown-title">🎉 We're Live!</div>
-                        <div class="countdown-subtitle">December 1st is here!</div>
+                        <div class="countdown-subtitle">February 1st is here!</div>
                     </div>
                 `;
             }
