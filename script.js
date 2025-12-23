@@ -814,6 +814,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize chat demo
     initializeChatDemo();
     
+    // Ensure hero video plays
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+        heroVideo.muted = true; // Ensure muted for autoplay
+        heroVideo.play().catch(error => {
+            console.log('Video autoplay prevented:', error);
+            // Video will play when user interacts with page
+        });
+    }
+    
     // Initialize countdown timer
     initializeCountdownTimer();
     
