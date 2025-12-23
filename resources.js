@@ -1425,14 +1425,18 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('window.supabase:', window.supabase);
     
     // Ensure Supabase is initialized (in case scripts loaded in wrong order)
+    let supabase = getSupabaseClient();
     if (!supabase) {
         console.log('Supabase not initialized, attempting initialization...');
         initializeSupabase();
+        supabase = getSupabaseClient();
         // Give it a moment, then try again
         setTimeout(() => {
+            supabase = getSupabaseClient();
             if (!supabase) {
                 console.log('Retrying Supabase initialization...');
                 initializeSupabase();
+                supabase = getSupabaseClient();
             }
             if (!supabase) {
                 console.warn('⚠️ Supabase not initialized, will use localStorage only');
