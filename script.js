@@ -1,10 +1,13 @@
 // Update copyright year dynamically
 function updateCopyrightYear() {
     const currentYear = new Date().getFullYear();
-    const yearElement = document.getElementById("current-year");
-    if (yearElement) {
-        yearElement.textContent = currentYear;
-    }
+    // Update all elements with id="current-year" (in case there are multiple)
+    const yearElements = document.querySelectorAll("#current-year");
+    yearElements.forEach(yearElement => {
+        if (yearElement) {
+            yearElement.textContent = currentYear;
+        }
+    });
 }
 
 // Initialize Supabase client
