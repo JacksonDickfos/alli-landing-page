@@ -75,6 +75,9 @@ function scrollToWaitlist() {
 // Make it globally accessible immediately
 window.scrollToWaitlist = scrollToWaitlist;
 
+// Make it globally accessible immediately
+window.scrollToWaitlist = scrollToWaitlist;
+
 // Email validation
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
