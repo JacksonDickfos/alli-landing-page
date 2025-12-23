@@ -771,6 +771,7 @@ window.deleteArticle = async function(articleId) {
     console.log('Supabase client available:', !!supabase);
     
     // Try Supabase first
+    const supabase = getSupabaseClient();
     if (supabase) {
         try {
             // Convert articleId to number if it's a string (Supabase uses numeric IDs)
@@ -955,6 +956,7 @@ async function getArticles() {
     console.log('=== getArticles called ===');
     const supabase = getSupabaseClient();
     console.log('Supabase client available:', !!supabase);
+    const supabase = getSupabaseClient();
     console.log('Supabase client:', supabase);
     
     // Try Supabase first
@@ -1041,6 +1043,7 @@ function getArticlesFromLocalStorage() {
 // Add new article to Supabase (with localStorage fallback) - make globally accessible
 window.addArticle = async function(article) {
     console.log('addArticle called with:', article);
+    const supabase = getSupabaseClient();
     console.log('Supabase client available:', !!supabase);
     
     // Try Supabase first
