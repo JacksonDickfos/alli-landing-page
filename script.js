@@ -485,8 +485,12 @@ function initializeCountdownTimer() {
     }
     
     // Update immediately and then every second
+    console.log('=== COUNTDOWN TIMER INITIALIZING ===');
+    console.log('Target date:', launchDate.toLocaleString());
+    console.log('Current date:', new Date().toLocaleString());
     updateCountdown();
     setInterval(updateCountdown, 1000);
+    console.log('Countdown timer interval set - will update every second');
 }
 
 // Add click functionality to countdown bubble - SIMPLIFIED
