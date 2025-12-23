@@ -817,11 +817,41 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ensure hero video plays
     const heroVideo = document.querySelector('.hero-video');
     if (heroVideo) {
-        heroVideo.muted = true; // Ensure muted for autoplay
-        heroVideo.play().catch(error => {
-            console.log('Video autoplay prevented:', error);
-            // Video will play when user interacts with page
+        console.log('Hero video found:', heroVideo);
+        console.log('Video src:', heroVideo.querySelector('source')?.src);
+        
+        // Ensure muted for autoplay
+        heroVideo.muted = true;
+        heroVideo.setAttribute('muted', '');
+        
+        // Try to play immediately
+        const tryPlay = () => {
+            heroVideo.play().then(() => {
+                console.log('✅ Video playing successfully');
+            }).catch(error => {
+                console.log('Video autoplay prevented:', error);
+            });
+        };
+        
+        // Try immediately
+        tryPlay();
+        
+        // Also try when video is loaded
+        heroVideo.addEventListener('loadeddata', () => {
+            console.log('Video loaded, attempting to play');
+            tryPlay();
         });
+        
+        // Play on any user interaction
+        const playOnInteraction = () => {
+            heroVideo.play().catch(e => console.log('Play failed:', e));
+        };
+        
+        document.addEventListener('click', playOnInteraction, { once: true });
+        document.addEventListener('scroll', playOnInteraction, { once: true });
+        document.addEventListener('touchstart', playOnInteraction, { once: true });
+    } else {
+        console.error('Hero video element not found!');
     }
     
     // Initialize countdown timer
