@@ -1379,7 +1379,7 @@ window.testSupabaseDirect = async function() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== DOMContentLoaded ===');
+    console.log('=== RESOURCES PAGE DOMContentLoaded ===');
     console.log('window.SUPABASE_CONFIG:', window.SUPABASE_CONFIG);
     console.log('window.supabase:', window.supabase);
     
@@ -1394,8 +1394,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 initializeSupabase();
             }
             if (!supabase) {
-                console.error('❌ Supabase still not initialized after retries');
-                console.log('Call window.testSupabaseDirect() in console to debug');
+                console.warn('⚠️ Supabase not initialized, will use localStorage only');
             }
         }, 1000);
     }
@@ -1407,17 +1406,22 @@ document.addEventListener('DOMContentLoaded', function() {
         element.textContent = currentYear;
     });
     
-    // Initialize articles - force them to always be there
-    initializeArticles().then(() => {
-        // Always display articles from localStorage to ensure edit buttons appear
-        // This replaces embedded HTML with dynamically generated cards
-        requestAnimationFrame(async function() {
-            await displayArticles();
-        });
+    // Initialize and display articles
+    console.log('Starting article initialization...');
+    initializeArticles().then((articles) => {
+        console.log('Articles initialized, count:', articles ? articles.length : 0);
+        console.log('Articles:', articles);
+        // Always display articles
+        return displayArticles();
     }).catch(error => {
-        console.error('Error initializing articles:', error);
+        console.error('❌ Error initializing articles:', error);
+        console.error('Error stack:', error.stack);
         // Still try to display articles even if initialization fails
-        displayArticles().catch(err => console.error('Error displaying articles:', err));
+        console.log('Attempting to display articles from localStorage...');
+        displayArticles().catch(err => {
+            console.error('❌ Error displaying articles:', err);
+            console.error('Display error stack:', err.stack);
+        });
     });
     
     initializeAdminControls();
