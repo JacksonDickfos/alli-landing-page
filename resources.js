@@ -1,9 +1,16 @@
 // Initialize Supabase client (only if config is available)
-// Use window property to avoid conflicts with other scripts
-if (!window._resourcesSupabaseClient) {
-    window._resourcesSupabaseClient = null;
+// Use window property to avoid conflicts - NO let/const/var declaration
+(function() {
+    'use strict';
+    if (!window._resourcesSupabaseClient) {
+        window._resourcesSupabaseClient = null;
+    }
+})();
+
+// Get supabase reference function - avoids declaration conflicts
+function getSupabaseClient() {
+    return window._resourcesSupabaseClient || null;
 }
-let supabase = window._resourcesSupabaseClient;
 
 function initializeSupabase() {
     // Check for Supabase library - when loaded from CDN, it should be window.supabase
@@ -37,7 +44,6 @@ function initializeSupabase() {
             window.SUPABASE_CONFIG.url, 
             window.SUPABASE_CONFIG.anonKey
         );
-        supabase = window._resourcesSupabaseClient;
         console.log('✅ Supabase client initialized successfully');
         console.log('Supabase URL:', window.SUPABASE_CONFIG.url);
         
@@ -54,6 +60,7 @@ function initializeSupabase() {
 
 // Test Supabase connection
 async function testSupabaseConnection() {
+    const supabase = getSupabaseClient();
     if (!supabase) {
         console.error('Cannot test - Supabase client not initialized');
         return;
@@ -578,6 +585,7 @@ Remember, individual needs vary. Experiment to find what works best for your bod
 // Initialize articles - check Supabase first, then localStorage
 async function initializeArticles() {
     // Try Supabase first
+    const supabase = getSupabaseClient();
     if (supabase) {
         try {
             const { data, error } = await supabase
@@ -648,6 +656,7 @@ async function initializeArticles() {
         if (!Array.isArray(articles) || articles.length === 0) {
             localStorage.setItem('articles', JSON.stringify(placeholderArticles));
             // Try to seed Supabase too
+            const supabase = getSupabaseClient();
             if (supabase) {
                 seedPlaceholderArticles();
             }
@@ -703,6 +712,7 @@ async function seedPlaceholderArticles() {
             author: article.author || 'Alli Nutrition Team'
         }));
         
+        const supabase = getSupabaseClient();
         const { data: insertedData, error: insertError } = await supabase
             .from('articles')
             .insert(articlesToInsertFormatted)
@@ -867,6 +877,7 @@ function deleteArticleFromLocalStorage(articleId) {
 // Update article in Supabase (with localStorage fallback) - make globally accessible
 window.updateArticle = async function(articleId, updatedData) {
     // Try Supabase first
+    const supabase = getSupabaseClient();
     if (supabase) {
         try {
             // Convert articleId to number if it's a string (Supabase uses numeric IDs)
@@ -940,6 +951,7 @@ function updateArticleInLocalStorage(articleId, updatedData) {
 // Get all articles from Supabase (with localStorage fallback)
 async function getArticles() {
     console.log('=== getArticles called ===');
+    const supabase = getSupabaseClient();
     console.log('Supabase client available:', !!supabase);
     console.log('Supabase client:', supabase);
     
